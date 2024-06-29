@@ -7,10 +7,27 @@ import PrintIcon from "@mui/icons-material/Print";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkIcon from "@mui/icons-material/Link";
 
+const thaiMonths = [
+  'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+  'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+];
+
+const getCurrentThaiDate = () => {
+  const date = new Date();
+  const day = date.getDate();
+  const month = thaiMonths[date.getMonth()];
+  const year = date.getFullYear() + 543; // Convert to Buddhist Era
+  return `${day} ${month} ${year}`;
+};
+
 const UserPage = () => {
   const location = useLocation();
   const userData = location.state?.userData;
   const [shareAnchorEl, setShareAnchorEl] = useState(null);
+
+  const currentThaiDate = getCurrentThaiDate();
+
+
 
   const handlePrint = () => {
     window.print();
@@ -230,7 +247,7 @@ const UserPage = () => {
               สิทธิ์ร่วมลุ้นรางวัลของคุณคือ {userData.countTic} สิทธิ์
             </Typography>
             <Typography variant="h6" sx={{ mb: 2 }}>
-              ข้อมูล ณ วันที่ 24 มิถุนายน 2567
+              ข้อมูล ณ วันที่ {currentThaiDate}
             </Typography>
           </Box>
           <Box
