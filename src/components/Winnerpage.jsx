@@ -113,7 +113,7 @@ const Winnerpage = () => {
               to="/Searchwinner"
               sx={{
                 mr: 1,
-                backgroundColor: "#1678D1",
+                backgroundColor: "#0072CE",
                 color: "white",
                 fontSize: { md: "18px", sm: "14px", xs: "10px" },
                 "&:hover": {
@@ -132,7 +132,7 @@ const Winnerpage = () => {
             <IconButton
               sx={{
                 mr: 1,
-                backgroundColor: "#1678D1",
+                backgroundColor: "#0072CE",
                 color: "white",
                 fontSize: { md: "18px", sm: "14px", xs: "10px" },
                 "&:hover": {
@@ -147,7 +147,7 @@ const Winnerpage = () => {
             <IconButton
               sx={{
                 mr: 2,
-                backgroundColor: "#1678D1",
+                backgroundColor: "#0072CE",
                 color: "white",
                 fontSize: { md: "18px", sm: "14px", xs: "10px" },
                 "&:hover": {
@@ -190,7 +190,7 @@ const Winnerpage = () => {
               ml: 2,
               mb: 2,
               fontWeight: "bold",
-              color: "#1678D1",
+              color: "#0072CE",
             }}
           >
             ขอแสดงความยินดี
@@ -199,7 +199,7 @@ const Winnerpage = () => {
             sx={{
               border: "1px solid black",
               borderRadius: "8px",
-              backgroundColor: "#1678D1",
+              backgroundColor: "#0072CE",
               height: "auto",
               width: "1/4",
               display: "flex",
@@ -227,7 +227,7 @@ const Winnerpage = () => {
             ml: 2,
             mb: 2,
             fontWeight: "bold",
-            color: "#1678D1",
+            color: "#0072CE",
           }}
         >
           คุณได้รับรางวัล {userData.PrizeName}

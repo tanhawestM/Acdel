@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   TextField,
-  Button,
   Box,
   InputAdornment,
   useTheme,
   useMediaQuery,
+  Button,
+  CircularProgress,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
@@ -14,12 +15,14 @@ import axios from "axios";
 const Dashboard = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSearch = async () => {
     if (isValidPhoneNumber(phoneNumber)) {
+      setLoading(true);
       try {
         const response = await axios.get(
           `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo?filterByFormula={phoneNumber}="${phoneNumber}"`,
@@ -30,6 +33,7 @@ const Dashboard = () => {
           }
         );
 
+        setLoading(false);
         if (response.data.records.length > 0) {
           navigate(`/User-page`, {
             state: { userData: response.data.records[0].fields },
@@ -39,6 +43,7 @@ const Dashboard = () => {
         }
       } catch (error) {
         console.error("Error searching Airtable:", error);
+        setLoading(false);
         setPhoneNumberError("เกิดข้อผิดพลาดในการค้นหาข้อมูล กรุณาลองอีกครั้ง");
       }
     } else {
@@ -77,6 +82,8 @@ const Dashboard = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+
+        fontSize: { md: "1rem", sm: "0.8rem", xs: "0.6rem" },
       }}
     >
       <Box
@@ -99,7 +106,8 @@ const Dashboard = () => {
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
-          padding: isMobile ? 2 : 4,
+          pt: { md: 4, sm: 4, xs: 4 },
+          pb: { md: 4, sm: 11, xs: 24 },
         }}
       >
         <Box
@@ -150,16 +158,24 @@ const Dashboard = () => {
           />
           <Button
             variant="contained"
-            color="primary"
             onClick={handleSearch}
+            disabled={loading}
             sx={{
               mt: 2,
-              mb: isMobile ? 5 : 10,
+              mb: isMobile ? 1 : 1,
               width: isMobile ? "100%" : "50%",
               fontSize: "0.875rem",
+              backgroundColor: "#0072CE",
             }}
           >
-            ค้นหา
+            {loading ? (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <CircularProgress size={24} sx={{ color: "white" }} />
+                <span style={{ color: "white" }}>กำลังค้นหา</span>
+              </Box>
+            ) : (
+              <span style={{ color: "white" }}>ค้นหา</span>
+            )}
           </Button>
         </Box>
       </Box>
