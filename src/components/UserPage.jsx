@@ -93,21 +93,22 @@ const UserPage = () => {
         minHeight: "100vh",
         width: "100%",
         color: "black",
-        p: 4,
-        padding: { md: "1rem", sm: "0.8rem", xs: "0.6rem" },
-        fontSize: { md: "18px", sm: "14px", xs: "10px" },
+        p: { xs: 2, sm: 3, md: 4 }, // Responsive padding
       }}
     >
-      <Box sx={{ mt: 4, mx: 10 }}>
+      <Box sx={{ mt: { xs: 2, sm: 3, md: 4 }, mx: { xs: 2, sm: 5, md: 10 } }}>
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "flex-start", sm: "center" },
             justifyContent: "space-between",
             mb: 2,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", mb: { xs: 2, sm: 0 } }}
+          >
             <IconButton
               component={Link}
               to="/"
@@ -115,7 +116,7 @@ const UserPage = () => {
                 mr: 1,
                 backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { md: "18px", sm: "14px", xs: "10px" },
+                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -124,17 +125,17 @@ const UserPage = () => {
             >
               <ArrowBackIosNewIcon />
             </IconButton>
-            <Typography variant="h4" sx={{ ml: 2, mb: 2, fontWeight: "bold" }}>
+            <Typography variant="h4" sx={{ ml: 2, fontWeight: "bold" }}>
               สวัสดีคุณ {userData.firstname}
             </Typography>
           </Box>
           <Box>
-          <IconButton
+            <IconButton
               sx={{
                 mr: 1,
                 backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { md: "18px", sm: "14px", xs: "10px" },
+                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -146,10 +147,9 @@ const UserPage = () => {
             </IconButton>
             <IconButton
               sx={{
-                mr: 2,
                 backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { md: "18px", sm: "14px", xs: "10px" },
+                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -179,24 +179,38 @@ const UserPage = () => {
                 <LinkIcon sx={{ mr: 1 }} /> Copy Link
               </MenuItem>
             </Menu>
-            
           </Box>
         </Box>
 
-        <Typography variant="h5" sx={{ mb: 3, ml: 9, fontWeight: "bold" }}>
+        <Typography
+          variant="h4"
+          sx={{ mb: 3, ml: { xs: 0, sm: 9 }, fontWeight: "bold" }}
+        >
           ข้อมูลส่วนตัว
         </Typography>
 
-        <Box sx={{ display: "flex", justifyContent: "center", gap: "10%" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "center",
+            gap: { xs: "1rem", md: "20%" },
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: { xs: "100%", md: "35%" },
+            }}
+          >
+            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
               ชื่อ - นามสกุล
             </Typography>
             <Typography
               sx={{
-                width: "30vw",
                 mb: 2,
-                backgroundColor: "grey.400",
+                backgroundColor: "#A1A1AC",
                 py: 1,
                 px: 3,
                 borderRadius: 5,
@@ -204,14 +218,13 @@ const UserPage = () => {
             >
               {userData.firstname} {userData.lastname}
             </Typography>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
               ชื่ออู่/ร้านค้า
             </Typography>
             <Typography
               sx={{
-                width: "30vw",
                 mb: 2,
-                backgroundColor: "grey.400",
+                backgroundColor: "#A1A1AC",
                 py: 1,
                 px: 3,
                 borderRadius: 5,
@@ -221,15 +234,20 @@ const UserPage = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: { xs: "100%", md: "35%" },
+            }}
+          >
+            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
               เบอร์โทรศัพท์
             </Typography>
             <Typography
               sx={{
-                width: "30vw",
                 mb: 2,
-                backgroundColor: "grey.400",
+                backgroundColor: "#A1A1AC",
                 py: 1,
                 px: 3,
                 borderRadius: 5,
@@ -237,14 +255,13 @@ const UserPage = () => {
             >
               {userData.phoneNumber}
             </Typography>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
               ตัวแทนจำหน่าย
             </Typography>
             <Typography
               sx={{
-                width: "30vw",
                 mb: 2,
-                backgroundColor: "grey.400",
+                backgroundColor: "#A1A1AC",
                 py: 1,
                 px: 3,
                 borderRadius: 5,
@@ -259,15 +276,19 @@ const UserPage = () => {
           <Box
             sx={{
               display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: { xs: "flex-start", sm: "center" },
               mb: 3,
             }}
           >
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: "normal" }}>
+            <Typography
+              variant="h5"
+              sx={{ mb: { xs: 1, sm: 0 }, fontWeight: "normal" }}
+            >
               สิทธิ์ร่วมลุ้นรางวัลของคุณคือ {userData.countTic} สิทธิ์
             </Typography>
-            <Typography variant="h6" sx={{ mb: 2 }}>
+            <Typography variant="h5">
               ข้อมูล ณ วันที่ {currentThaiDate}
             </Typography>
           </Box>
@@ -277,7 +298,6 @@ const UserPage = () => {
               flexDirection: "column",
               alignItems: "center",
               gap: 2,
-              //maxHeight: "70vh", // Limit the height and enable scrolling if needed
               overflowY: "auto",
             }}
           >
@@ -288,20 +308,20 @@ const UserPage = () => {
                   border: "1px solid black",
                   borderRadius: "8px",
                   backgroundColor: "#1678D1",
-                  height: "auto",
-                  width: "1/4",
+                  width: { xs: "90%", sm: "70%", md: "50%" },
+                  aspectRatio: "2 / 1",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   color: "black",
-                  p: 4,
                 }}
               >
                 <Typography
-                  variant="h2"
+                  variant="h3"
                   sx={{
                     fontWeight: "bold",
                     textAlign: "center",
+                    fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
                   }}
                 >
                   {userData.tickets}
