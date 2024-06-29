@@ -15,8 +15,6 @@ const Searchwinnerpage = () => {
   const [TicketNumber, setTicketNumber] = useState("");
   const [TicketNumberError, setTicketNumberError] = useState("");
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSearch = async () => {
     if (isValidTicketNumber(TicketNumber)) {
@@ -58,7 +56,7 @@ const Searchwinnerpage = () => {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleSearch();
     }
   };
@@ -77,14 +75,15 @@ const Searchwinnerpage = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+        fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
       }}
     >
       <Box
         component="img"
         sx={{
           height: "auto",
-          width: isMobile ? "90%" : "60%",
-          mt: isMobile ? 5 : 10,
+          width: { xs: "90%", sm: "80%", md: "60%" },
+          mt: { xs: 3, sm: 4, md: 10 },
           mb: 2,
         }}
         alt=""
@@ -93,14 +92,14 @@ const Searchwinnerpage = () => {
       <Box
         sx={{
           width: 1,
-          minHeight:"60vh",
+          minHeight: "60vh",
           backgroundColor: "#EBF1FF",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
-          padding: isMobile ? 2 : 4,
+          padding: { xs: 2, sm: 3, md: 4 },
         }}
       >
         <Box
@@ -113,17 +112,14 @@ const Searchwinnerpage = () => {
         >
           <h1
             style={{
-              fontSize: isMobile ? "24px" : "36px",
-              marginTop: isMobile ? "16px" : "32px",
+              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+              marginTop: { xs: "1rem", sm: "1.5rem", md: "2rem" },
             }}
           >
             ค้นหาผู้โชคดี
           </h1>
         </Box>
-        {/* <h2 style={{ fontSize: isMobile ? "20px" : "24px" }}>
-          ตรวจสอบสิทธิ์ร่วมลุ้นรางวัล
-        </h2> */}
-        <Box sx={{ width: isMobile ? "90%" : "40%" }}>
+        <Box sx={{ width: { xs: "90%", sm: "70%", md: "40%" } }}>
           <TextField
             label="กรอกหมายเลขตั๋ว 5 หลัก"
             variant="outlined"
@@ -148,17 +144,16 @@ const Searchwinnerpage = () => {
           />
           <Button
             variant="contained"
-            
             onClick={handleSearch}
             sx={{
               mt: 2,
-              mb: isMobile ? 5 : 10,
-              width: isMobile ? "100%" : "50%",
-              fontSize: "0.875rem",
-              backgroundColor:"Orange",
-             "&:hover":{
-              backgroundColor:"#e69500",
-             }
+              mb: { xs: 5, sm: 7, md: 10 },
+              width: { xs: "100%", sm: "70%", md: "50%" },
+              fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              backgroundColor: "Orange",
+              "&:hover": {
+                backgroundColor: "#e69500",
+              },
             }}
           >
             ค้นหา

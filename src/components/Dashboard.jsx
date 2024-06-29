@@ -18,7 +18,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSearch = async () => {
     if (isValidPhoneNumber(phoneNumber)) {
@@ -70,114 +69,113 @@ const Dashboard = () => {
 
   return (
     <Box
-      sx={{
-        minHeight: "100vh",
-        width: 1,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        textAlign: "center",
-        backgroundImage: "url('BG.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-
-        fontSize: { md: "1rem", sm: "0.8rem", xs: "0.6rem" },
-      }}
-    >
-      <Box
-        component="img"
-        sx={{
-          height: "auto",
-          width: isMobile ? "90%" : "60%",
-          mt: isMobile ? 5 : 10,
-          mb: 2,
-        }}
-        alt=""
-        src="Symbol.png"
-      />
-      <Box
-        sx={{
-          width: 1,
-          backgroundColor: "#EBF1FF",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          pt: { md: 4, sm: 4, xs: 4 },
-          pb: { md: 4, sm: 11, xs: 24 },
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            textAlign: "center",
-            mb: 2,
-          }}
-        >
-          <h1
-            style={{
-              fontSize: isMobile ? "24px" : "36px",
-              marginTop: isMobile ? "16px" : "32px",
-            }}
-          >
-            ลุ้นรางวัลมากมายในงาน Acdelco 2024 เพียงซื้อ
-          </h1>
-          <h1 style={{ fontSize: isMobile ? "24px" : "36px", margin: 0 }}>
-            สินค้าครบ 25,000 ต่อใบเสร็จ รับสิทธิ์ 1 สิทธิ์
-          </h1>
-        </Box>
-        <h2 style={{ fontSize: isMobile ? "20px" : "24px" }}>
-          ตรวจสอบสิทธิ์ร่วมลุ้นรางวัล
-        </h2>
-        <Box sx={{ width: isMobile ? "90%" : "40%" }}>
-          <TextField
-            label="กรอกหมายเลขโทรศัพท์ 10 หลัก"
-            variant="outlined"
-            value={phoneNumber}
-            onChange={handleChange}
-            onKeyPress={handleKeyPress}
-            fullWidth
-            margin="normal"
-            error={!!phoneNumberError}
-            helperText={phoneNumberError}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              style: {
-                backgroundColor: "white",
-                borderColor: phoneNumberError ? "red" : "",
-              },
-            }}
-          />
-          <Button
-            variant="contained"
-            onClick={handleSearch}
-            disabled={loading}
-            sx={{
-              mt: 2,
-              mb: isMobile ? 1 : 1,
-              width: isMobile ? "100%" : "50%",
-              fontSize: "0.875rem",
-              backgroundColor: "#0072CE",
-            }}
-          >
-            {loading ? (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <CircularProgress size={24} sx={{ color: "white" }} />
-                <span style={{ color: "white" }}>กำลังค้นหา</span>
-              </Box>
-            ) : (
-              <span style={{ color: "white" }}>ค้นหา</span>
-            )}
-          </Button>
-        </Box>
+  sx={{
+    minHeight: "100vh",
+    width: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    textAlign: "center",
+    backgroundImage: "url('BG.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
+  }}
+>
+<Box
+  component="img"
+  sx={{
+    height: "auto",
+    width: { xs: "90%", sm: "80%", md: "60%" },
+    mt: { xs: 3, sm: 4, md: 10 },
+    mb: 2,
+  }}
+  alt=""
+  src="Symbol.png"
+/>
+<Box
+  sx={{
+    width: 1,
+    backgroundColor: "#EBF1FF",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    pt: { xs: 3, sm: 4, md: 4 },
+    pb: { xs: 10, sm: 11, md: 4 },
+  }}
+>
+<Box
+  sx={{
+    display: "flex",
+    flexDirection: "column",
+    textAlign: "center",
+    mb: 2,
+  }}
+>
+  <h1
+    style={{
+      fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
+      marginTop: { xs: "1rem", sm: "1.5rem", md: "2rem" },
+    }}
+  >
+    ลุ้นรางวัลมากมายในงาน Acdelco 2024 เพียงซื้อ
+  </h1>
+  <h1 style={{ fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" }, margin: 0 }}>
+    สินค้าครบ 25,000 ต่อใบเสร็จ รับสิทธิ์ 1 สิทธิ์
+  </h1>
+</Box>
+<h2 style={{ fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" } }}>
+  ตรวจสอบสิทธิ์ร่วมลุ้นรางวัล
+</h2>
+<Box sx={{ width: { xs: "90%", sm: "70%", md: "40%" } }}>
+  <TextField
+    label="กรอกหมายเลขโทรศัพท์ 10 หลัก"
+    variant="outlined"
+    value={phoneNumber}
+    onChange={handleChange}
+    onKeyPress={handleKeyPress}
+    fullWidth
+    margin="normal"
+    error={!!phoneNumberError}
+    helperText={phoneNumberError}
+    InputProps={{
+      startAdornment: (
+        <InputAdornment position="start">
+          <SearchIcon />
+        </InputAdornment>
+      ),
+      style: {
+        backgroundColor: "white",
+        borderColor: phoneNumberError ? "red" : "",
+      },
+    }}
+  />
+  <Button
+    variant="contained"
+    onClick={handleSearch}
+    disabled={loading}
+    sx={{
+      mt: 2,
+      mb: 1,
+      width: { xs: "100%", sm: "70%", md: "50%" },
+      fontSize: { xs: "0.8rem", sm: "0.875rem" },
+      backgroundColor: "#0072CE",
+    }}
+  >
+    {loading ? (
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <CircularProgress size={20} sx={{ color: "white" }} />
+        <span style={{ color: "white" }}>กำลังค้นหา</span>
+      </Box>
+    ) : (
+      <span style={{ color: "white" }}>ค้นหา</span>
+    )}
+  </Button>
+</Box>
       </Box>
     </Box>
   );

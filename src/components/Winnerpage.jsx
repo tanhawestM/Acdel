@@ -93,21 +93,23 @@ const Winnerpage = () => {
         minHeight: "100vh",
         width: "100%",
         color: "black",
-        p: 4,
-        padding: { md: "1rem", sm: "0.8rem", xs: "0.6rem" },
-        fontSize: { md: "18px", sm: "14px", xs: "10px" },
+        p: { xs: 2, sm: 3, md: 4 },
+        fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
       }}
     >
-      <Box sx={{ mt: 4, mx: 10 }}>
+      <Box sx={{ mt: { xs: 2, sm: 3, md: 4 }, mx: { xs: 2, sm: 5, md: 10 } }}>
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "flex-start", sm: "center" },
             justifyContent: "space-between",
             mb: 2,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", mb: { xs: 2, sm: 0 } }}
+          >
             <IconButton
               component={Link}
               to="/Searchwinner"
@@ -115,7 +117,7 @@ const Winnerpage = () => {
                 mr: 1,
                 backgroundColor: "#0072CE",
                 color: "white",
-                fontSize: { md: "18px", sm: "14px", xs: "10px" },
+                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -124,7 +126,7 @@ const Winnerpage = () => {
             >
               <ArrowBackIosNewIcon />
             </IconButton>
-            <Typography variant="h4" sx={{ ml: 2, mb: 2, fontWeight: "bold" }}>
+            <Typography variant="h5" sx={{ ml: 2, fontWeight: "bold" }}>
               สวัสดีคุณ {userData.firstname}
             </Typography>
           </Box>
@@ -134,7 +136,7 @@ const Winnerpage = () => {
                 mr: 1,
                 backgroundColor: "#0072CE",
                 color: "white",
-                fontSize: { md: "18px", sm: "14px", xs: "10px" },
+                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -146,10 +148,9 @@ const Winnerpage = () => {
             </IconButton>
             <IconButton
               sx={{
-                mr: 2,
                 backgroundColor: "#0072CE",
                 color: "white",
-                fontSize: { md: "18px", sm: "14px", xs: "10px" },
+                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -182,15 +183,15 @@ const Winnerpage = () => {
           </Box>
         </Box>
 
-        <Box mt={4} sx={{ justifyContent: "center",textAlign: "center", }}>
+        <Box mt={4} sx={{ justifyContent: "center", textAlign: "center" }}>
           <Typography
-            variant="h3"
+            variant="h4"
             sx={{
               mt: 2,
-              ml: 2,
               mb: 2,
               fontWeight: "bold",
               color: "#0072CE",
+              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
             }}
           >
             ขอแสดงความยินดี
@@ -200,39 +201,45 @@ const Winnerpage = () => {
               border: "1px solid black",
               borderRadius: "8px",
               backgroundColor: "#0072CE",
-              height: "auto",
-              width: "1/4",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "black",
-              p: 4,
+              width: { xs: "80%", sm: "60%", md: "40%" },
+              mx: "auto",
+              p: { xs: 2, sm: 3, md: 4 },
             }}
           >
             <Typography
-              variant="h2"
+              variant="h3"
               sx={{
                 fontWeight: "bold",
                 textAlign: "center",
+                color: "white",
+                fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
               }}
             >
               {userData.TicketNumber}
             </Typography>
           </Box>
-       
-        <Typography
-          variant="h3"
-          sx={{
-            mt: 6,
-            ml: 2,
-            mb: 2,
-            fontWeight: "bold",
-            color: "#0072CE",
-          }}
-        >
-          คุณได้รับรางวัล {userData.PrizeName}
-        </Typography>
-        <img sx={{ width: "50px", height: "auto" }} src={userData.PicUrl} />
+
+          <Typography
+            variant="h4"
+            sx={{
+              mt: { xs: 4, sm: 5, md: 6 },
+              mb: 2,
+              fontWeight: "bold",
+              color: "#0072CE",
+              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
+            }}
+          >
+            คุณได้รับรางวัล {userData.PrizeName}
+          </Typography>
+          <Box
+            component="img"
+            src={userData.PicUrl}
+            sx={{
+              width: { xs: "80%", sm: "60%", md: "50%" },
+              maxWidth: "300px",
+              height: "auto",
+            }}
+          />
         </Box>
       </Box>
     </Box>
