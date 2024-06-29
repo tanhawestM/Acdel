@@ -1,19 +1,11 @@
 import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  IconButton,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { Box, Typography, IconButton, Menu, MenuItem } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ShareIcon from '@mui/icons-material/Share';
-import PrintIcon from '@mui/icons-material/Print';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkIcon from '@mui/icons-material/Link';
-
-
+import ShareIcon from "@mui/icons-material/Share";
+import PrintIcon from "@mui/icons-material/Print";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import LinkIcon from "@mui/icons-material/Link";
 
 const UserPage = () => {
   const location = useLocation();
@@ -33,18 +25,28 @@ const UserPage = () => {
   };
 
   const handleFacebookShare = () => {
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        window.location.href
+      )}`,
+      "_blank"
+    );
     handleShareClose();
   };
 
   const handleLineShare = () => {
-    window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(window.location.href)}`, '_blank');
+    window.open(
+      `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(
+        window.location.href
+      )}`,
+      "_blank"
+    );
     handleShareClose();
   };
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
-    alert('Link copied to clipboard!');
+    alert("Link copied to clipboard!");
     handleShareClose();
   };
 
@@ -72,7 +74,14 @@ const UserPage = () => {
       }}
     >
       <Box sx={{ mt: 4, mx: 10 }}>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 2,
+          }}
+        >
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               component={Link}
@@ -91,12 +100,15 @@ const UserPage = () => {
             </Typography>
           </Box>
           <Box>
-            <IconButton sx={{
+            <IconButton
+              sx={{
                 mr: 2,
                 backgroundColor: "blue",
                 color: "white",
                 fontSize: { md: "18px", sm: "14px", xs: "10px" },
-              }} onClick={handleShareClick}>
+              }}
+              onClick={handleShareClick}
+            >
               <ShareIcon />
             </IconButton>
             <Menu
@@ -104,42 +116,102 @@ const UserPage = () => {
               open={Boolean(shareAnchorEl)}
               onClose={handleShareClose}
             >
-              <MenuItem onClick={handleFacebookShare}><FacebookIcon sx={{ mr: 1 }} /> Facebook</MenuItem>
-              <MenuItem onClick={handleLineShare}><img src="line-icon.png" alt="Line" style={{ width: 24, height: 24, marginRight: 8 }} /> Line</MenuItem>
-              <MenuItem onClick={handleCopyLink}><LinkIcon sx={{ mr: 1 }} /> Copy Link</MenuItem>
+              <MenuItem onClick={handleFacebookShare}>
+                <FacebookIcon sx={{ mr: 1 }} /> Facebook
+              </MenuItem>
+              <MenuItem onClick={handleLineShare}>
+                <img
+                  src="line-icon.png"
+                  alt="Line"
+                  style={{ width: 24, height: 24, marginRight: 8 }}
+                />{" "}
+                Line
+              </MenuItem>
+              <MenuItem onClick={handleCopyLink}>
+                <LinkIcon sx={{ mr: 1 }} /> Copy Link
+              </MenuItem>
             </Menu>
-            <IconButton sx={{
+            <IconButton
+              sx={{
                 mr: 1,
                 backgroundColor: "blue",
                 color: "white",
                 fontSize: { md: "18px", sm: "14px", xs: "10px" },
-              }} onClick={handlePrint}>
+              }}
+              onClick={handlePrint}
+            >
               <PrintIcon />
             </IconButton>
           </Box>
         </Box>
 
-        <Typography variant="h5" sx={{ mb: 3,ml:9, fontWeight: "bold" }}>ข้อมูลส่วนตัว</Typography>
+        <Typography variant="h5" sx={{ mb: 3, ml: 9, fontWeight: "bold" }}>
+          ข้อมูลส่วนตัว
+        </Typography>
 
         <Box sx={{ display: "flex", justifyContent: "center", gap: "10%" }}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>ชื่อ - นามสกุล</Typography>
-            <Typography sx={{width: "30vw", mb: 2, backgroundColor: 'grey.400', py: 1, px: 3, borderRadius: 5 }}>
+            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+              ชื่อ - นามสกุล
+            </Typography>
+            <Typography
+              sx={{
+                width: "30vw",
+                mb: 2,
+                backgroundColor: "grey.400",
+                py: 1,
+                px: 3,
+                borderRadius: 5,
+              }}
+            >
               {userData.firstname} {userData.lastname}
             </Typography>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>ชื่ออู่/ร้านค้า</Typography>
-            <Typography sx={{width: "30vw", mb: 2, backgroundColor: 'grey.400', py: 1, px: 3, borderRadius: 5 }}>
+            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+              ชื่ออู่/ร้านค้า
+            </Typography>
+            <Typography
+              sx={{
+                width: "30vw",
+                mb: 2,
+                backgroundColor: "grey.400",
+                py: 1,
+                px: 3,
+                borderRadius: 5,
+              }}
+            >
               {userData.Store}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>เบอร์โทรศัพท์</Typography>
-            <Typography sx={{width: "30vw", mb: 2, backgroundColor: 'grey.400', py: 1, px: 3, borderRadius: 5 }}>
+            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+              เบอร์โทรศัพท์
+            </Typography>
+            <Typography
+              sx={{
+                width: "30vw",
+                mb: 2,
+                backgroundColor: "grey.400",
+                py: 1,
+                px: 3,
+                borderRadius: 5,
+              }}
+            >
               {userData.phoneNumber}
             </Typography>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>ตัวแทนจำหน่าย</Typography>
-            <Typography sx={{width: "30vw", mb: 2, backgroundColor: 'grey.400', py: 1, px: 3, borderRadius: 5 }}>
+            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+              ตัวแทนจำหน่าย
+            </Typography>
+            <Typography
+              sx={{
+                width: "30vw",
+                mb: 2,
+                backgroundColor: "grey.400",
+                py: 1,
+                px: 3,
+                borderRadius: 5,
+              }}
+            >
               {userData.Sale}
             </Typography>
           </Box>
@@ -151,10 +223,11 @@ const UserPage = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              mb:3
             }}
           >
             <Typography variant="h6" sx={{ mb: 2, fontWeight: "normal" }}>
-              สิทธิ์ร่วมลุ้นรางวัลของคุณคือ 10 สิทธิ์
+              สิทธิ์ร่วมลุ้นรางวัลของคุณคือ {userData.countTic} สิทธิ์
             </Typography>
             <Typography variant="h6" sx={{ mb: 2 }}>
               ข้อมูล ณ วันที่ 24 มิถุนายน 2567
@@ -162,29 +235,41 @@ const UserPage = () => {
           </Box>
           <Box
             sx={{
-              border: "1px solid black",
-              borderRadius: "8px",
-              backgroundColor: "white",
-              height: "200px",
-              width: "300px",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center",
               alignItems: "center",
-              color: "black",
-              p: 4,
-              ml: 5,
+              gap: 2,
+              //maxHeight: "70vh", // Limit the height and enable scrolling if needed
+              overflowY: "auto",
             }}
           >
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              {userData.Ticket}
-            </Typography>
+            {[...Array(Number(userData.countTic))].map((_, index) => (
+              <Box
+                key={index}
+                sx={{
+                  border: "1px solid black",
+                  borderRadius: "8px",
+                  backgroundColor: "#1678D1",
+                  height: "auto",
+                  width: "1/4",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "black",
+                  p: 4,
+                }}
+              >
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  {userData.tickets}
+                </Typography>
+              </Box>
+            ))}
           </Box>
         </Box>
       </Box>
