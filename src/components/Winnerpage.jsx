@@ -30,7 +30,7 @@ const getCurrentThaiDate = () => {
   return `${day} ${month} ${year}`;
 };
 
-const UserPage = () => {
+const Winnerpage = () => {
   const location = useLocation();
   const userData = location.state?.userData;
   const [shareAnchorEl, setShareAnchorEl] = useState(null);
@@ -81,7 +81,7 @@ const UserPage = () => {
         <Typography variant="h6">
           No user data found. Please go back and search again.
         </Typography>
-        <Link to="/">Back to Search</Link>
+        <Link to="/Searchwinner">Back to Search</Link>
       </Box>
     );
   }
@@ -110,7 +110,7 @@ const UserPage = () => {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               component={Link}
-              to="/"
+              to="/Searchwinner"
               sx={{
                 mr: 1,
                 backgroundColor: "#1678D1",
@@ -129,7 +129,7 @@ const UserPage = () => {
             </Typography>
           </Box>
           <Box>
-          <IconButton
+            <IconButton
               sx={{
                 mr: 1,
                 backgroundColor: "#1678D1",
@@ -179,140 +179,64 @@ const UserPage = () => {
                 <LinkIcon sx={{ mr: 1 }} /> Copy Link
               </MenuItem>
             </Menu>
-            
           </Box>
         </Box>
 
-        <Typography variant="h5" sx={{ mb: 3, ml: 9, fontWeight: "bold" }}>
-          ข้อมูลส่วนตัว
+        <Box mt={4} sx={{ justifyContent: "center",textAlign: "center", }}>
+          <Typography
+            variant="h3"
+            sx={{
+              mt: 2,
+              ml: 2,
+              mb: 2,
+              fontWeight: "bold",
+              color: "#1678D1",
+            }}
+          >
+            ขอแสดงความยินดี
+          </Typography>
+          <Box
+            sx={{
+              border: "1px solid black",
+              borderRadius: "8px",
+              backgroundColor: "#1678D1",
+              height: "auto",
+              width: "1/4",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "black",
+              p: 4,
+            }}
+          >
+            <Typography
+              variant="h2"
+              sx={{
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              {userData.TicketNumber}
+            </Typography>
+          </Box>
+       
+        <Typography
+          variant="h3"
+          sx={{
+            mt: 6,
+            ml: 2,
+            mb: 2,
+            fontWeight: "bold",
+            color: "#1678D1",
+          }}
+        >
+          คุณได้รับรางวัล {userData.PrizeName}
         </Typography>
-
-        <Box sx={{ display: "flex", justifyContent: "center", gap: "10%" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-              ชื่อ - นามสกุล
-            </Typography>
-            <Typography
-              sx={{
-                width: "30vw",
-                mb: 2,
-                backgroundColor: "grey.400",
-                py: 1,
-                px: 3,
-                borderRadius: 5,
-              }}
-            >
-              {userData.firstname} {userData.lastname}
-            </Typography>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-              ชื่ออู่/ร้านค้า
-            </Typography>
-            <Typography
-              sx={{
-                width: "30vw",
-                mb: 2,
-                backgroundColor: "grey.400",
-                py: 1,
-                px: 3,
-                borderRadius: 5,
-              }}
-            >
-              {userData.Store}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-              เบอร์โทรศัพท์
-            </Typography>
-            <Typography
-              sx={{
-                width: "30vw",
-                mb: 2,
-                backgroundColor: "grey.400",
-                py: 1,
-                px: 3,
-                borderRadius: 5,
-              }}
-            >
-              {userData.phoneNumber}
-            </Typography>
-            <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-              ตัวแทนจำหน่าย
-            </Typography>
-            <Typography
-              sx={{
-                width: "30vw",
-                mb: 2,
-                backgroundColor: "grey.400",
-                py: 1,
-                px: 3,
-                borderRadius: 5,
-              }}
-            >
-              {userData.Sale}
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box mt={4}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 3,
-            }}
-          >
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: "normal" }}>
-              สิทธิ์ร่วมลุ้นรางวัลของคุณคือ {userData.countTic} สิทธิ์
-            </Typography>
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              ข้อมูล ณ วันที่ {currentThaiDate}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 2,
-              //maxHeight: "70vh", // Limit the height and enable scrolling if needed
-              overflowY: "auto",
-            }}
-          >
-            {[...Array(Number(userData.countTic))].map((_, index) => (
-              <Box
-                key={index}
-                sx={{
-                  border: "1px solid black",
-                  borderRadius: "8px",
-                  backgroundColor: "#1678D1",
-                  height: "auto",
-                  width: "1/4",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  color: "black",
-                  p: 4,
-                }}
-              >
-                <Typography
-                  variant="h2"
-                  sx={{
-                    fontWeight: "bold",
-                    textAlign: "center",
-                  }}
-                >
-                  {userData.tickets}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
+        <img sx={{ width: "50px", height: "auto" }} src={userData.PicUrl} />
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default UserPage;
+export default Winnerpage;
