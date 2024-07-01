@@ -8,14 +8,14 @@ import SearchWinner from './components/Searchwinner';
 
 const App = () => {
   return (
-    <Router>
+    <div className='App'>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/User-page" element={<UserPage />} />
         <Route path="/Winner" element={<Winnerpage/>}/>
         <Route path='/SearchWinner' element={<SearchWinner/>}></Route>
       </Routes>
-    </Router>
+      </div>
   );
 };
 
