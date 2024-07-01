@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   TextField,
   Box,
+  Typography,
   InputAdornment,
   useTheme,
   useMediaQuery,
@@ -17,7 +18,6 @@ const Dashboard = () => {
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const theme = useTheme();
 
   const handleSearch = async () => {
     if (isValidPhoneNumber(phoneNumber)) {
@@ -69,113 +69,136 @@ const Dashboard = () => {
 
   return (
     <Box
-  sx={{
-    minHeight: "100vh",
-    width: 1,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    textAlign: "center",
-    backgroundImage: "url('BG.png')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
-  }}
->
-<Box
-  component="img"
-  sx={{
-    height: "auto",
-    width: { xs: "90%", sm: "80%", md: "60%" },
-    mt: { xs: 3, sm: 4, md: 10 },
-    mb: 2,
-  }}
-  alt=""
-  src="Symbol.png"
-/>
-<Box
-  sx={{
-    width: 1,
-    backgroundColor: "#EBF1FF",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    pt: { xs: 3, sm: 4, md: 4 },
-    pb: { xs: 10, sm: 11, md: 4 },
-  }}
->
-<Box
-  sx={{
-    display: "flex",
-    flexDirection: "column",
-    textAlign: "center",
-    mb: 2,
-  }}
->
-  <h1
-    style={{
-      fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-      marginTop: { xs: "1rem", sm: "1.5rem", md: "2rem" },
-    }}
-  >
-    ลุ้นรางวัลมากมายในงาน Acdelco 2024 เพียงซื้อ
-  </h1>
-  <h1 style={{ fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" }, margin: 0 }}>
-    สินค้าครบ 25,000 ต่อใบเสร็จ รับสิทธิ์ 1 สิทธิ์
-  </h1>
-</Box>
-<h2 style={{ fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" } }}>
-  ตรวจสอบสิทธิ์ร่วมลุ้นรางวัล
-</h2>
-<Box sx={{ width: { xs: "90%", sm: "70%", md: "40%" } }}>
-  <TextField
-    label="กรอกหมายเลขโทรศัพท์ 10 หลัก"
-    variant="outlined"
-    value={phoneNumber}
-    onChange={handleChange}
-    onKeyPress={handleKeyPress}
-    fullWidth
-    margin="normal"
-    error={!!phoneNumberError}
-    helperText={phoneNumberError}
-    InputProps={{
-      startAdornment: (
-        <InputAdornment position="start">
-          <SearchIcon />
-        </InputAdornment>
-      ),
-      style: {
-        backgroundColor: "white",
-        borderColor: phoneNumberError ? "red" : "",
-      },
-    }}
-  />
-  <Button
-    variant="contained"
-    onClick={handleSearch}
-    disabled={loading}
-    sx={{
-      mt: 2,
-      mb: 1,
-      width: { xs: "100%", sm: "70%", md: "50%" },
-      fontSize: { xs: "0.8rem", sm: "0.875rem" },
-      backgroundColor: "#0072CE",
-    }}
-  >
-    {loading ? (
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <CircularProgress size={20} sx={{ color: "white" }} />
-        <span style={{ color: "white" }}>กำลังค้นหา</span>
-      </Box>
-    ) : (
-      <span style={{ color: "white" }}>ค้นหา</span>
-    )}
-  </Button>
-</Box>
+      sx={{
+        minHeight: "100vh",
+        width: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        textAlign: "center",
+        backgroundImage: "url('BG.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <Box
+        component="img"
+        sx={{
+          height: "auto",
+          width: { xs: "90%", sm: "80%", md: "60%" },
+          mt: { xs: 10, sm: 8, md: 11 },
+          mb: 2,
+        }}
+        alt=""
+        src="Symbol.png"
+      />
+      <Box
+        sx={{
+          width: 1,
+          height:"auto",
+          backgroundColor: "#EBF1FF",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          pt: { xs: 3, sm: 4, md: 2 },
+          pb: { xs: 12, sm: 11, md: 2 },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            mb: { xs: 4, sm: 2, md: 5 },
+            mt: { xs: 1, sm: 2, md: 5 },
+            mx: { xs: 3, sm: 2, md: 5 },
+            gap: { xs: 0, sm: 1, md: 1 },
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{
+              
+              textAlign: "left",
+              fontWeight: "bold",
+              fontSize: { xs: 30, sm: "1.5rem", md: "2rem" },
+            }}
+          >
+            ลุ้นรางวัลมากมายในงาน Acdelco 2024 เพียงซื้อ
+          </Typography>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: 30, sm: "1.5rem", md: "2rem" },
+              textAlign: "left",
+            }}
+          >
+            สินค้าครบ 25,000 ต่อใบเสร็จ รับสิทธิ์ 1 สิทธิ์
+          </Typography>
+        </Box>
+        <Typography
+          variant="h5"
+          style={{
+            fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+          }}
+        >
+          ตรวจสอบสิทธิ์ร่วมลุ้นรางวัล
+        </Typography>
+        <Box
+          sx={{
+            width: { xs: "90%", sm: "70%", md: "40%" },
+            mb: { xs: 2, sm: 2, md: 7 },
+          }}
+        >
+          <TextField
+            label="กรอกหมายเลขโทรศัพท์ 10 หลัก"
+            variant="outlined"
+            value={phoneNumber}
+            onChange={handleChange}
+            onKeyPress={handleKeyPress}
+            fullWidth
+            margin="normal"
+            error={!!phoneNumberError}
+            helperText={phoneNumberError}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              style: {
+                backgroundColor: "white",
+                borderColor: phoneNumberError ? "red" : "",
+              },
+            }}
+          />
+          <Button
+            variant="contained"
+            onClick={handleSearch}
+            disabled={loading}
+            sx={{
+              mt: 2,
+              mb: 1,
+              width: { xs: "100%", sm: "70%", md: "50%" },
+              fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              backgroundColor: "#0072CE",
+            }}
+          >
+            {loading ? (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <CircularProgress size={20} sx={{ color: "white" }} />
+                <span style={{ color: "white" }}>กำลังค้นหา</span>
+              </Box>
+            ) : (
+              <span style={{ color: "white" }}>ค้นหา</span>
+            )}
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

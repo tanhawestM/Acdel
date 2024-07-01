@@ -100,10 +100,10 @@ const UserPage = () => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
+            flexDirection: { sm: "row" },
             alignItems: { xs: "flex-start", sm: "center" },
             justifyContent: "space-between",
-            mb: 2,
+            mb: { xs: 0, sm: 2, md: 2 },
           }}
         >
           <Box
@@ -116,16 +116,18 @@ const UserPage = () => {
                 mr: 1,
                 backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
+                padding: { xs: "4px", sm: "8px", md: "12px" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
                 },
               }}
             >
-              <ArrowBackIosNewIcon />
+              <ArrowBackIosNewIcon
+                sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }}
+              />
             </IconButton>
-            <Typography variant="h4" sx={{ ml: 2, fontWeight: "bold" }}>
+            <Typography variant="h4" sx={{ ml: 2, fontWeight: "bold",fontSize: { xs: 20, sm: 30, md: 40 } }}>
               สวัสดีคุณ {userData.firstname}
             </Typography>
           </Box>
@@ -135,7 +137,7 @@ const UserPage = () => {
                 mr: 1,
                 backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
+                padding: { xs: "4px", sm: "8px", md: "12px" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -143,13 +145,13 @@ const UserPage = () => {
               }}
               onClick={handlePrint}
             >
-              <PrintIcon />
+              <PrintIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
             </IconButton>
             <IconButton
               sx={{
                 backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
+                padding: { xs: "4px", sm: "8px", md: "12px" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -157,7 +159,7 @@ const UserPage = () => {
               }}
               onClick={handleShareClick}
             >
-              <ShareIcon />
+              <ShareIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
             </IconButton>
             <Menu
               anchorEl={shareAnchorEl}
@@ -184,7 +186,7 @@ const UserPage = () => {
 
         <Typography
           variant="h4"
-          sx={{ mb: 3, ml: { xs: 0, sm: 9 }, fontWeight: "bold" }}
+          sx={{ mb: 3, ml: { xs: 0, sm: 9 }, fontWeight: "bold",fontSize: { xs: 20, sm: 30, md: 40} }}
         >
           ข้อมูลส่วนตัว
         </Typography>
@@ -194,7 +196,7 @@ const UserPage = () => {
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
             justifyContent: "center",
-            gap: { xs: "1rem", md: "20%" },
+            gap: { xs: "0", md: "20%" },
           }}
         >
           <Box
@@ -204,7 +206,7 @@ const UserPage = () => {
               width: { xs: "100%", md: "35%" },
             }}
           >
-            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
+            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold",fontSize: { xs: 18, sm: 20, md: 26 } }}>
               ชื่อ - นามสกุล
             </Typography>
             <Typography
@@ -218,7 +220,7 @@ const UserPage = () => {
             >
               {userData.firstname} {userData.lastname}
             </Typography>
-            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
+            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold",fontSize: { xs: 18, sm: 20, md: 26 } }}>
               ชื่ออู่/ร้านค้า
             </Typography>
             <Typography
@@ -241,7 +243,7 @@ const UserPage = () => {
               width: { xs: "100%", md: "35%" },
             }}
           >
-            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
+            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold",fontSize: { xs: 18, sm: 20, md: 26 } }}>
               เบอร์โทรศัพท์
             </Typography>
             <Typography
@@ -255,7 +257,7 @@ const UserPage = () => {
             >
               {userData.phoneNumber}
             </Typography>
-            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
+            <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold",fontSize: { xs: 18, sm: 20, md: 26 } }}>
               ตัวแทนจำหน่าย
             </Typography>
             <Typography
@@ -272,7 +274,7 @@ const UserPage = () => {
           </Box>
         </Box>
 
-        <Box mt={4}>
+        <Box mt={2}>
           <Box
             sx={{
               display: "flex",
@@ -284,11 +286,11 @@ const UserPage = () => {
           >
             <Typography
               variant="h5"
-              sx={{ mb: { xs: 1, sm: 0 }, fontWeight: "normal" }}
+              sx={{ mb: { xs: 1, sm: 0 }, fontWeight: "normal",fontSize: { xs: 20, sm: 22, md: 26 } }}
             >
               สิทธิ์ร่วมลุ้นรางวัลของคุณคือ {userData.countTic} สิทธิ์
             </Typography>
-            <Typography variant="h5">
+            <Typography variant="h5" sx={{fontSize:{ xs: 20, sm: 20, md: 26 }}}>
               ข้อมูล ณ วันที่ {currentThaiDate}
             </Typography>
           </Box>
