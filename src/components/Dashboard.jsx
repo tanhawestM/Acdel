@@ -113,7 +113,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             textAlign: "center",
-            mb: { xs: 4, sm: 2, md: 5 },
+            mb: { xs: 6, sm: 2, md: 5 },
             mt: { xs: 1, sm: 2, md: 5 },
             mx: { xs: 3, sm: 2, md: 5 },
             gap: { xs: 0, sm: 1, md: 1 },
@@ -125,7 +125,7 @@ const Dashboard = () => {
               
               textAlign: "left",
               fontWeight: "bold",
-              fontSize: { xs: 30, sm: "1.5rem", md: "2rem" },
+              fontSize: { xs: 35, sm: "1.5rem", md: "2rem" },
             }}
           >
             ลุ้นรางวัลมากมายในงาน Acdelco 2024 เพียงซื้อ
@@ -134,7 +134,7 @@ const Dashboard = () => {
             variant="h4"
             sx={{
               fontWeight: "bold",
-              fontSize: { xs: 30, sm: "1.5rem", md: "2rem" },
+              fontSize: { xs: 35, sm: "1.5rem", md: "2rem" },
               textAlign: "left",
             }}
           >
@@ -152,7 +152,7 @@ const Dashboard = () => {
         <Box
           sx={{
             width: { xs: "90%", sm: "70%", md: "40%" },
-            mb: { xs: 2, sm: 2, md: 7 },
+            mb: { xs: 24, sm: 2, md: 3 },
           }}
         >
           <TextField
@@ -183,7 +183,7 @@ const Dashboard = () => {
             disabled={loading}
             sx={{
               mt: 2,
-              mb: 1,
+              mb: { xs: 5, sm: 2, md: 5 },
               width: { xs: "100%", sm: "70%", md: "50%" },
               fontSize: { xs: "0.8rem", sm: "0.875rem" },
               backgroundColor: "#0072CE",
