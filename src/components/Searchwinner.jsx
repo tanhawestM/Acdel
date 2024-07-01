@@ -4,20 +4,24 @@ import {
   TextField,
   Button,
   Box,
+  Typography,
   InputAdornment,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 
 const Searchwinnerpage = () => {
   const [TicketNumber, setTicketNumber] = useState("");
+  const [loading, setLoading] = useState(false);
   const [TicketNumberError, setTicketNumberError] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = async () => {
     if (isValidTicketNumber(TicketNumber)) {
+      setLoading(true);
       try {
         const response = await axios.get(
           `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/AllTicket?filterByFormula={TicketNumber}="${TicketNumber}"`,
@@ -28,6 +32,7 @@ const Searchwinnerpage = () => {
           }
         );
 
+        setLoading(false);
         if (response.data.records.length > 0) {
           navigate(`/Winner`, {
             state: { userData: response.data.records[0].fields },
@@ -37,6 +42,7 @@ const Searchwinnerpage = () => {
         }
       } catch (error) {
         console.error("Error searching Airtable:", error);
+        setLoading(false);
         setTicketNumberError("เกิดข้อผิดพลาดในการค้นหาข้อมูล กรุณาลองอีกครั้ง");
       }
     } else {
@@ -75,7 +81,6 @@ const Searchwinnerpage = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
       }}
     >
       <Box
@@ -83,7 +88,7 @@ const Searchwinnerpage = () => {
         sx={{
           height: "auto",
           width: { xs: "90%", sm: "80%", md: "60%" },
-          mt: { xs: 3, sm: 4, md: 10 },
+          mt: { xs: 10, sm: 8, md: 11 },
           mb: 2,
         }}
         alt=""
@@ -92,14 +97,15 @@ const Searchwinnerpage = () => {
       <Box
         sx={{
           width: 1,
-          minHeight: "60vh",
+          height:"auto",
           backgroundColor: "#EBF1FF",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
-          padding: { xs: 2, sm: 3, md: 4 },
+          pt: { xs: 3, sm: 4, md: 2 },
+          pb: { xs: 12, sm: 11, md: 2 },
         }}
       >
         <Box
@@ -107,19 +113,29 @@ const Searchwinnerpage = () => {
             display: "flex",
             flexDirection: "column",
             textAlign: "center",
-            mb: 2,
+            mb: { xs: 6, sm: 2, md: 5 },
+            mt: { xs: 5, sm: 2, md: 5 },
+            mx: { xs: 3, sm: 2, md: 5 },
+            gap: { xs: 0, sm: 1, md: 1 },
           }}
         >
-          <h1
-            style={{
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
-              marginTop: { xs: "1rem", sm: "1.5rem", md: "2rem" },
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: 40, sm: "1.5rem", md: 50 },
+              textAlign: "left",
             }}
           >
             ค้นหาผู้โชคดี
-          </h1>
+          </Typography>
         </Box>
-        <Box sx={{ width: { xs: "90%", sm: "70%", md: "40%" } }}>
+        <Box
+          sx={{
+            width: { xs: "90%", sm: "70%", md: "40%" },
+            mb: { xs: 24, sm: 2, md: 5 },
+          }}
+        >
           <TextField
             label="กรอกหมายเลขตั๋ว 5 หลัก"
             variant="outlined"
@@ -145,18 +161,27 @@ const Searchwinnerpage = () => {
           <Button
             variant="contained"
             onClick={handleSearch}
+            disabled={loading}
             sx={{
               mt: 2,
-              mb: { xs: 5, sm: 7, md: 10 },
+              mb: { xs: 21, sm: 2, md: 10 },
               width: { xs: "100%", sm: "70%", md: "50%" },
               fontSize: { xs: "0.8rem", sm: "0.875rem" },
-              backgroundColor: "Orange",
+              backgroundColor: "orange",
               "&:hover": {
                 backgroundColor: "#e69500",
               },
             }}
           >
-            ค้นหา
+
+            {loading ? (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <CircularProgress size={20} sx={{ color: "white" }} />
+                <span style={{ color: "white" }}>กำลังค้นหา</span>
+              </Box>
+            ) : (
+              <span style={{ color: "white" }}>ค้นหา</span>
+            )}
           </Button>
         </Box>
       </Box>

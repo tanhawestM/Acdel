@@ -81,7 +81,7 @@ const Winnerpage = () => {
         <Typography variant="h6">
           No user data found. Please go back and search again.
         </Typography>
-        <Link to="/Searchwinner">Back to Search</Link>
+        <Link to="/">Back to Search</Link>
       </Box>
     );
   }
@@ -93,18 +93,17 @@ const Winnerpage = () => {
         minHeight: "100vh",
         width: "100%",
         color: "black",
-        p: { xs: 2, sm: 3, md: 4 },
-        fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
+        p: { xs: 2, sm: 3, md: 4 }, // Responsive padding
       }}
     >
       <Box sx={{ mt: { xs: 2, sm: 3, md: 4 }, mx: { xs: 2, sm: 5, md: 10 } }}>
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
+            flexDirection: { sm: "row" },
             alignItems: { xs: "flex-start", sm: "center" },
             justifyContent: "space-between",
-            mb: 2,
+            mb: { xs: 0, sm: 2, md: 2 },
           }}
         >
           <Box
@@ -112,21 +111,30 @@ const Winnerpage = () => {
           >
             <IconButton
               component={Link}
-              to="/Searchwinner"
+              to="/SearchWinner"
               sx={{
                 mr: 1,
-                backgroundColor: "#0072CE",
+                backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
+                padding: { xs: "4px", sm: "8px", md: "12px" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
                 },
               }}
             >
-              <ArrowBackIosNewIcon />
+              <ArrowBackIosNewIcon
+                sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }}
+              />
             </IconButton>
-            <Typography variant="h5" sx={{ ml: 2, fontWeight: "bold" }}>
+            <Typography
+              variant="h4"
+              sx={{
+                ml: 2,
+                fontWeight: "bold",
+                fontSize: { xs: 20, sm: 30, md: 40 },
+              }}
+            >
               สวัสดีคุณ {userData.firstname}
             </Typography>
           </Box>
@@ -134,9 +142,9 @@ const Winnerpage = () => {
             <IconButton
               sx={{
                 mr: 1,
-                backgroundColor: "#0072CE",
+                backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
+                padding: { xs: "4px", sm: "8px", md: "12px" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -144,13 +152,13 @@ const Winnerpage = () => {
               }}
               onClick={handlePrint}
             >
-              <PrintIcon />
+              <PrintIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
             </IconButton>
             <IconButton
               sx={{
-                backgroundColor: "#0072CE",
+                backgroundColor: "#1678D1",
                 color: "white",
-                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
+                padding: { xs: "4px", sm: "8px", md: "12px" },
                 "&:hover": {
                   backgroundColor: "blue",
                   color: "white",
@@ -158,7 +166,7 @@ const Winnerpage = () => {
               }}
               onClick={handleShareClick}
             >
-              <ShareIcon />
+              <ShareIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
             </IconButton>
             <Menu
               anchorEl={shareAnchorEl}
@@ -183,15 +191,15 @@ const Winnerpage = () => {
           </Box>
         </Box>
 
-        <Box mt={4} sx={{ justifyContent: "center", textAlign: "center" }}>
+        <Box sx={{ textAlign: "center" }}>
           <Typography
             variant="h4"
             sx={{
-              mt: 2,
-              mb: 2,
+              mb: 3,
+              ml: { xs: 0, sm: 9 },
               fontWeight: "bold",
-              color: "#0072CE",
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+              fontSize: { xs: 20, sm: 30, md: 40 },
+              color:"#0072CE"
             }}
           >
             ขอแสดงความยินดี
