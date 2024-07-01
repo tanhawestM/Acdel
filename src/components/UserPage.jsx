@@ -45,6 +45,10 @@ const UserPage = () => {
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
 
+  const ticketNumbers = userData.CloneAlltickets.toString()
+    .split(", ")
+    .map((num) => num.trim());
+
   const currentThaiDate = getCurrentThaiDate();
 
   const handlePrint = () => {
@@ -132,311 +136,315 @@ const UserPage = () => {
           width: "100%",
           color: "black",
           p: { xs: 2, sm: 3, md: 4 },
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Box sx={{ flexGrow: 1 }}>
-        <Box sx={{ mt: { xs: 2, sm: 3, md: 4 }, mx: { xs: 2, sm: 5, md: 10 } }}>
           <Box
-            sx={{
-              display: "flex",
-              flexDirection: { sm: "row" },
-              alignItems: { xs: "flex-start", sm: "center" },
-              justifyContent: "space-between",
-              mb: { xs: 0, sm: 2, md: 2 },
-            }}
+            sx={{ mt: { xs: 2, sm: 3, md: 4 }, mx: { xs: 2, sm: 5, md: 10 } }}
           >
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
-                mb: { xs: 2, sm: 0 },
-              }}
-            >
-              <IconButton
-                component={Link}
-                to="/"
-                sx={{
-                  mr: 1,
-                  backgroundColor: "#1678D1",
-                  color: "white",
-                  padding: { xs: "4px", sm: "8px", md: "12px" },
-                  "&:hover": {
-                    backgroundColor: "blue",
-                    color: "white",
-                  },
-                }}
-              >
-                <ArrowBackIosNewIcon
-                  sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }}
-                />
-              </IconButton>
-              <Typography
-                variant="h4"
-                sx={{
-                  ml: 2,
-                  fontWeight: "bold",
-                  fontSize: { xs: 20, sm: 30, md: 40 },
-                }}
-              >
-                สวัสดีคุณ {userData.firstname}
-              </Typography>
-            </Box>
-            <Box>
-              <IconButton
-                sx={{
-                  mr: 1,
-                  backgroundColor: "#1678D1",
-                  color: "white",
-                  padding: { xs: "4px", sm: "8px", md: "12px" },
-                  "&:hover": {
-                    backgroundColor: "blue",
-                    color: "white",
-                  },
-                }}
-                onClick={handlePrint}
-              >
-                <PrintIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  backgroundColor: "#1678D1",
-                  color: "white",
-                  padding: { xs: "4px", sm: "8px", md: "12px" },
-                  "&:hover": {
-                    backgroundColor: "blue",
-                    color: "white",
-                  },
-                }}
-                onClick={handleShareClick}
-              >
-                <ShareIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
-              </IconButton>
-              <Menu
-                anchorEl={shareAnchorEl}
-                open={Boolean(shareAnchorEl)}
-                onClose={handleShareClose}
-              >
-                <MenuItem onClick={handleFacebookShare}>
-                  <FacebookIcon sx={{ mr: 1 }} /> Facebook
-                </MenuItem>
-                <MenuItem onClick={handleLineShare}>
-                  <img
-                    src="line-icon.png"
-                    alt="Line"
-                    style={{ width: 24, height: 24, marginRight: 8 }}
-                  />{" "}
-                  Line
-                </MenuItem>
-                <MenuItem onClick={handleCopyLink}>
-                  <LinkIcon sx={{ mr: 1 }} /> Copy Link
-                </MenuItem>
-              </Menu>
-            </Box>
-          </Box>
-
-          <Typography
-            variant="h4"
-            sx={{
-              mb: 3,
-              ml: { xs: 2, sm: 9, md: 9 },
-              fontWeight: "bold",
-              fontSize: { xs: 20, sm: 30, md: 34 },
-              textAlign: "left",
-            }}
-          >
-            ข้อมูลส่วนตัว
-          </Typography>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", md: "row" },
-              justifyContent: "center",
-              gap: { xs: "0", md: "18%" },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: { xs: "100%", md: "35%" },
-              }}
-            >
-              <Typography
-                variant="h5"
-                sx={{
-                  mb: 1,
-                  fontWeight: "bold",
-                  fontSize: { xs: 18, sm: 20, md: 26 },
-                  textAlign: "left",
-                }}
-              >
-                ชื่อ - นามสกุล
-              </Typography>
-              <Typography
-                sx={{
-                  mb: 2,
-                  backgroundColor: "#A1A1AC",
-                  py: 1,
-                  px: 3,
-                  borderRadius: 5,
-                  textAlign: "left",
-                }}
-              >
-                {userData.firstname} {userData.lastname}
-              </Typography>
-              <Typography
-                variant="h5"
-                sx={{
-                  mb: 1,
-                  fontWeight: "bold",
-                  fontSize: { xs: 18, sm: 20, md: 26 },
-                  textAlign: "left",
-                }}
-              >
-                ชื่ออู่/ร้านค้า
-              </Typography>
-              <Typography
-                sx={{
-                  mb: 2,
-                  backgroundColor: "#A1A1AC",
-                  py: 1,
-                  px: 3,
-                  borderRadius: 5,
-                  textAlign: "left",
-                }}
-              >
-                {userData.Store}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: { xs: "100%", md: "35%" },
-              }}
-            >
-              <Typography
-                variant="h5"
-                sx={{
-                  mb: 1,
-                  fontWeight: "bold",
-                  fontSize: { xs: 18, sm: 20, md: 26 },
-                  textAlign: "left",
-                }}
-              >
-                เบอร์โทรศัพท์
-              </Typography>
-              <Typography
-                sx={{
-                  mb: 2,
-                  backgroundColor: "#A1A1AC",
-                  py: 1,
-                  px: 3,
-                  borderRadius: 5,
-                  textAlign: "left",
-                }}
-              >
-                {userData.phoneNumber}
-              </Typography>
-              <Typography
-                variant="h5"
-                sx={{
-                  mb: 1,
-                  fontWeight: "bold",
-                  fontSize: { xs: 18, sm: 20, md: 26 },
-                  textAlign: "left",
-                }}
-              >
-                ตัวแทนจำหน่าย
-              </Typography>
-              <Typography
-                sx={{
-                  mb: 2,
-                  backgroundColor: "#A1A1AC",
-                  py: 1,
-                  px: 3,
-                  borderRadius: 5,
-                  textAlign: "left",
-                }}
-              >
-                {userData.Sale}
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box mt={2}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                justifyContent: "space-between",
+                flexDirection: { sm: "row" },
                 alignItems: { xs: "flex-start", sm: "center" },
-                mb: 3,
+                justifyContent: "space-between",
+                mb: { xs: 0, sm: 2, md: 2 },
               }}
             >
-              <Typography
-                variant="h5"
+              <Box
                 sx={{
-                  mb: { xs: 1, sm: 0, md:2 },
-                  fontWeight: "normal",
-                  fontSize: { xs: 20, sm: 22, md: 26 },
+                  display: "flex",
+                  alignItems: "center",
+                  mb: { xs: 2, sm: 0 },
                 }}
               >
-                สิทธิ์ร่วมลุ้นรางวัลของคุณคือ {userData.countTic} สิทธิ์
-              </Typography>
-              {!isXs && (
-                <Typography variant="h5" sx={{ fontSize: { xs: 20, sm: 20, md: 26 } }}>
-                  ข้อมูล ณ วันที่ {currentThaiDate}
-                </Typography>
-              )}
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 2,
-                overflowY: "auto",
-              }}
-            >
-              {[...Array(Number(userData.countTic))].map((_, index) => (
-                <Box
-                  key={index}
+                <IconButton
+                  component={Link}
+                  to="/"
                   sx={{
-                    border: "1px solid black",
-                    borderRadius: "8px",
+                    mr: 1,
                     backgroundColor: "#1678D1",
-                    width: { xs: "90%", sm: "70%", md: "50%" },
-                    aspectRatio: "2 / 1",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    color: "black",
+                    color: "white",
+                    padding: { xs: "4px", sm: "8px", md: "12px" },
+                    "&:hover": {
+                      backgroundColor: "blue",
+                      color: "white",
+                    },
                   }}
                 >
+                  <ArrowBackIosNewIcon
+                    sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }}
+                  />
+                </IconButton>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    ml: 2,
+                    fontWeight: "bold",
+                    fontSize: { xs: 20, sm: 30, md: 40 },
+                  }}
+                >
+                  สวัสดีคุณ {userData.firstname}
+                </Typography>
+              </Box>
+              <Box>
+                <IconButton
+                  sx={{
+                    mr: 1,
+                    backgroundColor: "#1678D1",
+                    color: "white",
+                    padding: { xs: "4px", sm: "8px", md: "12px" },
+                    "&:hover": {
+                      backgroundColor: "blue",
+                      color: "white",
+                    },
+                  }}
+                  onClick={handlePrint}
+                >
+                  <PrintIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    backgroundColor: "#1678D1",
+                    color: "white",
+                    padding: { xs: "4px", sm: "8px", md: "12px" },
+                    "&:hover": {
+                      backgroundColor: "blue",
+                      color: "white",
+                    },
+                  }}
+                  onClick={handleShareClick}
+                >
+                  <ShareIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
+                </IconButton>
+                <Menu
+                  anchorEl={shareAnchorEl}
+                  open={Boolean(shareAnchorEl)}
+                  onClose={handleShareClose}
+                >
+                  <MenuItem onClick={handleFacebookShare}>
+                    <FacebookIcon sx={{ mr: 1 }} /> Facebook
+                  </MenuItem>
+                  <MenuItem onClick={handleLineShare}>
+                    <img
+                      src="line-icon.png"
+                      alt="Line"
+                      style={{ width: 24, height: 24, marginRight: 8 }}
+                    />{" "}
+                    Line
+                  </MenuItem>
+                  <MenuItem onClick={handleCopyLink}>
+                    <LinkIcon sx={{ mr: 1 }} /> Copy Link
+                  </MenuItem>
+                </Menu>
+              </Box>
+            </Box>
+
+            <Typography
+              variant="h4"
+              sx={{
+                mb: 3,
+                ml: { xs: 2, sm: 9, md: 9 },
+                fontWeight: "bold",
+                fontSize: { xs: 20, sm: 30, md: 34 },
+                textAlign: "left",
+              }}
+            >
+              ข้อมูลส่วนตัว
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" },
+                justifyContent: "center",
+                gap: { xs: "0", md: "18%" },
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: { xs: "100%", md: "35%" },
+                }}
+              >
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mb: 1,
+                    fontWeight: "bold",
+                    fontSize: { xs: 18, sm: 20, md: 26 },
+                    textAlign: "left",
+                  }}
+                >
+                  ชื่อ - นามสกุล
+                </Typography>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    backgroundColor: "#A1A1AC",
+                    py: 1,
+                    px: 3,
+                    borderRadius: 5,
+                    textAlign: "left",
+                  }}
+                >
+                  {userData.firstname} {userData.lastname}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mb: 1,
+                    fontWeight: "bold",
+                    fontSize: { xs: 18, sm: 20, md: 26 },
+                    textAlign: "left",
+                  }}
+                >
+                  ชื่ออู่/ร้านค้า
+                </Typography>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    backgroundColor: "#A1A1AC",
+                    py: 1,
+                    px: 3,
+                    borderRadius: 5,
+                    textAlign: "left",
+                  }}
+                >
+                  {userData.Store}
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: { xs: "100%", md: "35%" },
+                }}
+              >
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mb: 1,
+                    fontWeight: "bold",
+                    fontSize: { xs: 18, sm: 20, md: 26 },
+                    textAlign: "left",
+                  }}
+                >
+                  เบอร์โทรศัพท์
+                </Typography>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    backgroundColor: "#A1A1AC",
+                    py: 1,
+                    px: 3,
+                    borderRadius: 5,
+                    textAlign: "left",
+                  }}
+                >
+                  {userData.phoneNumber}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mb: 1,
+                    fontWeight: "bold",
+                    fontSize: { xs: 18, sm: 20, md: 26 },
+                    textAlign: "left",
+                  }}
+                >
+                  ตัวแทนจำหน่าย
+                </Typography>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    backgroundColor: "#A1A1AC",
+                    py: 1,
+                    px: 3,
+                    borderRadius: 5,
+                    textAlign: "left",
+                  }}
+                >
+                  {userData.Sale}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box mt={2}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  justifyContent: "space-between",
+                  alignItems: { xs: "flex-start", sm: "center" },
+                  mb: 3,
+                }}
+              >
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mb: { xs: 1, sm: 0, md: 2 },
+                    fontWeight: "normal",
+                    fontSize: { xs: 20, sm: 22, md: 26 },
+                  }}
+                >
+                  สิทธิ์ร่วมลุ้นรางวัลของคุณคือ {userData.countTic} สิทธิ์
+                </Typography>
+                {!isXs && (
                   <Typography
-                    variant="h3"
+                    variant="h5"
+                    sx={{ fontSize: { xs: 20, sm: 20, md: 26 } }}
+                  >
+                    ข้อมูล ณ วันที่ {currentThaiDate}
+                  </Typography>
+                )}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 2,
+                  overflowY: "auto",
+                }}
+              >
+                {[...Array(Number(userData.countTic))].map((_, index) => (
+                  <Box
+                    key={index}
                     sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                      border: "1px solid black",
+                      borderRadius: "8px",
+                      backgroundColor: "#1678D1",
+                      width: { xs: "90%", sm: "70%", md: "50%" },
+                      aspectRatio: "2 / 1",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "black",
                     }}
                   >
-                    {userData.tickets}
-                  </Typography>
-                </Box>
-              ))}
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                      }}
+                    >
+                      {ticketNumbers[index] || "N/A"}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
             </Box>
           </Box>
         </Box>
-
-      </Box>
-      {isXs && (
-          <Box sx={{ mt: 'auto', py: 2 }}>
+        {isXs && (
+          <Box sx={{ mt: "auto", py: 2 }}>
             <Typography variant="h5" sx={{ fontSize: 20 }}>
               ข้อมูล ณ วันที่ {currentThaiDate}
             </Typography>
