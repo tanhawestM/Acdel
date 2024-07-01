@@ -14,28 +14,46 @@ import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 
 const Searchwinnerpage = () => {
-  const [TicketNumber, setTicketNumber] = useState("");
+  const [ticketNumber, setTicketNumber] = useState("");
+  const [prizeName, setPrizeName] = useState("");
+  const [ticketNumberError, setTicketNumberError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [TicketNumberError, setTicketNumberError] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = async () => {
-    if (isValidTicketNumber(TicketNumber)) {
+    if (isValidTicketNumber(ticketNumber)) {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/AllTicket?filterByFormula={TicketNumber}="${TicketNumber}"`,
+          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/AllTicket?filterByFormula={TicketNumber}="${ticketNumber}"`,
           {
             headers: {
               Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
             },
           }
         );
-
+  
         setLoading(false);
         if (response.data.records.length > 0) {
+          const userData = response.data.records[0].fields;
+          let prizeImageURL = "";
+  
+          switch (prizeName.toLowerCase()) { //add for more prize
+            case 'iphone':
+              prizeImageURL = userData.IphonePicURL;
+              break;
+            case 'gold':
+              prizeImageURL = userData.GoldPicURL;
+              break;
+            case 'car':
+              prizeImageURL = userData.CarPicURL;
+              break;
+            default:
+              prizeImageURL = "";
+          }
+  
           navigate(`/Winner`, {
-            state: { userData: response.data.records[0].fields },
+            state: { userData: userData, prizeImageURL: prizeImageURL, prizeName: prizeName },
           });
         } else {
           setTicketNumberError("ไม่พบหมายเลขตั๋วใบนี้");
@@ -50,10 +68,12 @@ const Searchwinnerpage = () => {
     }
   };
 
-  const handleChange = (e) => {
-    setTicketNumber(e.target.value);
-    if (TicketNumberError) {
+  const handleChange = (e, field) => {
+    if (field === "ticketNumber") {
+      setTicketNumber(e.target.value);
       setTicketNumberError("");
+    } else if (field === "prizeName") {
+      setPrizeName(e.target.value);
     }
   };
 
@@ -97,7 +117,7 @@ const Searchwinnerpage = () => {
       <Box
         sx={{
           width: 1,
-          height:"auto",
+          height: "auto",
           backgroundColor: "#EBF1FF",
           display: "flex",
           flexDirection: "column",
@@ -137,27 +157,42 @@ const Searchwinnerpage = () => {
           }}
         >
           <TextField
-            label="กรอกหมายเลขตั๋ว 5 หลัก"
-            variant="outlined"
-            value={TicketNumber}
-            onChange={handleChange}
-            onKeyPress={handleKeyPress}
-            fullWidth
-            margin="normal"
-            error={!!TicketNumberError}
-            helperText={TicketNumberError}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              style: {
-                backgroundColor: "white",
-                borderColor: TicketNumberError ? "red" : "",
-              },
-            }}
-          />
+  label="กรอกหมายเลขตั๋ว 5 หลัก"
+  variant="outlined"
+  value={ticketNumber}
+  onChange={(e) => handleChange(e, 'ticketNumber')}
+  onKeyPress={handleKeyPress}
+  fullWidth
+  margin="normal"
+  error={!!ticketNumberError}
+  helperText={ticketNumberError}
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="start">
+        <SearchIcon />
+      </InputAdornment>
+    ),
+    style: {
+      backgroundColor: "white",
+      borderColor: ticketNumberError ? "red" : "",
+    },
+  }}
+/>
+
+<TextField
+  label="กรอกรางวัลที่ได้รับ"
+  variant="outlined"
+  value={prizeName}
+  onChange={(e) => handleChange(e, 'prizeName')}
+  onKeyPress={handleKeyPress}
+  fullWidth
+  margin="normal"
+  InputProps={{
+    style: {
+      backgroundColor: "white",
+    },
+  }}
+/>
           <Button
             variant="contained"
             onClick={handleSearch}
@@ -173,7 +208,6 @@ const Searchwinnerpage = () => {
               },
             }}
           >
-
             {loading ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <CircularProgress size={20} sx={{ color: "white" }} />

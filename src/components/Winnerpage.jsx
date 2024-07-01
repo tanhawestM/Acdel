@@ -32,10 +32,24 @@ const getCurrentThaiDate = () => {
 
 const Winnerpage = () => {
   const location = useLocation();
-  const userData = location.state?.userData;
+  const { userData, prizeImageURL, prizeName } = location.state;
   const [shareAnchorEl, setShareAnchorEl] = useState(null);
+  
 
   const currentThaiDate = getCurrentThaiDate();
+
+  const getPrizeDisplay = (prizeName) => {
+    switch (prizeName.toLowerCase()) {
+      case 'iphone':
+        return 'Iphone 15 Pro Max';
+      case 'gold':
+        return 'Gold 24K';
+      case 'car':
+        return 'Toyota Vios';
+      default:
+        return prizeName; // fallback to original prize name if not matched
+    }
+  };
 
   const handlePrint = () => {
     window.print();
@@ -228,26 +242,52 @@ const Winnerpage = () => {
           </Box>
 
           <Typography
-            variant="h4"
-            sx={{
-              mt: { xs: 4, sm: 5, md: 6 },
-              mb: 2,
-              fontWeight: "bold",
-              color: "#0072CE",
-              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-            }}
-          >
-            คุณได้รับรางวัล {userData.PrizeName}
-          </Typography>
+      variant="h4"
+      sx={{
+        mt: { xs: 4, sm: 5, md: 6 },
+        mb: 2,
+        fontWeight: "bold",
+        color: "#0072CE",
+        fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
+      }}
+    >
+      คุณได้รับรางวัล {getPrizeDisplay(prizeName)}
+    </Typography>
           <Box
-            component="img"
-            src={userData.PicUrl}
-            sx={{
-              width: { xs: "80%", sm: "60%", md: "50%" },
-              maxWidth: "300px",
-              height: "auto",
-            }}
-          />
+  sx={{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    mt: { xs: 4, sm: 5, md: 6 },
+  }}
+>
+  <Box
+    sx={{
+      width: { xs: "80%", sm: "60%", md: "50%" },
+      maxWidth: "300px",
+      height: "auto",
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    {prizeImageURL ? (
+      <img 
+        src={prizeImageURL} 
+        alt="Prize" 
+        style={{ 
+          maxWidth: '100%', 
+          height: 'auto', 
+          display: 'block'
+        }} 
+      />
+    ) : (
+      <Typography>No prize image available for the specified prize.</Typography>
+    )}
+  </Box>
+</Box>
+
         </Box>
       </Box>
     </Box>
