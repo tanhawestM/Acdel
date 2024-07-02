@@ -49,9 +49,9 @@ const UserPage = () => {
     .split(", ")
     .map((num) => num.trim());
 
-  const Barcode = userData.CloneBarcodeURL.toString()
-    .split(",")
-    .map((num) => num.trim());
+  // const Barcode = userData.CloneBarcodeURL.toString()
+  //   .split(",")
+  //   .map((num) => num.trim());
 
   const currentThaiDate = getCurrentThaiDate();
 
@@ -459,7 +459,7 @@ const UserPage = () => {
                         justifyContent: "flex-end",
                       }}
                       alt=""
-                      src={Barcode[index] || "N/A"}
+                      // src={Barcode[index] || "N/A"}
                     />
                   </Box>
                 ))}
