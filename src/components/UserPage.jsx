@@ -49,6 +49,10 @@ const UserPage = () => {
     .split(", ")
     .map((num) => num.trim());
 
+  const Barcode = userData.CloneBarcodeURL.toString()
+    .split(",")
+    .map((num) => num.trim());
+
   const currentThaiDate = getCurrentThaiDate();
 
   const handlePrint = () => {
@@ -416,27 +420,47 @@ const UserPage = () => {
                   <Box
                     key={index}
                     sx={{
-                      border: "1px solid black",
-                      borderRadius: "8px",
-                      backgroundColor: "#1678D1",
-                      width: { xs: "90%", sm: "70%", md: "50%" },
-                      aspectRatio: "2 / 1",
+                      width: { xs: "70%", sm: "60%", md: "50%" },
+                      aspectRatio: "2 / 0.8",
                       display: "flex",
+                      flexDirection: "row",
                       justifyContent: "center",
                       alignItems: "center",
-                      color: "black",
+                      color: "white",
+                      textAlign: "center",
+                      backgroundImage: "url('TicBG.png')",
+                      backgroundSize: "100% 100%",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      textShadow: "4px 4px 8px rgba(0,0,0,0.5)", // Added text shadow
                     }}
                   >
-                    <Typography
-                      variant="h3"
+                    <Box>
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          letterSpacing: "8px", // Added letter spacing
+                          fontSize: { xs: "2rem", sm: "3rem", md: "7rem" },
+                          ml: { xs: "1.5rem", sm: "2rem", md: "5rem" },
+                        }}
+                      >
+                        {ticketNumbers[index] || "N/A"}
+                      </Typography>
+                    </Box>
+                    <Box
+                      component="img"
                       sx={{
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                        height: "auto",
+                        width: "30%",
+                        rotate: "90deg",
+                        alignItems: "right",
+                        justifyContent: "flex-end",
                       }}
-                    >
-                      {ticketNumbers[index] || "N/A"}
-                    </Typography>
+                      alt=""
+                      src={Barcode[index] || "N/A"}
+                    />
                   </Box>
                 ))}
               </Box>
