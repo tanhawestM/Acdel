@@ -443,13 +443,13 @@ const UserPage = () => {
                           textAlign: "center",
                           letterSpacing: "8px", // Added letter spacing
                           fontSize: { xs: "2rem", sm: "3rem", md: "7rem" },
-                          ml: { xs: "1.5rem", sm: "2rem", md: "5rem" },
+                          mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
                         }}
                       >
                         {ticketNumbers[index] || "N/A"}
                       </Typography>
                     </Box>
-                    <Box
+                    {/* <Box
                       component="img"
                       sx={{
                         height: "auto",
@@ -459,8 +459,8 @@ const UserPage = () => {
                         justifyContent: "flex-end",
                       }}
                       alt=""
-                      // src={Barcode[index] || "N/A"}
-                    />
+                      src={Barcode[index] || "N/A"}
+                    /> */}
                   </Box>
                 ))}
               </Box>
