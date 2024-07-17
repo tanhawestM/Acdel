@@ -23,8 +23,9 @@ const Dashboard = () => {
     if (isValidPhoneNumber(phoneNumber)) {
       setLoading(true);
       try {
+        const unformattedNumber = phoneNumber.replace(/\D/g, "");
         const response = await axios.get(
-          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo?filterByFormula={phoneNumber}="${phoneNumber}"`,
+          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo?filterByFormula={phoneNumber}="${unformattedNumber}"`,
           {
             headers: {
               Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
@@ -51,20 +52,29 @@ const Dashboard = () => {
   };
 
   const handleChange = (e) => {
-    setPhoneNumber(e.target.value);
+    const input = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setPhoneNumber(formatPhoneNumber(input));
     if (phoneNumberError) {
       setPhoneNumberError("");
     }
   };
 
   const isValidPhoneNumber = (number) => {
-    return number.length === 10 && /^\d{10}$/.test(number);
+    const digitsOnly = number.replace(/\D/g, "");
+    return digitsOnly.length === 10 && /^\d{10}$/.test(digitsOnly);
   };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSearch();
     }
+  };
+
+  const formatPhoneNumber = (number) => {
+    if (number.length === 10) {
+      return `${number.slice(0, 3)}-${number.slice(3, 6)}-${number.slice(6)}`;
+    }
+    return number;
   };
 
   return (
