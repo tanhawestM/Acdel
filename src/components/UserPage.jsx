@@ -353,7 +353,7 @@ const UserPage = () => {
                     textAlign: "left",
                   }}
                 >
-                  {userData.phoneNumber}
+                  {userData.formalPhoneNum}
                 </Typography>
                 <Typography
                   variant="h5"
