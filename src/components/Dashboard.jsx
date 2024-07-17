@@ -20,18 +20,18 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleSearch = async () => {
-    if (isValidPhoneNumber(phoneNumber)) {
-      setLoading(true);
-      try {
-        const unformattedNumber = phoneNumber.replace(/\D/g, "");
-        const response = await axios.get(
-          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo?filterByFormula={phoneNumber}="${unformattedNumber}"`,
-          {
-            headers: {
-              Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
-            },
-          }
-        );
+    const unformattedNumber = phoneNumber.replace(/\D/g, '');
+if (isValidPhoneNumber(unformattedNumber)) {
+  setLoading(true);
+  try {
+    const response = await axios.get(
+      `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo?filterByFormula={phoneNumber}="${unformattedNumber}"`,
+      {
+        headers: {
+          Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
+        },
+      }
+    );
 
         setLoading(false);
         if (response.data.records.length > 0) {
@@ -52,7 +52,7 @@ const Dashboard = () => {
   };
 
   const handleChange = (e) => {
-    const input = e.target.value.replace(/\D/g, "").slice(0, 10);
+    const input = e.target.value.replace(/\D/g, '').slice(0, 10);
     setPhoneNumber(formatPhoneNumber(input));
     if (phoneNumberError) {
       setPhoneNumberError("");
@@ -60,8 +60,8 @@ const Dashboard = () => {
   };
 
   const isValidPhoneNumber = (number) => {
-    const digitsOnly = number.replace(/\D/g, "");
-    return digitsOnly.length === 10 && /^\d{10}$/.test(digitsOnly);
+    const digitsOnly = number.replace(/\D/g, '');
+    return digitsOnly.length === 10;
   };
 
   const handleKeyPress = (event) => {
@@ -71,10 +71,14 @@ const Dashboard = () => {
   };
 
   const formatPhoneNumber = (number) => {
-    if (number.length === 10) {
-      return `${number.slice(0, 3)}-${number.slice(3, 6)}-${number.slice(6)}`;
+    const digits = number.replace(/\D/g, '');
+    if (digits.length <= 3) {
+      return digits;
+    } else if (digits.length <= 6) {
+      return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+    } else {
+      return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
     }
-    return number;
   };
 
   return (
