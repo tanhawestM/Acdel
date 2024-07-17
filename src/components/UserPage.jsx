@@ -288,7 +288,8 @@ const UserPage = () => {
                 <Typography
                   sx={{
                     mb: 2,
-                    backgroundColor: "#A1A1AC",
+                    //opacity: 0.7,
+                    backgroundColor: "#cdcdd1",
                     py: 1,
                     px: 3,
                     borderRadius: 5,
@@ -311,7 +312,8 @@ const UserPage = () => {
                 <Typography
                   sx={{
                     mb: 2,
-                    backgroundColor: "#A1A1AC",
+                    //opacity: 0.7,
+                    backgroundColor: "#cdcdd1",
                     py: 1,
                     px: 3,
                     borderRadius: 5,
@@ -343,7 +345,8 @@ const UserPage = () => {
                 <Typography
                   sx={{
                     mb: 2,
-                    backgroundColor: "#A1A1AC",
+                    //opacity: 0.7,
+                    backgroundColor: "#cdcdd1",
                     py: 1,
                     px: 3,
                     borderRadius: 5,
@@ -366,7 +369,8 @@ const UserPage = () => {
                 <Typography
                   sx={{
                     mb: 2,
-                    backgroundColor: "#A1A1AC",
+                    //opacity: 0.7,
+                    backgroundColor: "#cdcdd1",
                     py: 1,
                     px: 3,
                     borderRadius: 5,
@@ -420,7 +424,7 @@ const UserPage = () => {
                   <Box
                     key={index}
                     sx={{
-                      width: { xs: "70%", sm: "60%", md: "50%" },
+                      width: { xs: "60%", sm: "50%", md: "40%" },
                       aspectRatio: "2 / 0.8",
                       display: "flex",
                       flexDirection: "row",
@@ -442,7 +446,7 @@ const UserPage = () => {
                           fontWeight: "bold",
                           textAlign: "center",
                           letterSpacing: "8px", // Added letter spacing
-                          fontSize: { xs: "2rem", sm: "3rem", md: "7rem" },
+                          fontSize: { xs: "2rem", sm: "3rem", md: "6rem" },
                           mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
                         }}
                       >

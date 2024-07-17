@@ -87,7 +87,7 @@ const Dashboard = () => {
         component="img"
         sx={{
           height: "auto",
-          width: { xs: "90%", sm: "80%", md: "60%" },
+          width: { xs: "70%", sm: "60%", md: "40%" },
           mt: { xs: 10, sm: 8, md: 11 },
           mb: 2,
         }}
@@ -97,7 +97,7 @@ const Dashboard = () => {
       <Box
         sx={{
           width: 1,
-          height:"auto",
+          height: "auto",
           backgroundColor: "#EBF1FF",
           display: "flex",
           flexDirection: "column",
@@ -105,7 +105,7 @@ const Dashboard = () => {
           alignItems: "center",
           textAlign: "center",
           pt: { xs: 3, sm: 4, md: 2 },
-          pb: { xs: 12, sm: 11, md: 2 },
+          pb: { xs: 12, sm: 11, md: 9 },
         }}
       >
         <Box
@@ -122,13 +122,12 @@ const Dashboard = () => {
           <Typography
             variant="h4"
             sx={{
-              
               textAlign: "left",
               fontWeight: "bold",
               fontSize: { xs: 35, sm: "1.5rem", md: "2rem" },
             }}
           >
-            ลุ้นรางวัลมากมายในงาน Acdelco 2024 เพียงซื้อ
+            ลุ้นรางวัลมากมายในงาน Acdelco 2024
           </Typography>
           <Typography
             variant="h4"
@@ -138,13 +137,13 @@ const Dashboard = () => {
               textAlign: "left",
             }}
           >
-            สินค้าครบ 25,000 ต่อใบเสร็จ รับสิทธิ์ 1 สิทธิ์
+            เพียงซื้อสินค้าครบ 25,000 ต่อใบเสร็จ รับสิทธิ์ 1 สิทธิ์
           </Typography>
         </Box>
         <Typography
           variant="h5"
-          style={{
-            fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+          sx={{
+            fontSize: { xs: "1.5rem", sm: "1.5rem", md: "1.5rem" },
           }}
         >
           ตรวจสอบสิทธิ์ร่วมลุ้นรางวัล
@@ -176,6 +175,25 @@ const Dashboard = () => {
                 borderColor: phoneNumberError ? "red" : "",
               },
             }}
+            InputLabelProps={{
+              sx: {
+                fontSize: { xs: "1rem", sm: "1.2rem", md: "1.2rem" },
+                opacity: 0.9,
+                backgroundColor: "rgb(245,245,245)",
+                ml: -1,
+                padding: "0 8px",
+                "&.MuiInputLabel-shrink": {
+                  transform: "translate(14px, -6px) scale(0.75)",
+                },
+              },
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: phoneNumberError ? "red" : "rgba(0, 0, 0, 0.23)",
+                },
+              },
+            }}
           />
           <Button
             variant="contained"
@@ -184,8 +202,9 @@ const Dashboard = () => {
             sx={{
               mt: 2,
               mb: { xs: 5, sm: 2, md: 5 },
-              width: { xs: "100%", sm: "70%", md: "50%" },
-              fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              width: { xs: "100%", sm: "70%", md: "70%" },
+
+              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.2rem" },
               backgroundColor: "#0072CE",
             }}
           >
