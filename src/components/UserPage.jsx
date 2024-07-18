@@ -114,25 +114,25 @@ const UserPage = () => {
         justifyContent: "flex-start",
         alignItems: "center",
         textAlign: "center",
-        backgroundImage: isXs ? "url('BG.png')" : "none",
+        backgroundImage: isXs ? "url('BG.png')" : "url('BG.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
     >
-      {isXs && (
+      {/* {isXs && ( */}
         <Box
           component="img"
           sx={{
             height: "auto",
-            width: "90%",
+            width: "40%",
             mt: 10,
             mb: 2,
           }}
           alt=""
           src="Symbol.png"
         />
-      )}
+      {/* )} */}
       <Box
         sx={{
           backgroundColor: "#F3F4F6",
@@ -424,7 +424,7 @@ const UserPage = () => {
                   <Box
                     key={index}
                     sx={{
-                      width: { xs: "60%", sm: "50%", md: "40%" },
+                      width: { xs: "60%", sm: "40%", md: "40%" },
                       aspectRatio: "2 / 0.8",
                       display: "flex",
                       flexDirection: "row",
@@ -446,7 +446,7 @@ const UserPage = () => {
                           fontWeight: "bold",
                           textAlign: "center",
                           letterSpacing: "8px", // Added letter spacing
-                          fontSize: { xs: "2rem", sm: "3rem", md: "6rem" },
+                          fontSize: { xs: "2rem", sm: "2rem", md: "4rem" },
                           mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
                         }}
                       >

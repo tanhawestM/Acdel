@@ -192,22 +192,22 @@ if (isValidPhoneNumber(unformattedNumber)) {
             InputLabelProps={{
               sx: {
                 fontSize: { xs: "1rem", sm: "1.2rem", md: "1.2rem" },
-                opacity: 0.9,
-                backgroundColor: "rgb(245,245,245)",
+                //opacity: 0.9,
+                // backgroundColor: "rgb(245,245,245)",
                 ml: -1,
                 padding: "0 8px",
-                "&.MuiInputLabel-shrink": {
-                  transform: "translate(14px, -6px) scale(0.75)",
-                },
+                // "&.MuiInputLabel-shrink": {
+                //   transform: "translate(14px, -6px) scale(0.75)",
+                // },
               },
             }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: phoneNumberError ? "red" : "rgba(0, 0, 0, 0.23)",
-                },
-              },
-            }}
+            // sx={{
+            //   "& .MuiOutlinedInput-root": {
+            //     "& fieldset": {
+            //       borderColor: phoneNumberError ? "red" : "rgba(0, 0, 0, 0.23)",
+            //     },
+            //   },
+            // }}
           />
           <Button
             variant="contained"
