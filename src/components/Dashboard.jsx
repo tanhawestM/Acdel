@@ -5,8 +5,6 @@ import {
   Box,
   Typography,
   InputAdornment,
-  useTheme,
-  useMediaQuery,
   Button,
   CircularProgress,
 } from "@mui/material";
@@ -21,17 +19,17 @@ const Dashboard = () => {
 
   const handleSearch = async () => {
     const unformattedNumber = phoneNumber.replace(/\D/g, '');
-if (isValidPhoneNumber(unformattedNumber)) {
-  setLoading(true);
-  try {
-    const response = await axios.get(
-      `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo?filterByFormula={phoneNumber}="${unformattedNumber}"`,
-      {
-        headers: {
-          Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
-        },
-      }
-    );
+    if (isValidPhoneNumber(unformattedNumber)) {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo?filterByFormula={phoneNumber}="${unformattedNumber}"`,
+          {
+            headers: {
+              Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
+            },
+          }
+        );
 
         setLoading(false);
         if (response.data.records.length > 0) {
@@ -169,7 +167,7 @@ if (isValidPhoneNumber(unformattedNumber)) {
           }}
         >
           <TextField
-            label="กรอกหมายเลขโทรศัพท์ 10 หลัก"
+            label=""
             variant="outlined"
             value={phoneNumber}
             onChange={handleChange}
@@ -184,30 +182,20 @@ if (isValidPhoneNumber(unformattedNumber)) {
                   <SearchIcon />
                 </InputAdornment>
               ),
+              placeholder: "กรอกหมายเลขโทรศัพท์ 10 หลัก",
               style: {
                 backgroundColor: "white",
                 borderColor: phoneNumberError ? "red" : "",
               },
             }}
             InputLabelProps={{
+              shrink: false,
               sx: {
                 fontSize: { xs: "1rem", sm: "1.2rem", md: "1.2rem" },
-                //opacity: 0.9,
-                // backgroundColor: "rgb(245,245,245)",
                 ml: -1,
                 padding: "0 8px",
-                // "&.MuiInputLabel-shrink": {
-                //   transform: "translate(14px, -6px) scale(0.75)",
-                // },
               },
             }}
-            // sx={{
-            //   "& .MuiOutlinedInput-root": {
-            //     "& fieldset": {
-            //       borderColor: phoneNumberError ? "red" : "rgba(0, 0, 0, 0.23)",
-            //     },
-            //   },
-            // }}
           />
           <Button
             variant="contained"
