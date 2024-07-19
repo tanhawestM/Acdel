@@ -434,7 +434,7 @@ const UserPage = () => {
                       alignItems: "center",
                       color: "white",
                       textAlign: "center",
-                      backgroundImage: "url('TicBG.png')",
+                      backgroundImage: "url('TicBG2.png')",
                       backgroundSize: "100% 100%",
                       backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",
@@ -448,7 +448,7 @@ const UserPage = () => {
                           fontWeight: "bold",
                           textAlign: "center",
                           letterSpacing: "8px", // Added letter spacing
-                          fontSize: { xs: "2rem", sm: "2rem", md: "4rem" },
+                          fontSize: { xs: "2rem", sm: "2rem", md: "5rem" },
                           mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
                         }}
                       >

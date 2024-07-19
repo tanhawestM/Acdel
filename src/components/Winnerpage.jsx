@@ -267,7 +267,7 @@ const Winnerpage = () => {
                 alignItems: "center",
                 color: "white",
                 textAlign: "center",
-                backgroundImage: "url('TicBG.png')",
+                backgroundImage: "url('TicBG2.png')",
                 backgroundSize: "100% 100%",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
