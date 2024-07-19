@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { Box, Typography, IconButton, Menu, MenuItem, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ShareIcon from "@mui/icons-material/Share";
 import PrintIcon from "@mui/icons-material/Print";
@@ -111,25 +119,25 @@ const Winnerpage = () => {
         justifyContent: "flex-start",
         alignItems: "center",
         textAlign: "center",
-        backgroundImage: isXs ? "url('BG.png')" : "none",
+        backgroundImage: isXs ? "url('BG.png')" : "url('BG.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
     >
-      {isXs && (
-        <Box
-          component="img"
-          sx={{
-            height: "auto",
-            width: "90%",
-            mt: 10,
-            mb: 2,
-          }}
-          alt=""
-          src="Symbol.png"
-        />
-      )}
+      {/* {isXs && ( */}
+      <Box
+        component="img"
+        sx={{
+          height: "auto",
+          width: "40%",
+          mt: 10,
+          mb: 2,
+        }}
+        alt=""
+        src="Symbol.png"
+      />
+      {/* )} */}
       <Box
         sx={{
           backgroundColor: "#F3F4F6",
@@ -137,7 +145,6 @@ const Winnerpage = () => {
           width: "100%",
           color: "black",
           p: { xs: 2, sm: 3, md: 4 },
-          
         }}
       >
         <Box sx={{ mt: { xs: 2, sm: 3, md: 4 }, mx: { xs: 2, sm: 5, md: 10 } }}>
@@ -244,7 +251,7 @@ const Winnerpage = () => {
               variant="h4"
               sx={{
                 mb: 3,
-                ml: { xs: 0, sm: 9 },
+                ml: { xs: 0, sm: 0 },
                 fontWeight: "bold",
                 fontSize: { xs: 20, sm: 30, md: 40 },
                 color: "#0072CE",
@@ -253,22 +260,31 @@ const Winnerpage = () => {
               ขอแสดงความยินดี
             </Typography>
             <Box
-              sx={{
-                border: "1px solid black",
-                borderRadius: "8px",
-                backgroundColor: "#0072CE",
-                width: { xs: "80%", sm: "60%", md: "40%" },
-                mx: "auto",
-                p: { xs: 2, sm: 3, md: 4 },
-              }}
-            >
-              <Typography
-                variant="h3"
-                sx={{
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  color: "white",
-                  fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+  sx={{
+    width: { xs: "60%", sm: "40%", md: "40%" },
+    aspectRatio: "2 / 0.8",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center", // Center the content horizontally
+    alignItems: "center",
+    color: "white",
+    textAlign: "center",
+    backgroundImage: "url('TicBG.png')",
+    backgroundSize: "100% 100%",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
+    margin: "0 auto", // Center the Box itself
+  }}
+>
+  <Typography
+    variant="h3"
+    sx={{
+      fontWeight: "bold",
+      textAlign: "center",
+      letterSpacing: "8px",
+                  fontSize: { xs: "2rem", sm: "2rem", md: "4rem" },
+                  mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
                 }}
               >
                 {userData.TicketNumber}

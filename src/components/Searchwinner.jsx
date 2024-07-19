@@ -32,28 +32,34 @@ const Searchwinnerpage = () => {
             },
           }
         );
-  
+
         setLoading(false);
         if (response.data.records.length > 0) {
           const userData = response.data.records[0].fields;
           let prizeImageURL = "";
-  
-          switch (prizeName.toLowerCase()) { //add for more prize
-            case 'iphone':
+
+          switch (
+            prizeName.toLowerCase() //add for more prize
+          ) {
+            case "iphone":
               prizeImageURL = userData.IphonePicURL;
               break;
-            case 'gold':
+            case "gold":
               prizeImageURL = userData.GoldPicURL;
               break;
-            case 'car':
+            case "car":
               prizeImageURL = userData.CarPicURL;
               break;
             default:
               prizeImageURL = "";
           }
-  
+
           navigate(`/Winner`, {
-            state: { userData: userData, prizeImageURL: prizeImageURL, prizeName: prizeName },
+            state: {
+              userData: userData,
+              prizeImageURL: prizeImageURL,
+              prizeName: prizeName,
+            },
           });
         } else {
           setTicketNumberError("ไม่พบหมายเลขตั๋วใบนี้");
@@ -107,7 +113,7 @@ const Searchwinnerpage = () => {
         component="img"
         sx={{
           height: "auto",
-          width: { xs: "90%", sm: "80%", md: "60%" },
+          width: { xs: "70%", sm: "60%", md: "40%" },
           mt: { xs: 10, sm: 8, md: 11 },
           mb: 2,
         }}
@@ -157,42 +163,43 @@ const Searchwinnerpage = () => {
           }}
         >
           <TextField
-  label="กรอกหมายเลขตั๋ว 5 หลัก"
-  variant="outlined"
-  value={ticketNumber}
-  onChange={(e) => handleChange(e, 'ticketNumber')}
-  onKeyPress={handleKeyPress}
-  fullWidth
-  margin="normal"
-  error={!!ticketNumberError}
-  helperText={ticketNumberError}
-  InputProps={{
-    startAdornment: (
-      <InputAdornment position="start">
-        <SearchIcon />
-      </InputAdornment>
-    ),
-    style: {
-      backgroundColor: "white",
-      borderColor: ticketNumberError ? "red" : "",
-    },
-  }}
-/>
+            label=""
+            variant="outlined"
+            value={ticketNumber}
+            onChange={(e) => handleChange(e, "ticketNumber")}
+            onKeyPress={handleKeyPress}
+            fullWidth
+            margin="normal"
+            error={!!ticketNumberError}
+            helperText={ticketNumberError}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              placeholder: "กรอกหมายเลขตั๋ว 5 หลัก",
+              style: {
+                backgroundColor: "white",
+                borderColor: ticketNumberError ? "red" : "",
+              },
+            }}
+          />
 
-<TextField
-  label="กรอกรางวัลที่ได้รับ"
-  variant="outlined"
-  value={prizeName}
-  onChange={(e) => handleChange(e, 'prizeName')}
-  onKeyPress={handleKeyPress}
-  fullWidth
-  margin="normal"
-  InputProps={{
-    style: {
-      backgroundColor: "white",
-    },
-  }}
-/>
+          <TextField
+            label="กรอกรางวัลที่ได้รับ"
+            variant="outlined"
+            value={prizeName}
+            onChange={(e) => handleChange(e, "prizeName")}
+            onKeyPress={handleKeyPress}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              style: {
+                backgroundColor: "white",
+              },
+            }}
+          />
           <Button
             variant="contained"
             onClick={handleSearch}
@@ -200,7 +207,7 @@ const Searchwinnerpage = () => {
             sx={{
               mt: 2,
               mb: { xs: 21, sm: 2, md: 10 },
-              width: { xs: "100%", sm: "70%", md: "50%" },
+              width: { xs: "100%", sm: "70%", md: "70%" },
               fontSize: { xs: "0.8rem", sm: "0.875rem" },
               backgroundColor: "orange",
               "&:hover": {
