@@ -201,7 +201,7 @@ const Dashboard = () => {
             disabled={loading}
             sx={{
               mt: 2,
-              mb: { xs: 5, sm: 2, md: 5 },
+              mb: { xs: 5, sm: 2, md: 2 },
               width: { xs: "100%", sm: "70%", md: "70%" },
 
               fontSize: { xs: "1rem", sm: "1.2rem", md: "1.2rem" },

@@ -204,7 +204,7 @@ const Searchwinnerpage = () => {
             disabled={loading}
             sx={{
               mt: 2,
-              mb: { xs: 21, sm: 2, md: 10 },
+              mb: { xs: 21, sm: 2, md: 5 },
               width: { xs: "100%", sm: "70%", md: "70%" },
               fontSize: { xs: "0.8rem", sm: "0.875rem" },
               backgroundColor: "orange",
