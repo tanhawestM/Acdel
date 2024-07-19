@@ -113,12 +113,10 @@ const Searchwinnerpage = () => {
         component="img"
         sx={{
           height: "auto",
-          width: { xs: "70%", sm: "60%", md: "40%" },
-          mt: { xs: 10, sm: 8, md: 11 },
-          mb: 2,
+          width: 1,
         }}
         alt=""
-        src="Symbol.png"
+        src="Key.jpg"
       />
       <Box
         sx={{

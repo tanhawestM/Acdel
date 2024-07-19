@@ -121,17 +121,15 @@ const UserPage = () => {
       }}
     >
       {/* {isXs && ( */}
-        <Box
-          component="img"
-          sx={{
-            height: "auto",
-            width: "40%",
-            mt: 10,
-            mb: 2,
-          }}
-          alt=""
-          src="Symbol.png"
-        />
+      <Box
+        component="img"
+        sx={{
+          height: "auto",
+          width: 1,
+        }}
+        alt=""
+        src="Key.jpg"
+      />
       {/* )} */}
       <Box
         sx={{

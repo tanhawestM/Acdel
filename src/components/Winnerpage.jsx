@@ -130,12 +130,10 @@ const Winnerpage = () => {
         component="img"
         sx={{
           height: "auto",
-          width: "40%",
-          mt: 10,
-          mb: 2,
+          width: 1,
         }}
         alt=""
-        src="Symbol.png"
+        src="Key.jpg"
       />
       {/* )} */}
       <Box
@@ -260,29 +258,29 @@ const Winnerpage = () => {
               ขอแสดงความยินดี
             </Typography>
             <Box
-  sx={{
-    width: { xs: "60%", sm: "40%", md: "40%" },
-    aspectRatio: "2 / 0.8",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center", // Center the content horizontally
-    alignItems: "center",
-    color: "white",
-    textAlign: "center",
-    backgroundImage: "url('TicBG.png')",
-    backgroundSize: "100% 100%",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
-    margin: "0 auto", // Center the Box itself
-  }}
->
-  <Typography
-    variant="h3"
-    sx={{
-      fontWeight: "bold",
-      textAlign: "center",
-      letterSpacing: "8px",
+              sx={{
+                width: { xs: "60%", sm: "40%", md: "40%" },
+                aspectRatio: "2 / 0.8",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center", // Center the content horizontally
+                alignItems: "center",
+                color: "white",
+                textAlign: "center",
+                backgroundImage: "url('TicBG.png')",
+                backgroundSize: "100% 100%",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
+                margin: "0 auto", // Center the Box itself
+              }}
+            >
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  letterSpacing: "8px",
                   fontSize: { xs: "2rem", sm: "2rem", md: "4rem" },
                   mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
                 }}
