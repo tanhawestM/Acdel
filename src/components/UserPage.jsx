@@ -38,6 +38,13 @@ const getCurrentThaiDate = () => {
   return `${day} ${month} ${year}`;
 };
 
+const getCurrentMonth = () => {
+  const date = new Date();
+  const month = thaiMonths[date.getMonth()];
+  const year = date.getFullYear() + 543; // Convert to Buddhist Era
+  return `${month} ${year}`;
+};
+
 const UserPage = () => {
   const location = useLocation();
   const userData = location.state?.userData;
@@ -54,6 +61,7 @@ const UserPage = () => {
   //   .map((num) => num.trim());
 
   const currentThaiDate = getCurrentThaiDate();
+  const currentMonth = getCurrentMonth();
 
   const handlePrint = () => {
     window.print();
@@ -423,52 +431,62 @@ const UserPage = () => {
                 }}
               >
                 {[...Array(Number(userData.countTic))].map((_, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      width: { xs: "60%", sm: "40%", md: "40%" },
-                      aspectRatio: "2 / 0.8",
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      color: "white",
-                      textAlign: "center",
-                      backgroundImage: "url('TicBG2.png')",
-                      backgroundSize: "100% 100%",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                      textShadow: "4px 4px 8px rgba(0,0,0,0.5)", // Added text shadow
-                    }}
-                  >
-                    <Box>
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          letterSpacing: "8px", // Added letter spacing
-                          fontSize: { xs: "2rem", sm: "2rem", md: "5rem" },
-                          mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
-                        }}
-                      >
-                        {ticketNumbers[index] || "N/A"}
-                      </Typography>
-                    </Box>
-                    {/* <Box
-                      component="img"
-                      sx={{
-                        height: "auto",
-                        width: "30%",
-                        rotate: "90deg",
-                        alignItems: "right",
-                        justifyContent: "flex-end",
-                      }}
-                      alt=""
-                      src={Barcode[index] || "N/A"}
-                    /> */}
-                  </Box>
-                ))}
+  <Box
+    key={index}
+    sx={{
+      width: { xs: "60%", sm: "40%", md: "40%" },
+      aspectRatio: "2 / 0.8",
+      display: "flex",
+      flexDirection: "column",  // Change to column
+      justifyContent: "space-between",  // Distribute space
+      alignItems: "center",
+      color: "white",
+      textAlign: "center",
+      backgroundImage: "url('TicBG2.png')",
+      backgroundSize: "100% 100%",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
+      position: "relative",  // Add this for absolute positioning of month
+    }}
+  >
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        flexGrow: 1,
+      }}
+    >
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: "bold",
+          textAlign: "center",
+          letterSpacing: "8px",
+          fontSize: { xs: "2rem", sm: "2rem", md: "4.5rem" },
+          mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
+        }}
+      >
+        {ticketNumbers[index] || "N/A"}
+      </Typography>
+    </Box>
+    <Typography
+      variant="body2"
+      sx={{
+        position: "absolute",
+        bottom: "5px",
+        right: "10px",
+        fontSize: { xs: "0.6rem", sm: "0.8rem", md: "1.2rem" },
+        opacity: 0.8,
+        mr: { xs: "0.1rem", sm: "0.5rem", md: "0.5rem" }
+      }}
+    >
+      เดือน {currentMonth}
+    </Typography>
+  </Box>
+))}
               </Box>
             </Box>
           </Box>
