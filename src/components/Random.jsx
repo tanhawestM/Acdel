@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Container,
   Typography,
@@ -9,30 +10,47 @@ import {
   CssBaseline,
   Grid,
   IconButton,
+  CircularProgress,
+  Snackbar,
 } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import MuiAlert from "@mui/material/Alert";
+
+// Airtable configuration
+const AIRTABLE_API_KEY =
+  "pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77";
+const AIRTABLE_BASE_ID = "appNG2JNEI5eGxlnE";
+const AIRTABLE_TABLE_NAME = "UserInfo";
 
 // CSS to remove spinners from number inputs
 const numberInputStyle = {
   "& input[type=number]": {
-    "-moz-appearance": "textfield"
+    "-moz-appearance": "textfield",
   },
   "& input[type=number]::-webkit-outer-spin-button": {
     "-webkit-appearance": "none",
-    margin: 0
+    margin: 0,
   },
   "& input[type=number]::-webkit-inner-spin-button": {
     "-webkit-appearance": "none",
-    margin: 0
-  }
+    margin: 0,
+  },
 };
 
 function App() {
   const [minRange, setMinRange] = useState(1);
   const [maxRange, setMaxRange] = useState(100);
-  const [phoneEntries, setPhoneEntries] = useState([{ phoneNumber: "", count: 1 }]);
+  const [phoneEntries, setPhoneEntries] = useState([
+    { phoneNumber: "", count: 1 },
+  ]);
   const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
   const handlePhoneNumberChange = (index, value) => {
     const newPhoneEntries = [...phoneEntries];
@@ -55,48 +73,122 @@ function App() {
     setPhoneEntries(newPhoneEntries);
   };
 
-  const generateRandomNumbers = () => {
+  const showSnackbar = (message, severity = "success") => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const closeSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbar({ ...snackbar, open: false });
+  };
+
+  const generateRandomNumbers = async () => {
     if (isNaN(minRange) || isNaN(maxRange)) {
-      alert("Please fill all fields correctly.");
+      showSnackbar("Please fill all fields correctly.", "error");
       return;
     }
 
     const range = maxRange - minRange + 1;
-    const totalCount = phoneEntries.reduce((sum, entry) => sum + entry.count, 0);
+    const totalCount = phoneEntries.reduce(
+      (sum, entry) => sum + entry.count,
+      0
+    );
 
     if (totalCount > range) {
-      alert(`Can't generate ${totalCount} unique numbers in the range ${minRange}-${maxRange}.`);
+      showSnackbar(
+        `Can't generate ${totalCount} unique numbers in the range ${minRange}-${maxRange}.`,
+        "error"
+      );
       return;
     }
 
+    setIsLoading(true);
     let allNumbers = new Set();
     let allResults = [];
 
-    phoneEntries.forEach((entry) => {
-      if (entry.phoneNumber && entry.count > 0) {
-        let seed = entry.phoneNumber
-          .split("")
-          .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
-        let randomNumbers = new Set();
+    try {
+      for (const entry of phoneEntries) {
+        if (entry.phoneNumber && entry.count > 0) {
+          let seed = entry.phoneNumber
+            .split("")
+            .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
+          let randomNumbers = new Set();
 
-        while (randomNumbers.size < entry.count) {
-          seed = (seed * 9301 + 49297) % 233280;
-          let rnd = seed / 233280;
-          let number = Math.floor(minRange + rnd * (maxRange - minRange + 1));
-          if (!allNumbers.has(number)) {
-            randomNumbers.add(number);
-            allNumbers.add(number);
+          while (randomNumbers.size < entry.count) {
+            seed = (seed * 9301 + 49297) % 233280;
+            let rnd = seed / 233280;
+            let number = Math.floor(minRange + rnd * (maxRange - minRange + 1));
+            if (!allNumbers.has(number)) {
+              randomNumbers.add(number);
+              allNumbers.add(number);
+            }
           }
+
+          const generatedNumbers = Array.from(randomNumbers);
+          allResults.push({
+            phoneNumber: entry.phoneNumber,
+            numbers: generatedNumbers,
+          });
+
+          await updateDatabase(entry.phoneNumber, generatedNumbers);
         }
-
-        allResults.push({
-          phoneNumber: entry.phoneNumber,
-          numbers: Array.from(randomNumbers)
-        });
       }
-    });
 
-    setResults(allResults);
+      setResults(allResults);
+      showSnackbar("Random numbers generated and saved successfully.");
+    } catch (error) {
+      console.error("Error generating or saving random numbers:", error);
+      showSnackbar(
+        "An error occurred while generating or saving numbers.",
+        "error"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateDatabase = async (phoneNumber, randomNumbers) => {
+    try {
+      // First, fetch the record ID for the given phone number
+      const response = await axios.get(
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
+        {
+          params: {
+            filterByFormula: `{phoneNumber}="${phoneNumber}"`,
+          },
+          headers: {
+            Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+          },
+        }
+      );
+
+      if (response.data.records.length === 0) {
+        throw new Error("Phone number not found in the database");
+      }
+
+      const recordId = response.data.records[0].id;
+
+      // Then, update the record with the new random numbers
+      await axios.patch(
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${recordId}`,
+        {
+          fields: {
+            randomticket: randomNumbers.join(", "), // Changed from join(',') to join(', ')
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error updating Airtable:", error);
+      throw error;
+    }
   };
 
   return (
@@ -110,11 +202,17 @@ function App() {
           bgcolor: "background.default",
         }}
       >
-        <Container maxWidth="md" sx={{ flex: 1, display: "flex", flexDirection: "column", py: 4 }}>
+        <Container
+          maxWidth="md"
+          sx={{ flex: 1, display: "flex", flexDirection: "column", py: 4 }}
+        >
           <Typography variant="h4" component="h1" gutterBottom>
             Random Number Generator
           </Typography>
-          <Paper elevation={3} sx={{ flex: 1, display: "flex", flexDirection: "column", p: 3 }}>
+          <Paper
+            elevation={3}
+            sx={{ flex: 1, display: "flex", flexDirection: "column", p: 3 }}
+          >
             <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
               <TextField
                 fullWidth
@@ -142,7 +240,9 @@ function App() {
                       label={`Phone Number ${index + 1}`}
                       type="tel"
                       value={entry.phoneNumber}
-                      onChange={(e) => handlePhoneNumberChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handlePhoneNumberChange(index, e.target.value)
+                      }
                     />
                   </Grid>
                   <Grid item xs={5}>
@@ -156,7 +256,10 @@ function App() {
                     />
                   </Grid>
                   <Grid item xs={2}>
-                    <IconButton onClick={() => removePhoneEntry(index)} color="error">
+                    <IconButton
+                      onClick={() => removePhoneEntry(index)}
+                      color="error"
+                    >
                       <RemoveIcon />
                     </IconButton>
                   </Grid>
@@ -176,8 +279,9 @@ function App() {
               onClick={generateRandomNumbers}
               fullWidth
               sx={{ mt: 2 }}
+              disabled={isLoading}
             >
-              Generate
+              {isLoading ? <CircularProgress size={24} /> : "Generate"}
             </Button>
             {results.length > 0 && (
               <Box mt={3}>
@@ -192,6 +296,19 @@ function App() {
           </Paper>
         </Container>
       </Box>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={closeSnackbar}
+      >
+        <MuiAlert
+          onClose={closeSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </MuiAlert>
+      </Snackbar>
     </>
   );
 }
