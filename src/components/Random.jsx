@@ -26,14 +26,14 @@ const AIRTABLE_TABLE_NAME = "UserInfo";
 // CSS to remove spinners from number inputs
 const numberInputStyle = {
   "& input[type=number]": {
-    "-moz-appearance": "textfield",
+    MozAppearance: "textfield",
   },
   "& input[type=number]::-webkit-outer-spin-button": {
-    "-webkit-appearance": "none",
+    WebkitAppearance: "none",
     margin: 0,
   },
   "& input[type=number]::-webkit-inner-spin-button": {
-    "-webkit-appearance": "none",
+    WebkitAppearance: "none",
     margin: 0,
   },
 };
