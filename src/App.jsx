@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard';
 import UserPage from './components/UserPage';
 import Winnerpage from './components/Winnerpage';
 import SearchWinner from './components/Searchwinner';
+import Random from './components/Random';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/User-page" element={<UserPage />} />
         <Route path="/Winner" element={<Winnerpage/>}/>
         <Route path='/SearchWinner' element={<SearchWinner/>}></Route>
+        <Route path='/Random' element={<Random/>}></Route>
       </Routes>
       </div>
   );
