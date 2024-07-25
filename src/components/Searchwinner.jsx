@@ -9,6 +9,7 @@ import {
   useTheme,
   useMediaQuery,
   CircularProgress,
+  MenuItem,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
@@ -19,6 +20,8 @@ const Searchwinnerpage = () => {
   const [ticketNumberError, setTicketNumberError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const prizeOptions = ["iphone", "gold", "car"];
 
   const handleSearch = async () => {
     if (isValidTicketNumber(ticketNumber)) {
@@ -185,11 +188,11 @@ const Searchwinnerpage = () => {
           />
 
           <TextField
-            label="กรอกรางวัลที่ได้รับ"
+            select
+            label="เลือกรางวัลที่ได้รับ"
             variant="outlined"
             value={prizeName}
             onChange={(e) => handleChange(e, "prizeName")}
-            onKeyPress={handleKeyPress}
             fullWidth
             margin="normal"
             InputProps={{
@@ -197,19 +200,26 @@ const Searchwinnerpage = () => {
                 backgroundColor: "white",
               },
             }}
-          />
+          >
+            {prizeOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option.charAt(0).toUpperCase() + option.slice(1)}
+              </MenuItem>
+            ))}
+          </TextField>
           <Button
             variant="contained"
             onClick={handleSearch}
             disabled={loading}
             sx={{
               mt: 2,
-              mb: { xs: 21, sm: 2, md: 5 },
+              mb: { xs: 5, sm: 2, md: 4 },
               width: { xs: "100%", sm: "70%", md: "70%" },
-              fontSize: { xs: "0.8rem", sm: "0.875rem" },
-              backgroundColor: "orange",
+
+              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.2rem" },
+              backgroundColor: "#FFC008",
               "&:hover": {
-                backgroundColor: "#e69500",
+                backgroundColor: "#e0a804", // This is the new hover color
               },
             }}
           >
