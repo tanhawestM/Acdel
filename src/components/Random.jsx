@@ -42,7 +42,7 @@ function App() {
   const [minRange, setMinRange] = useState(1);
   const [maxRange, setMaxRange] = useState(100);
   const [phoneEntries, setPhoneEntries] = useState([
-    { phoneNumber: "", count: 1 },
+    { phoneNumber: "", count: 1, numoftic: null },
   ]);
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,9 +52,45 @@ function App() {
     severity: "success",
   });
 
-  const handlePhoneNumberChange = (index, value) => {
+  const fetchNumoftic = async (phoneNumber) => {
+    try {
+      const response = await axios.get(
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
+        {
+          params: {
+            filterByFormula: `{phoneNumber}="${phoneNumber}"`,
+          },
+          headers: {
+            Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+          },
+        }
+      );
+
+      if (response.data.records.length > 0) {
+        return response.data.records[0].fields.numoftic;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching numoftic:", error);
+      return null;
+    }
+  };
+
+  const handlePhoneNumberChange = async (index, value) => {
     const newPhoneEntries = [...phoneEntries];
-    newPhoneEntries[index].phoneNumber = value;
+    newPhoneEntries[index] = {
+      ...newPhoneEntries[index],
+      phoneNumber: value,
+      numoftic: null,
+    };
+
+    if (value.length === 10) {
+      setIsLoading(true);
+      const numoftic = await fetchNumoftic(value);
+      newPhoneEntries[index].numoftic = numoftic;
+      setIsLoading(false);
+    }
+
     setPhoneEntries(newPhoneEntries);
   };
 
@@ -65,7 +101,10 @@ function App() {
   };
 
   const addPhoneEntry = () => {
-    setPhoneEntries([...phoneEntries, { phoneNumber: "", count: 1 }]);
+    setPhoneEntries([
+      ...phoneEntries,
+      { phoneNumber: "", count: 1, numoftic: null },
+    ]);
   };
 
   const removePhoneEntry = (index) => {
@@ -92,7 +131,8 @@ function App() {
 
     const range = maxRange - minRange + 1;
     const totalCount = phoneEntries.reduce(
-      (sum, entry) => sum + entry.count,
+      (sum, entry) =>
+        sum + (entry.numoftic !== null ? entry.numoftic : entry.count),
       0
     );
 
@@ -110,13 +150,16 @@ function App() {
 
     try {
       for (const entry of phoneEntries) {
-        if (entry.phoneNumber && entry.count > 0) {
+        if (entry.phoneNumber && (entry.numoftic !== null || entry.count > 0)) {
           let seed = entry.phoneNumber
             .split("")
             .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
           let randomNumbers = new Set();
 
-          while (randomNumbers.size < entry.count) {
+          const targetCount =
+            entry.numoftic !== null ? entry.numoftic : entry.count;
+
+          while (randomNumbers.size < targetCount) {
             seed = (seed * 9301 + 49297) % 233280;
             let rnd = seed / 233280;
             let number = Math.floor(minRange + rnd * (maxRange - minRange + 1));
@@ -126,7 +169,7 @@ function App() {
             }
           }
 
-          const generatedNumbers = Array.from(randomNumbers);
+          const generatedNumbers = Array.from(randomNumbers).sort((a, b) => a - b); // Sort the numbers
           allResults.push({
             phoneNumber: entry.phoneNumber,
             numbers: generatedNumbers,
@@ -137,7 +180,7 @@ function App() {
       }
 
       setResults(allResults);
-      showSnackbar("Random numbers generated and saved successfully.");
+      showSnackbar("Random numbers generated, sorted, and saved successfully.");
     } catch (error) {
       console.error("Error generating or saving random numbers:", error);
       showSnackbar(
@@ -151,7 +194,6 @@ function App() {
 
   const updateDatabase = async (phoneNumber, randomNumbers) => {
     try {
-      // First, fetch the record ID for the given phone number
       const response = await axios.get(
         `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
         {
@@ -168,14 +210,14 @@ function App() {
         throw new Error("Phone number not found in the database");
       }
 
-      const recordId = response.data.records[0].id;
+      const record = response.data.records[0];
+      const recordId = record.id;
 
-      // Then, update the record with the new random numbers
       await axios.patch(
         `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${recordId}`,
         {
           fields: {
-            randomticket: randomNumbers.join(", "), // Changed from join(',') to join(', ')
+            randomticket: randomNumbers.join(", "),
           },
         },
         {
@@ -243,6 +285,12 @@ function App() {
                       onChange={(e) =>
                         handlePhoneNumberChange(index, e.target.value)
                       }
+                      InputProps={{
+                        endAdornment:
+                          isLoading && entry.phoneNumber.length === 10 ? (
+                            <CircularProgress size={20} />
+                          ) : null,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={5}>
@@ -250,7 +298,12 @@ function App() {
                       fullWidth
                       label={`Random Numbers for Phone ${index + 1}`}
                       type="number"
-                      value={entry.count}
+                      value={
+                        entry.numoftic !== null ? entry.numoftic : entry.count
+                      }
+                      InputProps={{
+                        readOnly: entry.numoftic !== null,
+                      }}
                       onChange={(e) => handleCountChange(index, e.target.value)}
                       sx={numberInputStyle}
                     />
@@ -285,7 +338,7 @@ function App() {
             </Button>
             {results.length > 0 && (
               <Box mt={3}>
-                <Typography variant="h6">Generated Numbers:</Typography>
+                <Typography variant="h6">Generated Numbers (Sorted):</Typography>
                 {results.map((result, index) => (
                   <Typography key={index}>
                     Phone {result.phoneNumber}: {result.numbers.join(", ")}
