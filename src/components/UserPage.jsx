@@ -435,8 +435,8 @@ const UserPage = () => {
                       width: "100%",
                       maxWidth:
                         userData.countTic === 1
-                          ? { xs: "60%", sm: "40%", md: "60%" }
-                          : { xs: "60%", sm: "40%", md: "100%" },
+                          ? { xs: "60%", sm: "40%", md: "40%" }
+                          : { xs: "60%", sm: "40%", md: "80%" },
                       aspectRatio: "2 / 0.8",
                       display: "flex",
                       flexDirection: "column",
