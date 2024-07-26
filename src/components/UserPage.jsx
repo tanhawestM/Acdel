@@ -221,19 +221,19 @@ const UserPage = () => {
                     <PrintIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
                   </IconButton>
                   <IconButton
-  sx={{
-    backgroundColor: "#1678D1",
-    color: "white",
-    padding: { xs: "4px", sm: "8px", md: "12px" },
-    "&:hover": {
-      backgroundColor: "blue",
-      color: "white",
-    },
-  }}
-  onClick={handleShareClick}
->
-  <ShareIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
-</IconButton>
+                    sx={{
+                      backgroundColor: "#1678D1",
+                      color: "white",
+                      padding: { xs: "4px", sm: "8px", md: "12px" },
+                      "&:hover": {
+                        backgroundColor: "blue",
+                        color: "white",
+                      },
+                    }}
+                    onClick={handleShareClick}
+                  >
+                    <ShareIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
+                  </IconButton>
                 </Box>
               </Box>
               <Typography
@@ -416,37 +416,43 @@ const UserPage = () => {
                 )}
               </Box>
               <Box
-  sx={{
-    display: 'grid',
-    gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-    gap: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflowY: 'auto',
-  }}
->
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "1fr",
+                    md: userData.countTic === 1 ? "1fr" : "1fr 1fr",
+                  },
+                  gap: 2,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  overflowY: "auto",
+                }}
+              >
                 {[...Array(Number(userData.countTic))].map((_, index) => (
                   <Box
-                  key={index}
-                  sx={{
-                    width: '100%', // Changed from percentage to 100%
-                    maxWidth: { xs: '60%', sm: '40%', md: '100%' }, // Added maxWidth
-                    aspectRatio: '2 / 0.8',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    color: 'white',
-                    textAlign: 'center',
-                    backgroundImage: "url('TicBG2.png')",
-                    backgroundSize: '100% 100%',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    textShadow: '4px 4px 8px rgba(0,0,0,0.5)',
-                    position: 'relative',
-                    margin: 'auto', // Center the ticket in its grid cell
-                  }}
-                >
+                    key={index}
+                    sx={{
+                      width: "100%",
+                      maxWidth:
+                        userData.countTic === 1
+                          ? { xs: "60%", sm: "40%", md: "60%" }
+                          : { xs: "60%", sm: "40%", md: "100%" },
+                      aspectRatio: "2 / 0.8",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      color: "white",
+                      textAlign: "center",
+                      backgroundImage: "url('TicBG2.png')",
+                      backgroundSize: "100% 100%",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
+                      position: "relative",
+                      margin: "auto",
+                    }}
+                  >
                     <Box
                       sx={{
                         display: "flex",
@@ -496,24 +502,24 @@ const UserPage = () => {
           </Box>
         )}
       </Box>
-    {/* Add the Menu component here, at the end but still inside the outermost Box */}
-    <Menu
-      anchorEl={shareAnchorEl}
-      open={Boolean(shareAnchorEl)}
-      onClose={handleShareClose}
-    >
-      {/* <MenuItem onClick={handleFacebookShare}>
+      {/* Add the Menu component here, at the end but still inside the outermost Box */}
+      <Menu
+        anchorEl={shareAnchorEl}
+        open={Boolean(shareAnchorEl)}
+        onClose={handleShareClose}
+      >
+        {/* <MenuItem onClick={handleFacebookShare}>
         <FacebookIcon sx={{ mr: 1 }} /> Share on Facebook
       </MenuItem>
       <MenuItem onClick={handleLineShare}>
         <img src="line-icon.png" alt="Line" style={{ width: 24, height: 24, marginRight: 8 }} />
         Share on Line
       </MenuItem> */}
-      <MenuItem onClick={handleCopyLink}>
-        <LinkIcon sx={{ mr: 1 }} /> Copy Link
-      </MenuItem>
-    </Menu>
-  </Box>
+        <MenuItem onClick={handleCopyLink}>
+          <LinkIcon sx={{ mr: 1 }} /> Copy Link
+        </MenuItem>
+      </Menu>
+    </Box>
   );
 };
 
