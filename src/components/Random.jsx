@@ -38,9 +38,8 @@ const numberInputStyle = {
   },
 };
 
-function App() {
-  const [minRange, setMinRange] = useState(1);
-  const [maxRange, setMaxRange] = useState(100);
+function Random() {
+  const [minRange, setMinRange] = useState();
   const [phoneEntries, setPhoneEntries] = useState([
     { phoneNumber: "", count: 1, numoftic: null },
   ]);
@@ -51,6 +50,15 @@ function App() {
     message: "",
     severity: "success",
   });
+
+  const calculateMaxRange = () => {
+    const totalCount = phoneEntries.reduce(
+      (sum, entry) =>
+        sum + (entry.numoftic !== null ? entry.numoftic : entry.count),
+      0
+    );
+    return minRange + totalCount - 1;
+  };
 
   const fetchNumoftic = async (phoneNumber) => {
     try {
@@ -92,12 +100,14 @@ function App() {
     }
 
     setPhoneEntries(newPhoneEntries);
+    setMinRange(minRange); // Force re-render
   };
 
   const handleCountChange = (index, value) => {
     const newPhoneEntries = [...phoneEntries];
     newPhoneEntries[index].count = Number(value);
     setPhoneEntries(newPhoneEntries);
+    setMinRange(minRange); // Force re-render
   };
 
   const addPhoneEntry = () => {
@@ -124,11 +134,12 @@ function App() {
   };
 
   const generateRandomNumbers = async () => {
-    if (isNaN(minRange) || isNaN(maxRange)) {
+    if (isNaN(minRange)) {
       showSnackbar("Please fill all fields correctly.", "error");
       return;
     }
 
+    const maxRange = calculateMaxRange();
     const range = maxRange - minRange + 1;
     const totalCount = phoneEntries.reduce(
       (sum, entry) =>
@@ -169,7 +180,9 @@ function App() {
             }
           }
 
-          const generatedNumbers = Array.from(randomNumbers).sort((a, b) => a - b); // Sort the numbers
+          const generatedNumbers = Array.from(randomNumbers).sort(
+            (a, b) => a - b
+          );
           allResults.push({
             phoneNumber: entry.phoneNumber,
             numbers: generatedNumbers,
@@ -257,20 +270,29 @@ function App() {
           >
             <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
               <TextField
-                fullWidth
                 label="Minimum Range"
                 type="number"
-                value={minRange}
+                value={minRange || ""}
                 onChange={(e) => setMinRange(Number(e.target.value))}
-                sx={numberInputStyle}
+                sx={{ ...numberInputStyle, width: "35%" }}
               />
               <TextField
-                fullWidth
                 label="Maximum Range"
                 type="number"
-                value={maxRange}
-                onChange={(e) => setMaxRange(Number(e.target.value))}
-                sx={numberInputStyle}
+                value={minRange ? calculateMaxRange() : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={{ ...numberInputStyle, width: "35%" }}
+              />
+              <TextField
+                label="Total tickets in this month"
+                type="number"
+                value={minRange ? calculateMaxRange() - minRange + 1 || "" : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={{ ...numberInputStyle, width: "22%" }}
               />
             </Box>
             <Grid container spacing={2}>
@@ -338,7 +360,9 @@ function App() {
             </Button>
             {results.length > 0 && (
               <Box mt={3}>
-                <Typography variant="h6">Generated Numbers (Sorted):</Typography>
+                <Typography variant="h6">
+                  Generated Numbers (Sorted):
+                </Typography>
                 {results.map((result, index) => (
                   <Typography key={index}>
                     Phone {result.phoneNumber}: {result.numbers.join(", ")}
@@ -366,4 +390,4 @@ function App() {
   );
 }
 
-export default App;
+export default Random;

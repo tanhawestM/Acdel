@@ -416,34 +416,37 @@ const UserPage = () => {
                 )}
               </Box>
               <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 2,
-                  overflowY: "auto",
-                }}
-              >
+  sx={{
+    display: 'grid',
+    gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+    gap: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflowY: 'auto',
+  }}
+>
                 {[...Array(Number(userData.countTic))].map((_, index) => (
                   <Box
-                    key={index}
-                    sx={{
-                      width: { xs: "60%", sm: "40%", md: "40%" },
-                      aspectRatio: "2 / 0.8",
-                      display: "flex",
-                      flexDirection: "column", // Change to column
-                      justifyContent: "space-between", // Distribute space
-                      alignItems: "center",
-                      color: "white",
-                      textAlign: "center",
-                      backgroundImage: "url('TicBG2.png')",
-                      backgroundSize: "100% 100%",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                      textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
-                      position: "relative", // Add this for absolute positioning of month
-                    }}
-                  >
+                  key={index}
+                  sx={{
+                    width: '100%', // Changed from percentage to 100%
+                    maxWidth: { xs: '60%', sm: '40%', md: '100%' }, // Added maxWidth
+                    aspectRatio: '2 / 0.8',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    color: 'white',
+                    textAlign: 'center',
+                    backgroundImage: "url('TicBG2.png')",
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    textShadow: '4px 4px 8px rgba(0,0,0,0.5)',
+                    position: 'relative',
+                    margin: 'auto', // Center the ticket in its grid cell
+                  }}
+                >
                     <Box
                       sx={{
                         display: "flex",
