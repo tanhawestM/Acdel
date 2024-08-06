@@ -39,6 +39,8 @@ const numberInputStyle = {
 };
 
 function Random() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
   const [minRange, setMinRange] = useState();
   const [phoneEntries, setPhoneEntries] = useState([
     { phoneNumber: "", count: 1, numoftic: null },
@@ -245,6 +247,80 @@ function Random() {
       throw error;
     }
   };
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (password === "123456") {
+      setIsAuthenticated(true);
+    } else {
+      showSnackbar("Incorrect password. Please try again.", "error");
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        <CssBaseline />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+            bgcolor: "background.default",
+          }}
+        >
+          <Container
+            maxWidth="sm"
+            sx={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              py: 4,
+            }}
+          >
+            <Paper elevation={3} sx={{ p: 4 }}>
+              <Typography variant="h5" component="h1" gutterBottom>
+                Enter Password
+              </Typography>
+              <form onSubmit={handlePasswordSubmit}>
+                <TextField
+                  fullWidth
+                  type="password"
+                  label="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  margin="normal"
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{ mt: 2 }}
+                >
+                  Submit
+                </Button>
+              </form>
+            </Paper>
+          </Container>
+        </Box>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={closeSnackbar}
+        >
+          <MuiAlert
+            onClose={closeSnackbar}
+            severity={snackbar.severity}
+            sx={{ width: "100%" }}
+          >
+            {snackbar.message}
+          </MuiAlert>
+        </Snackbar>
+      </>
+    );
+  }
 
   return (
     <>
