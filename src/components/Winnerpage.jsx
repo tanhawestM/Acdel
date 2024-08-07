@@ -40,7 +40,7 @@ const getCurrentThaiDate = () => {
 
 const Winnerpage = () => {
   const location = useLocation();
-  const { userData, prizeImageURL, prizeName } = location.state;
+  const { userData, prizeImageURL, prizeName, ticketNumber } = location.state;
   const [shareAnchorEl, setShareAnchorEl] = useState(null);
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
@@ -98,11 +98,11 @@ const Winnerpage = () => {
     handleShareClose();
   };
 
-  if (!userData) {
+  if (!userData || !ticketNumber) {
     return (
       <Box sx={{ p: 4 }}>
         <Typography variant="h6">
-          No user data found. Please go back and search again.
+          No user data or ticket number found. Please go back and search again.
         </Typography>
         <Link to="/">Back to Search</Link>
       </Box>
@@ -285,7 +285,7 @@ const Winnerpage = () => {
                   mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
                 }}
               >
-                {userData.TicketNumber}
+                {ticketNumber}
               </Typography>
             </Box>
 

@@ -28,22 +28,25 @@ const Searchwinnerpage = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/AllTicket?filterByFormula={TicketNumber}="${ticketNumber}"`,
+          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo`,
           {
             headers: {
               Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
             },
           }
         );
-
+  
         setLoading(false);
-        if (response.data.records.length > 0) {
-          const userData = response.data.records[0].fields;
+        const matchingRecord = response.data.records.find(record => 
+          record.fields.randomticket && 
+          record.fields.randomticket.split(', ').includes(ticketNumber)
+        );
+  
+        if (matchingRecord) {
+          const userData = matchingRecord.fields;
           let prizeImageURL = "";
-
-          switch (
-            prizeName.toLowerCase() //add for more prize
-          ) {
+  
+          switch (prizeName.toLowerCase()) {
             case "iphone":
               prizeImageURL = userData.IphonePicURL;
               break;
@@ -56,12 +59,13 @@ const Searchwinnerpage = () => {
             default:
               prizeImageURL = "";
           }
-
+  
           navigate(`/Winner`, {
             state: {
               userData: userData,
               prizeImageURL: prizeImageURL,
               prizeName: prizeName,
+              ticketNumber: ticketNumber, // Add this line
             },
           });
         } else {
