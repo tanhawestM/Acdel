@@ -64,7 +64,30 @@ const UserPage = () => {
   const currentMonth = getCurrentMonth();
 
   const handlePrint = () => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        body {
+          overflow: visible !important;
+        }
+        #root {
+          overflow: visible !important;
+        }
+        ::-webkit-scrollbar {
+          display: none !important;
+        }
+        .MuiBox-root {
+          overflow: visible !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
     window.print();
+    document.head.removeChild(style);
   };
 
   const handleShareClick = (event) => {
