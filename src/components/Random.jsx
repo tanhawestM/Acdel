@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Container,
@@ -41,10 +41,8 @@ const numberInputStyle = {
 function Random() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [minRange, setMinRange] = useState();
-  const [phoneEntries, setPhoneEntries] = useState([
-    { phoneNumber: "", count: 1, numoftic: null },
-  ]);
+  const [minRange, setMinRange] = useState("");
+  const [phoneEntries, setPhoneEntries] = useState([]);
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({
@@ -53,63 +51,61 @@ function Random() {
     severity: "success",
   });
 
-  const calculateMaxRange = () => {
-    const totalCount = phoneEntries.reduce(
-      (sum, entry) =>
-        sum + (entry.numoftic !== null ? entry.numoftic : entry.count),
-      0
-    );
-    return minRange + totalCount - 1;
-  };
+  useEffect(() => {
+    if (isAuthenticated && minRange) {
+      fetchPhoneNumbers();
+    }
+  }, [isAuthenticated, minRange]);
 
-  const fetchNumoftic = async (phoneNumber) => {
+  const fetchPhoneNumbers = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(
         `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
         {
-          params: {
-            filterByFormula: `{phoneNumber}="${phoneNumber}"`,
-          },
           headers: {
             Authorization: `Bearer ${AIRTABLE_API_KEY}`,
           },
         }
       );
 
-      if (response.data.records.length > 0) {
-        return response.data.records[0].fields.numoftic;
-      }
-      return null;
+      const phoneEntries = response.data.records.map(record => ({
+        phoneNumber: record.fields.phoneNumber,
+        count: 1,
+        numoftic: record.fields.numoftic || null,
+      }));
+
+      setPhoneEntries(phoneEntries);
     } catch (error) {
-      console.error("Error fetching numoftic:", error);
-      return null;
+      console.error("Error fetching phone numbers:", error);
+      showSnackbar("Error fetching phone numbers from Airtable.", "error");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handlePhoneNumberChange = async (index, value) => {
+  const calculateMaxRange = () => {
+    const totalCount = phoneEntries.reduce(
+      (sum, entry) =>
+        sum + (entry.numoftic !== null ? entry.numoftic : entry.count),
+      0
+    );
+    return minRange ? parseInt(minRange) + totalCount - 1 : "";
+  };
+
+  const handlePhoneNumberChange = (index, value) => {
     const newPhoneEntries = [...phoneEntries];
     newPhoneEntries[index] = {
       ...newPhoneEntries[index],
       phoneNumber: value,
-      numoftic: null,
     };
-
-    if (value.length === 10) {
-      setIsLoading(true);
-      const numoftic = await fetchNumoftic(value);
-      newPhoneEntries[index].numoftic = numoftic;
-      setIsLoading(false);
-    }
-
     setPhoneEntries(newPhoneEntries);
-    setMinRange(minRange); // Force re-render
   };
 
   const handleCountChange = (index, value) => {
     const newPhoneEntries = [...phoneEntries];
     newPhoneEntries[index].count = Number(value);
     setPhoneEntries(newPhoneEntries);
-    setMinRange(minRange); // Force re-render
   };
 
   const addPhoneEntry = () => {
@@ -142,7 +138,7 @@ function Random() {
     }
 
     const maxRange = calculateMaxRange();
-    const range = maxRange - minRange + 1;
+    const range = maxRange - parseInt(minRange) + 1;
     const totalCount = phoneEntries.reduce(
       (sum, entry) =>
         sum + (entry.numoftic !== null ? entry.numoftic : entry.count),
@@ -175,7 +171,7 @@ function Random() {
           while (randomNumbers.size < targetCount) {
             seed = (seed * 9301 + 49297) % 233280;
             let rnd = seed / 233280;
-            let number = Math.floor(minRange + rnd * (maxRange - minRange + 1));
+            let number = Math.floor(parseInt(minRange) + rnd * (maxRange - parseInt(minRange) + 1));
             if (!allNumbers.has(number)) {
               randomNumbers.add(number);
               allNumbers.add(number);
@@ -348,14 +344,14 @@ function Random() {
               <TextField
                 label="Minimum Range"
                 type="number"
-                value={minRange || ""}
-                onChange={(e) => setMinRange(Number(e.target.value))}
+                value={minRange}
+                onChange={(e) => setMinRange(e.target.value)}
                 sx={{ ...numberInputStyle, width: "35%" }}
               />
               <TextField
                 label="Maximum Range"
                 type="number"
-                value={minRange ? calculateMaxRange() : ""}
+                value={calculateMaxRange()}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -364,7 +360,7 @@ function Random() {
               <TextField
                 label="Total tickets in this month"
                 type="number"
-                value={minRange ? calculateMaxRange() - minRange + 1 || "" : ""}
+                value={minRange ? calculateMaxRange() - parseInt(minRange) + 1 : ""}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -384,10 +380,7 @@ function Random() {
                         handlePhoneNumberChange(index, e.target.value)
                       }
                       InputProps={{
-                        endAdornment:
-                          isLoading && entry.phoneNumber.length === 10 ? (
-                            <CircularProgress size={20} />
-                          ) : null,
+                        readOnly: true,
                       }}
                     />
                   </Grid>
