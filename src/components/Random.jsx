@@ -50,6 +50,7 @@ function Random() {
     message: "",
     severity: "success",
   });
+  
 
   useEffect(() => {
     if (isAuthenticated && minRange) {
@@ -60,19 +61,38 @@ function Random() {
   const fetchPhoneNumbers = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
-        {
-          headers: {
-            Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-          },
-        }
-      );
+      let allRecords = [];
+      let offset = null;
+      
+      do {
+        const response = await axios.get(
+          `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
+          {
+            params: {
+              pageSize: 100,
+              offset: offset,
+              filterByFormula: '{สิทธิ์}>0',
+              sort: [{ field: "phoneNumber", direction: "asc" }],
+            },
+            headers: {
+              Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+            },
+          }
+        );
 
-      const phoneEntries = response.data.records.map(record => ({
+        allRecords = [...allRecords, ...response.data.records];
+        offset = response.data.offset;
+
+        // Break the loop if we've reached 1000 records or there are no more records
+        if (allRecords.length >= 1000 || !offset) {
+          break;
+        }
+      } while (true);
+
+      const phoneEntries = allRecords.slice(0, 1000).map(record => ({
         phoneNumber: record.fields.phoneNumber,
         count: 1,
-        numoftic: record.fields.numoftic || null,
+        numoftic: record.fields.สิทธิ์ || null, // Use the "สิทธิ์" field for numoftic
       }));
 
       setPhoneEntries(phoneEntries);
@@ -83,6 +103,7 @@ function Random() {
       setIsLoading(false);
     }
   };
+
 
   const calculateMaxRange = () => {
     const totalCount = phoneEntries.reduce(
