@@ -27,45 +27,58 @@ const Searchwinnerpage = () => {
     if (isValidTicketNumber(ticketNumber)) {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo`,
-          {
-            headers: {
-              Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
-            },
-          }
-        );
-  
+        let allRecords = [];
+        let offset = null;
+
+        do {
+          const response = await axios.get(
+            `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo`,
+            {
+              headers: {
+                Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
+              },
+              params: {
+                pageSize: 100,
+                offset: offset,
+              },
+            }
+          );
+
+          allRecords = [...allRecords, ...response.data.records];
+          offset = response.data.offset;
+        } while (offset);
+
         setLoading(false);
-        const matchingRecord = response.data.records.find(record => 
-          record.fields.randomticket && 
-          record.fields.randomticket.split(', ').includes(ticketNumber)
+        const matchingRecord = allRecords.find(
+          (record) =>
+            record.fields.randomticket &&
+            record.fields.randomticket.split(", ").includes(ticketNumber)
         );
-  
+
         if (matchingRecord) {
           const userData = matchingRecord.fields;
           let prizeImageURL = "";
-  
+
           switch (prizeName.toLowerCase()) {
             case "iphone":
-              prizeImageURL = userData.IphonePicURL;
+              prizeImageURL = "Iphone.png";
               break;
             case "gold":
-              prizeImageURL = userData.GoldPicURL;
+              prizeImageURL = "Gold.png";
               break;
             case "car":
-              prizeImageURL = userData.CarPicURL;
+              prizeImageURL = "Car.png";
               break;
             default:
               prizeImageURL = "";
           }
-  
+
           navigate(`/Winner`, {
             state: {
               userData: userData,
               prizeImageURL: prizeImageURL,
               prizeName: prizeName,
-              ticketNumber: ticketNumber, // Add this line
+              ticketNumber: ticketNumber,
             },
           });
         } else {
