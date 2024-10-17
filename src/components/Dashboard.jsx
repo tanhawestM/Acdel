@@ -195,7 +195,7 @@ const Dashboard = () => {
                   fontSize: { xs: 35, sm: "1.5rem", md: "2rem" },
                 }}
               >
-                ลุ้นรางวัลมากมายในงาน Acdelco 2024
+                ลุ้นรางวัลมากมายในงาน ACDelco 2024
               </Typography>
               <Typography
                 variant="h4"
@@ -205,7 +205,7 @@ const Dashboard = () => {
                   textAlign: "left",
                 }}
               >
-                เพียงซื้อสินค้าครบ 25,000 ต่อใบเสร็จ รับสิทธิ์ 1 สิทธิ์
+                เพียงซื้อสินค้าครบ 10,000 ต่อใบเสร็จ รับสิทธิ์ 1 สิทธิ์
               </Typography>
             </Box>
             <Typography
