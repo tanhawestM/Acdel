@@ -32,10 +32,10 @@ const Searchwinnerpage = () => {
 
         do {
           const response = await axios.get(
-            `https://api.airtable.com/v0/appNG2JNEI5eGxlnE/UserInfo`,
+            `${process.env.REACT_APP_AIRTABLE_API_URL}/UserInfo`,
             {
               headers: {
-                Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
+                Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
               },
               params: {
                 pageSize: 100,
