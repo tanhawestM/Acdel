@@ -21,7 +21,7 @@ const Searchwinnerpage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const prizeOptions = ["iphone", "gold", "car"];
+  const prizeOptions = ["Iphone 16 Pro max 256 GB*", "Motorcycle HONDA Grom", "ทองคำมูลค่า 1 บาท", "I-Pad 64 Gb Wifi", 'Smart TV 55"', "JBL Speaker Party box 110"];
 
   const handleSearch = async () => {
     if (isValidTicketNumber(ticketNumber)) {
@@ -59,16 +59,25 @@ const Searchwinnerpage = () => {
           const userData = matchingRecord.fields;
           let prizeImageURL = "";
 
-          switch (prizeName.toLowerCase()) {
-            case "iphone":
+          switch (prizeName) {
+            case "Iphone 16 Pro max 256 GB*":
               prizeImageURL = "Iphone.png";
               break;
-            case "gold":
-              prizeImageURL = "Gold.png";
+            case "Motorcycle HONDA Grom":
+              prizeImageURL = "HondaG.png";
               break;
-            case "car":
-              prizeImageURL = "Car.png";
+            case "ทองคำมูลค่า 1 บาท":
+              prizeImageURL = "Goldchain.png";
               break;
+            case "I-Pad 64 Gb Wifi":
+              prizeImageURL = "Ipad.png";
+              break;
+            case 'Smart TV 55"':
+              prizeImageURL = "SmartTV.png";
+              break;
+            case "JBL Speaker Party box 110":
+              prizeImageURL = "JBL.png";
+              break; 
             default:
               prizeImageURL = "";
           }
