@@ -252,17 +252,17 @@ const Winnerpage = () => {
                 open={Boolean(shareAnchorEl)}
                 onClose={handleShareClose}
               >
-                <MenuItem onClick={handleFacebookShare}>
+                {/* <MenuItem onClick={handleFacebookShare}>
                   <FacebookIcon sx={{ mr: 1 }} /> Facebook
-                </MenuItem>
-                <MenuItem onClick={handleLineShare}>
+                </MenuItem> */}
+                {/* <MenuItem onClick={handleLineShare}>
                   <img
                     src="line-icon.png"
                     alt="Line"
                     style={{ width: 24, height: 24, marginRight: 8 }}
                   />{" "}
                   Line
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem onClick={handleCopyLink}>
                   <LinkIcon sx={{ mr: 1 }} /> Copy Link
                 </MenuItem>
