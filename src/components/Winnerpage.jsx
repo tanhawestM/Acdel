@@ -325,7 +325,7 @@ const Winnerpage = () => {
                 fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
               }}
             >
-              คุณได้รับรางวัล {getPrizeDisplay(prizeName)}
+              คุณได้รับรางวัล {getPrizeDisplay(prizeName.split(" (")[0])}
             </Typography>
             <Box
               sx={{

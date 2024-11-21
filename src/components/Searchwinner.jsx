@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   TextField,
@@ -6,10 +6,8 @@ import {
   Box,
   Typography,
   InputAdornment,
-  useTheme,
-  useMediaQuery,
-  CircularProgress,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
@@ -19,9 +17,112 @@ const Searchwinnerpage = () => {
   const [prizeName, setPrizeName] = useState("");
   const [ticketNumberError, setTicketNumberError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [availablePrizes, setAvailablePrizes] = useState([]);
   const navigate = useNavigate();
 
-  const prizeOptions = ["Iphone 16 Pro max 256 GB*", "Motorcycle HONDA Grom", "ทองคำมูลค่า 1 บาท", "I-Pad 64 Gb Wifi", 'Smart TV 55"', "JBL Speaker Party box 110"];
+  // Updated prize structure with quantities
+  const defaultPrizes = [
+    { name: "Iphone 16 Pro max 256 GB*", quantity: 3 },
+    { name: "Motorcycle HONDA Grom", quantity: 1 },
+    { name: "ทองคำมูลค่า 1 บาท", quantity: 3 },
+    { name: "I-Pad 64 Gb Wifi", quantity: 3 },
+    { name: 'Smart TV 55"', quantity: 2 },
+    { name: "JBL Speaker Party box 110", quantity: 2 },
+  ];
+
+  useEffect(() => {
+    fetchAvailablePrizes();
+  }, []);
+
+  const fetchAvailablePrizes = async () => {
+    try {
+      const response = await axios.get(
+        "https://api.airtable.com/v0/appNG2JNEI5eGxlnE/Winner",
+        {
+          headers: {
+            Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
+          },
+        }
+      );
+
+      // Create a map to count claimed prizes
+      const claimedPrizeCounts = {};
+      response.data.records.forEach((record) => {
+        const prizeName = record.fields.PrizeName.split(" (")[0]; // Remove the quantity part
+        claimedPrizeCounts[prizeName] = (claimedPrizeCounts[prizeName] || 0) + 1;
+      });
+
+      // Calculate remaining prizes
+      const remainingPrizes = defaultPrizes
+        .map((prize) => ({
+          ...prize,
+          quantity: prize.quantity - (claimedPrizeCounts[prize.name] || 0),
+        }))
+        .filter((prize) => prize.quantity > 0) // Only keep prizes with remaining quantity
+        .map((prize) => ({
+          ...prize,
+          displayName: `${prize.name} (${prize.quantity})`, // Add quantity to display name
+        }));
+
+      setAvailablePrizes(remainingPrizes);
+    } catch (error) {
+      console.error("Error fetching available prizes:", error);
+      // Fallback to default prizes with their initial quantities
+      setAvailablePrizes(
+        defaultPrizes.map((prize) => ({
+          ...prize,
+          displayName: `${prize.name} (${prize.quantity})`,
+        }))
+      );
+    }
+  };
+
+  const recordWinner = async (phoneNumber, selectedPrize) => {
+    try {
+      await axios.post(
+        "https://api.airtable.com/v0/appNG2JNEI5eGxlnE/Winner",
+        {
+          records: [
+            {
+              fields: {
+                PhoneNumber: phoneNumber,
+                PrizeName: selectedPrize,
+                TicketNumber: ticketNumber,
+              },
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Update available prizes locally
+      setAvailablePrizes((prev) =>
+        prev
+          .map((prize) => {
+            if (prize.displayName === selectedPrize) {
+              const newQuantity = prize.quantity - 1;
+              return newQuantity > 0
+                ? {
+                    ...prize,
+                    quantity: newQuantity,
+                    displayName: `${prize.name} (${newQuantity})`,
+                  }
+                : null;
+            }
+            return prize;
+          })
+          .filter(Boolean)
+      );
+    } catch (error) {
+      console.error("Error recording winner:", error);
+      throw new Error("Failed to record winner");
+    }
+  };
 
   const handleSearch = async () => {
     if (isValidTicketNumber(ticketNumber)) {
@@ -48,7 +149,6 @@ const Searchwinnerpage = () => {
           offset = response.data.offset;
         } while (offset);
 
-        setLoading(false);
         const matchingRecord = allRecords.find(
           (record) =>
             record.fields.randomticket &&
@@ -57,9 +157,13 @@ const Searchwinnerpage = () => {
 
         if (matchingRecord) {
           const userData = matchingRecord.fields;
-          let prizeImageURL = "";
 
-          switch (prizeName) {
+          // Record the winner before proceeding
+          await recordWinner(userData.phoneNumber, prizeName);
+
+          let prizeImageURL = "";
+          const basePrizeName = prizeName.split(" (")[0]; // Remove quantity part for switch case
+          switch (basePrizeName) {
             case "Iphone 16 Pro max 256 GB*":
               prizeImageURL = "Iphone.png";
               break;
@@ -77,7 +181,7 @@ const Searchwinnerpage = () => {
               break;
             case "JBL Speaker Party box 110":
               prizeImageURL = "JBL.png";
-              break; 
+              break;
             default:
               prizeImageURL = "";
           }
@@ -94,9 +198,11 @@ const Searchwinnerpage = () => {
           setTicketNumberError("ไม่พบหมายเลขตั๋วใบนี้");
         }
       } catch (error) {
-        console.error("Error searching Airtable:", error);
+        console.error("Error:", error);
         setLoading(false);
         setTicketNumberError("เกิดข้อผิดพลาดในการค้นหาข้อมูล กรุณาลองอีกครั้ง");
+      } finally {
+        setLoading(false);
       }
     } else {
       setTicketNumberError("รูปแบบของหมายเลขตั๋วไม่ถูกต้อง");
@@ -227,9 +333,9 @@ const Searchwinnerpage = () => {
               },
             }}
           >
-            {prizeOptions.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option.charAt(0).toUpperCase() + option.slice(1)}
+            {availablePrizes.map((prize) => (
+              <MenuItem key={prize.displayName} value={prize.displayName}>
+                {prize.displayName}
               </MenuItem>
             ))}
           </TextField>
@@ -241,11 +347,10 @@ const Searchwinnerpage = () => {
               mt: 2,
               mb: { xs: 5, sm: 2, md: 4 },
               width: { xs: "100%", sm: "70%", md: "70%" },
-
               fontSize: { xs: "1rem", sm: "1.2rem", md: "1.2rem" },
               backgroundColor: "#FFC008",
               "&:hover": {
-                backgroundColor: "#e0a804", // This is the new hover color
+                backgroundColor: "#e0a804",
               },
             }}
           >
