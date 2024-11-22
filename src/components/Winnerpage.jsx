@@ -217,7 +217,7 @@ const Winnerpage = () => {
                 สวัสดีคุณ {userData.firstname}
               </Typography>
             </Box>
-            <Box>
+            {/* <Box>
               <IconButton
                 sx={{
                   mr: 1,
@@ -246,12 +246,12 @@ const Winnerpage = () => {
                 onClick={handleShareClick}
               >
                 <ShareIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
-              </IconButton>
-              <Menu
+              </IconButton> */}
+              {/* <Menu
                 anchorEl={shareAnchorEl}
                 open={Boolean(shareAnchorEl)}
                 onClose={handleShareClose}
-              >
+              > */}
                 {/* <MenuItem onClick={handleFacebookShare}>
                   <FacebookIcon sx={{ mr: 1 }} /> Facebook
                 </MenuItem> */}
@@ -263,11 +263,11 @@ const Winnerpage = () => {
                   />{" "}
                   Line
                 </MenuItem> */}
-                <MenuItem onClick={handleCopyLink}>
+                {/* <MenuItem onClick={handleCopyLink}>
                   <LinkIcon sx={{ mr: 1 }} /> Copy Link
                 </MenuItem>
-              </Menu>
-            </Box>
+              </Menu> */}
+            {/* </Box> */}
           </Box>
 
           <Box sx={{ textAlign: "center" }}>
