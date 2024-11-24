@@ -171,6 +171,7 @@ const Searchwinnerpage = () => {
             firstname: userData.firstname,
             lastname: userData.lastname,
             prizeName: prizeName,
+            phoneNumber: userData.phoneNumber
           });
           setOpenDialog(true);
         } else {
@@ -227,6 +228,7 @@ const Searchwinnerpage = () => {
           prizeImageURL: prizeImageURL,
           prizeName: confirmationDetails.prizeName,
           ticketNumber: confirmationDetails.ticketNumber,
+          phoneNumber: confirmationDetails.phoneNumber
         },
       });
     } catch (error) {
