@@ -115,11 +115,16 @@ const Winnerpage = () => {
         <Typography
           variant="h4"
           sx={{
+            fontFamily: "'TH Sarabun PSK', sans-serif",
             fontWeight: "bold",
             fontSize: { xs: "1.5rem", sm: "2.5rem", md: "5rem" },
             // color: "#0C3C6F",
-            color: "#357BCE",
-            mb: 5,
+            // color: "#357BCE",
+            color: "transparent",
+            WebkitTextStroke: "0.3px #A0A0A0", // text stoke
+            WebkitTextFillColor: "#357BCE", // text color
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 1)", // text shadow
+            mb: 8,
           }}
         >
           ขอแสดงความยินดี
@@ -161,7 +166,6 @@ const Winnerpage = () => {
             justifyContent: "center",
           }}
         >
-          
           <Box
             sx={{
               width: "50%",
@@ -170,22 +174,7 @@ const Winnerpage = () => {
               mt: 3,
             }}
           >
-           
-            {/* Prize Image */}
-            {prizeImageURL ? (
-              <img
-                src={prizeImageURL}
-                alt="Prize"
-                style={{
-                  width: "80%",
-                  height: "auto",
-                  // display: "block",
-                }}
-              />
-            ) : (
-              <Typography>No prize image available.</Typography>
-            )}
-             {/* Prize Name */}
+            {/* Prize Name */}
             <Typography
               variant="h5"
               sx={{
@@ -194,11 +183,26 @@ const Winnerpage = () => {
                 // color: "#0C3C6F",
                 color: "white",
                 width: 1,
-                mb: 4,
+                mb: 2,
               }}
             >
               {getPrizeDisplay(prizeName.split(" (")[0])}
             </Typography>
+
+            {/* Prize Image */}
+            {prizeImageURL ? (
+              <img
+                src={prizeImageURL}
+                alt="Prize"
+                style={{
+                  width: "90%",
+                  height: "auto",
+                  // display: "block",
+                }}
+              />
+            ) : (
+              <Typography>No prize image available.</Typography>
+            )}
           </Box>
 
           <Box sx={{ width: "50%", justifyItems: "center" }}>
@@ -236,10 +240,9 @@ const Winnerpage = () => {
                 justifyContent: "center",
               }}
             >
-              {/* Ticket Number */}
               <Box
                 sx={{
-                  width:"70%",
+                  width: "70%",
                   aspectRatio: "2 / 0.8",
                   display: "flex",
                   flexDirection: "row",
@@ -250,10 +253,9 @@ const Winnerpage = () => {
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                   textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
-                  // mt:6,
-                  // mb:6
                 }}
               >
+                {/* Ticket Number */}
                 <Typography
                   variant="h3"
                   sx={{
