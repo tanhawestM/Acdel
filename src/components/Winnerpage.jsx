@@ -148,7 +148,7 @@ const Winnerpage = () => {
                 // color: "#0C3C6F",
                 color: "white",
                 width: 1,
-                // mt:2
+                mb:4
               }}
             >
               {getPrizeDisplay(prizeName.split(" (")[0])}
@@ -190,7 +190,7 @@ const Winnerpage = () => {
               // color: "#0C3C6F",
               color: "white",
               width: 1,
-              mt: 8,
+              mt: 6,
             }}
           >
             คุณ {userData.firstname} {userData.lastname}
@@ -202,7 +202,7 @@ const Winnerpage = () => {
               // color: "#0C3C6F",
               color: "white",
               width: 1,
-              mb: 5,
+              mb: 3,
             }}
           >
             {phoneNumber}
