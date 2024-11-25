@@ -11,17 +11,8 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@mui/material";
 
 const Searchwinnerpage = () => {
-  const [openDialog, setOpenDialog] = useState(false);
-  const [confirmationDetails, setConfirmationDetails] = useState({});
-
   const [ticketNumber, setTicketNumber] = useState("");
   const [prizeName, setPrizeName] = useState("");
   const [ticketNumberError, setTicketNumberError] = useState("");
@@ -57,7 +48,7 @@ const Searchwinnerpage = () => {
       // Create a map to count claimed prizes
       const claimedPrizeCounts = {};
       response.data.records.forEach((record) => {
-        const prizeName = record.fields.PrizeName.split(" (")[0]; // Remove the quantity part
+        const prizeName = record.fields.PrizeName.split(" (")[0];
         claimedPrizeCounts[prizeName] =
           (claimedPrizeCounts[prizeName] || 0) + 1;
       });
@@ -68,16 +59,15 @@ const Searchwinnerpage = () => {
           ...prize,
           quantity: prize.quantity - (claimedPrizeCounts[prize.name] || 0),
         }))
-        .filter((prize) => prize.quantity > 0) // Only keep prizes with remaining quantity
+        .filter((prize) => prize.quantity > 0)
         .map((prize) => ({
           ...prize,
-          displayName: `${prize.name} (${prize.quantity} รางวัล)`, // Add quantity to display name
+          displayName: `${prize.name} (${prize.quantity} รางวัล)`,
         }));
 
       setAvailablePrizes(remainingPrizes);
     } catch (error) {
       console.error("Error fetching available prizes:", error);
-      // Fallback to default prizes with their initial quantities
       setAvailablePrizes(
         defaultPrizes.map((prize) => ({
           ...prize,
@@ -87,7 +77,7 @@ const Searchwinnerpage = () => {
     }
   };
 
-  const recordWinner = async (phoneNumber, selectedPrize) => {
+  const recordWinner = async (phoneNumber, selectedPrize, ticketNumber, Sale) => {
     try {
       await axios.post(
         "https://api.airtable.com/v0/appNG2JNEI5eGxlnE/Winner",
@@ -98,6 +88,7 @@ const Searchwinnerpage = () => {
                 PhoneNumber: phoneNumber,
                 PrizeName: selectedPrize,
                 TicketNumber: ticketNumber,
+                Sale: Sale,
               },
             },
           ],
@@ -110,7 +101,6 @@ const Searchwinnerpage = () => {
         }
       );
 
-      // Update available prizes locally
       setAvailablePrizes((prev) =>
         prev
           .map((prize) => {
@@ -128,9 +118,11 @@ const Searchwinnerpage = () => {
           })
           .filter(Boolean)
       );
+
+      return true;
     } catch (error) {
       console.error("Error recording winner:", error);
-      throw new Error("Failed to record winner");
+      return false;
     }
   };
 
@@ -164,75 +156,67 @@ const Searchwinnerpage = () => {
 
         if (matchingRecord) {
           const userData = matchingRecord.fields;
+          const success = await recordWinner(
+            userData.phoneNumber,
+            prizeName,
+            ticketNumber
+          );
 
-          // Set confirmation details and open dialog
-          setConfirmationDetails({
-            ticketNumber: ticketNumber,
-            firstname: userData.firstname,
-            lastname: userData.lastname,
-            prizeName: prizeName,
-            phoneNumber: userData.phoneNumber
-          });
-          setOpenDialog(true);
+          if (success) {
+            const basePrizeName = prizeName.split(" (")[0];
+            let prizeImageURL = "";
+            switch (basePrizeName) {
+              case "Iphone 16 Pro max 256 GB*":
+                prizeImageURL = "Iphone.png";
+                break;
+              case "Motorcycle HONDA Grom":
+                prizeImageURL = "HondaG.png";
+                break;
+              case "ทองคำมูลค่า 1 บาท":
+                prizeImageURL = "Goldchain.png";
+                break;
+              case "I-Pad 64 Gb Wifi":
+                prizeImageURL = "Ipad.png";
+                break;
+              case 'Smart TV 55"':
+                prizeImageURL = "SmartTV.png";
+                break;
+              case "JBL Speaker Party box 110":
+                prizeImageURL = "JBL.png";
+                break;
+              default:
+                prizeImageURL = "";
+            }
+
+            navigate(`/Winner`, {
+              state: {
+                userData: {
+                  firstname: userData.firstname,
+                  lastname: userData.lastname,
+                  phoneNumber: userData.phoneNumber,
+                  Sale: userData.Sale,
+                },
+                prizeImageURL,
+                prizeName,
+                ticketNumber,
+              },
+            });
+          } else {
+            setTicketNumberError(
+              "เกิดข้อผิดพลาดในการบันทึกข้อมูล กรุณาลองอีกครั้ง"
+            );
+          }
         } else {
           setTicketNumberError("ไม่พบหมายเลขตั๋วใบนี้");
         }
       } catch (error) {
         console.error("Error:", error);
-        setLoading(false);
         setTicketNumberError("เกิดข้อผิดพลาดในการค้นหาข้อมูล กรุณาลองอีกครั้ง");
       } finally {
         setLoading(false);
       }
     } else {
       setTicketNumberError("รูปแบบของหมายเลขตั๋วไม่ถูกต้อง");
-    }
-  };
-
-  const handleConfirm = async () => {
-    try {
-      await recordWinner(
-        confirmationDetails.phoneNumber,
-        confirmationDetails.prizeName
-      );
-      setOpenDialog(false);
-
-      let prizeImageURL = "";
-      const basePrizeName = prizeName.split(" (")[0]; // Remove quantity part for switch case
-      switch (basePrizeName) {
-        case "Iphone 16 Pro max 256 GB*":
-          prizeImageURL = "Iphone.png";
-          break;
-        case "Motorcycle HONDA Grom":
-          prizeImageURL = "HondaG.png";
-          break;
-        case "ทองคำมูลค่า 1 บาท":
-          prizeImageURL = "Goldchain.png";
-          break;
-        case "I-Pad 64 Gb Wifi":
-          prizeImageURL = "Ipad.png";
-          break;
-        case 'Smart TV 55"':
-          prizeImageURL = "SmartTV.png";
-          break;
-        case "JBL Speaker Party box 110":
-          prizeImageURL = "JBL.png";
-          break;
-        default:
-          prizeImageURL = "";
-      }
-      // Navigate to the Winner page
-      navigate(`/Winner`, {
-        state: {
-          userData: confirmationDetails,
-          prizeImageURL: prizeImageURL,
-          prizeName: confirmationDetails.prizeName,
-          ticketNumber: confirmationDetails.ticketNumber,
-          phoneNumber: confirmationDetails.phoneNumber
-        },
-      });
-    } catch (error) {
-      console.error("Error confirming winner:", error);
     }
   };
 
@@ -392,45 +376,6 @@ const Searchwinnerpage = () => {
           </Button>
         </Box>
       </Box>
-      
-      <Dialog
-        sx={{ width: 1 }}
-        open={openDialog}
-        onClose={() => setOpenDialog(false)}
-      >
-        <Box sx={{}}>
-        <DialogTitle>ยืนยันข้อมูล</DialogTitle>
-        <DialogContent>
-          <Box sx={{mx: 10,}}>
-            <Box sx={{ display: "flex",mb:1}}>
-              <Typography>หมายเลขตั๋ว:</Typography>
-              <Typography sx={{ color: "blue", ml: 1 }}>
-                {confirmationDetails.ticketNumber}
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex",mb:1 }}>
-              <Typography>ชื่อผู้โชคดี:</Typography>
-              <Typography sx={{ color: "blue", ml: 1 }}>
-                {confirmationDetails.firstname} {confirmationDetails.lastname}
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex" }}>
-              <Typography>รางวัล:</Typography>
-              <Typography sx={{ color: "blue", ml: 1 }}>
-                {prizeName.split(" (")[0]}
-              </Typography>
-            </Box>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button sx={{ color: "black" }} onClick={() => setOpenDialog(false)}>
-            ยกเลิก
-          </Button>
-          <Button onClick={handleConfirm} color="primary">
-            ยืนยัน
-          </Button>
-        </DialogActions></Box>
-      </Dialog>
     </Box>
   );
 };

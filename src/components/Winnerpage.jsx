@@ -35,8 +35,14 @@ const getCurrentThaiDate = () => {
 
 const Winnerpage = () => {
   const location = useLocation();
-  const { userData, prizeImageURL, prizeName, ticketNumber, phoneNumber } =
-    location.state;
+  const {
+    userData,
+    prizeImageURL,
+    prizeName,
+    ticketNumber,
+    phoneNumber,
+    Sale,
+  } = location.state;
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
 
@@ -75,7 +81,7 @@ const Winnerpage = () => {
         alignItems: "center", // Center content horizontally
         textAlign: "center",
         // backgroundColor: "#E7EDF3",
-        background: "linear-gradient(to right bottom, #082036, #2C6293)",
+        background: "linear-gradient(to right bottom, #082036, #41719d)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -93,8 +99,8 @@ const Winnerpage = () => {
           to="/SearchWinner"
           sx={{
             position: "absolute",
-            top: 16,
-            left: 16,
+            top: 0,
+            left: 15,
             color: "white",
             "&:hover": {
               backgroundColor: "white",
@@ -113,52 +119,65 @@ const Winnerpage = () => {
             fontSize: { xs: "1.5rem", sm: "2.5rem", md: "5rem" },
             // color: "#0C3C6F",
             color: "#357BCE",
-            mt: 0,
+            mb: 5,
           }}
         >
           ขอแสดงความยินดี
         </Typography>
-
-        {/* Flex container for ticket number, prize image, and prize name */}
-        <Box
-          sx={{
-            mt: 2,
-            width: 1,
-            // display: "flex",
-            // flexDirection: { xs: "column", sm: "row" },
-            alignItems: "center",
-            justifyItems: "center",
-            justifyContent: "center",
-            gap: { xs: 2, sm: 6, md: 2 }, // Spacing between items
-          }}
-        >
-          {/* Prize Image */}
-          <Box
-            sx={{
-              width: { xs: "50%", sm: "30%", md: "50%" },
-              // maxWidth: "150px",
-              height: "auto",
-            }}
-          >
-            <Typography
-              variant="h5"
+        {/* <Typography
               sx={{
                 fontWeight: "bold",
                 fontSize: { xs: "1.2rem", sm: "1.5rem", md: "3rem" },
                 // color: "#0C3C6F",
                 color: "white",
                 width: 1,
-                mb:4
+                mt: 0,
               }}
             >
-              {getPrizeDisplay(prizeName.split(" (")[0])}
+              คุณ {userData.firstname} {userData.lastname}
             </Typography>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.8rem" },
+                // color: "#0C3C6F",
+                color: "white",
+                width: 1,
+                mb: 0,
+              }}
+            >
+              {userData.Sale}
+            </Typography> */}
+
+        {/* Flex container for ticket number, prize image, and prize name */}
+        <Box
+          sx={{
+            mt: 0,
+            width: 1,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          
+          <Box
+            sx={{
+              width: "50%",
+              // maxWidth: "150px",
+              height: "auto",
+              mt: 3,
+            }}
+          >
+           
+            {/* Prize Image */}
             {prizeImageURL ? (
               <img
                 src={prizeImageURL}
                 alt="Prize"
                 style={{
-                  width: "40%",
+                  width: "80%",
                   height: "auto",
                   // display: "block",
                 }}
@@ -166,86 +185,87 @@ const Winnerpage = () => {
             ) : (
               <Typography>No prize image available.</Typography>
             )}
-
-            {/* Prize Name */}
-            {/* <Typography
-            variant="h5"
-            sx={{
-              fontWeight: "bold",
-              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-              // color: "#0C3C6F",
-              color: "white",
-              width: 1,
-              mt:1
-            }}
-          >
-            คุณได้รับ
-          </Typography> */}
-          </Box>
-
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-              // color: "#0C3C6F",
-              color: "white",
-              width: 1,
-              mt: 6,
-            }}
-          >
-            คุณ {userData.firstname} {userData.lastname}
-          </Typography>
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-              // color: "#0C3C6F",
-              color: "white",
-              width: 1,
-              mb: 3,
-            }}
-          >
-            {phoneNumber}
-          </Typography>
-
-          <Box
-            sx={{
-              width: "50%",
-              height: "auto",
-              alignItems: "center",
-              justifyItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {/* Ticket Number */}
-            <Box
+             {/* Prize Name */}
+            <Typography
+              variant="h5"
               sx={{
-                width: { xs: "100%", sm: "60%", md: "60%" },
-                aspectRatio: "2 / 0.8",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundImage: "url('TicBG2.png')",
-                backgroundSize: "100% 100%",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
-                // mt:6,
-                // mb:6
+                fontWeight: "bold",
+                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2.8rem" },
+                // color: "#0C3C6F",
+                color: "white",
+                width: 1,
+                mb: 4,
               }}
             >
-              <Typography
-                variant="h3"
+              {getPrizeDisplay(prizeName.split(" (")[0])}
+            </Typography>
+          </Box>
+
+          <Box sx={{ width: "50%", justifyItems: "center" }}>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "3rem" },
+                // color: "#0C3C6F",
+                color: "white",
+                width: 1,
+                mt: 0,
+              }}
+            >
+              คุณ {userData.firstname} {userData.lastname}
+            </Typography>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
+                // color: "#0C3C6F",
+                color: "white",
+                width: 1,
+                mb: 5,
+              }}
+            >
+              {userData.Sale}
+            </Typography>
+
+            <Box
+              sx={{
+                width: 1,
+                height: "auto",
+                alignItems: "center",
+                justifyItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {/* Ticket Number */}
+              <Box
                 sx={{
-                  fontWeight: "bold",
-                  letterSpacing: "8px",
-                  fontSize: { xs: "2rem", sm: "2.5rem", md: "4rem" },
-                  color: "white",
+                  width:"70%",
+                  aspectRatio: "2 / 0.8",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundImage: "url('TicBG2.png')",
+                  backgroundSize: "100% 100%",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
+                  // mt:6,
+                  // mb:6
                 }}
               >
-                {ticketNumber}
-              </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontWeight: "bold",
+                    letterSpacing: "8px",
+                    fontSize: { xs: "2rem", sm: "2.5rem", md: "4.6rem" },
+                    color: "white",
+                  }}
+                >
+                  {ticketNumber}
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
