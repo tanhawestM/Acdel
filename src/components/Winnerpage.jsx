@@ -124,7 +124,7 @@ const Winnerpage = () => {
             WebkitTextStroke: "0.3px #A0A0A0", // text stoke
             WebkitTextFillColor: "#357BCE", // text color
             textShadow: "2px 2px 4px rgba(0, 0, 0, 1)", // text shadow
-            mb: 8,
+            mb: 6,
           }}
         >
           ขอแสดงความยินดี
