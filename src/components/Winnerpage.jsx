@@ -1,19 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import {
   Box,
   Typography,
   IconButton,
-  Menu,
-  MenuItem,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ShareIcon from "@mui/icons-material/Share";
-import PrintIcon from "@mui/icons-material/Print";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import LinkIcon from "@mui/icons-material/Link";
+import StarBackground from "./StarBackground";
 
 const thaiMonths = [
   "มกราคม",
@@ -40,12 +35,10 @@ const getCurrentThaiDate = () => {
 
 const Winnerpage = () => {
   const location = useLocation();
-  const { userData, prizeImageURL, prizeName, ticketNumber } = location.state;
-  const [shareAnchorEl, setShareAnchorEl] = useState(null);
+  const { userData, prizeImageURL, prizeName, ticketNumber, phoneNumber } =
+    location.state;
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
-
-  const currentThaiDate = getCurrentThaiDate();
 
   const getPrizeDisplay = (prizeName) => {
     switch (prizeName.toLowerCase()) {
@@ -58,70 +51,6 @@ const Winnerpage = () => {
       default:
         return prizeName; // fallback to original prize name if not matched
     }
-  };
-
-  const handlePrint = () => {
-    const style = document.createElement("style");
-    style.textContent = `
-      @media print {
-        * {
-          -webkit-print-color-adjust: exact !important;
-          color-adjust: exact !important;
-        }
-        body {
-          overflow: visible !important;
-        }
-        #root {
-          overflow: visible !important;
-        }
-        ::-webkit-scrollbar {
-          display: none !important;
-        }
-        .MuiBox-root {
-          overflow: visible !important;
-        }
-        .footer-for-mobile {
-          display: none !important;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-    window.print();
-    document.head.removeChild(style);
-  };
-
-  const handleShareClick = (event) => {
-    setShareAnchorEl(event.currentTarget);
-  };
-
-  const handleShareClose = () => {
-    setShareAnchorEl(null);
-  };
-
-  const handleFacebookShare = () => {
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        window.location.href
-      )}`,
-      "_blank"
-    );
-    handleShareClose();
-  };
-
-  const handleLineShare = () => {
-    window.open(
-      `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(
-        window.location.href
-      )}`,
-      "_blank"
-    );
-    handleShareClose();
-  };
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    alert("Link copied to clipboard!");
-    handleShareClose();
   };
 
   if (!userData || !ticketNumber) {
@@ -142,226 +71,181 @@ const Winnerpage = () => {
         width: 1,
         display: "flex",
         flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "center",
+        justifyContent: "center", // Center content vertically
+        alignItems: "center", // Center content horizontally
         textAlign: "center",
-        backgroundImage: isXs ? "url('BG.png')" : "url('BG.png')",
+        // backgroundColor: "#E7EDF3",
+        background: "linear-gradient(to right bottom, #082036, #2C6293)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+        color: "black",
+        // p: { xs: 2, sm: 3, md: 4 },
+        position: "relative", // Important for z-index stacking
+        overflow: "hidden", // Important to contain the stars
       }}
     >
-      {/* {isXs && ( */}
-      <Box
-        component="img"
-        sx={{
-          height: "auto",
-          width: 1,
-        }}
-        alt=""
-        src="Key.jpg"
-      />
-      {/* )} */}
-      <Box
-        sx={{
-          backgroundColor: "#F3F4F6",
-          minHeight: "100vh",
-          width: "100%",
-          color: "black",
-          p: { xs: 2, sm: 3, md: 4 },
-        }}
-      >
-        <Box sx={{ mt: { xs: 2, sm: 3, md: 4 }, mx: { xs: 2, sm: 5, md: 10 } }}>
+      <StarBackground />
+      <Box sx={{ position: "relative", zIndex: 2 }}>
+        {/* Back button */}
+        <IconButton
+          component={Link}
+          to="/SearchWinner"
+          sx={{
+            position: "absolute",
+            top: 16,
+            left: 16,
+            color: "white",
+            "&:hover": {
+              backgroundColor: "white",
+              color: "#082036",
+            },
+          }}
+        >
+          <ArrowBackIosNewIcon />
+        </IconButton>
+
+        {/* Congratulations message */}
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: "bold",
+            fontSize: { xs: "1.5rem", sm: "2.5rem", md: "5rem" },
+            // color: "#0C3C6F",
+            color: "#357BCE",
+            mt: 0,
+          }}
+        >
+          ขอแสดงความยินดี
+        </Typography>
+
+        {/* Flex container for ticket number, prize image, and prize name */}
+        <Box
+          sx={{
+            mt: 2,
+            width: 1,
+            // display: "flex",
+            // flexDirection: { xs: "column", sm: "row" },
+            alignItems: "center",
+            justifyItems: "center",
+            justifyContent: "center",
+            gap: { xs: 2, sm: 6, md: 2 }, // Spacing between items
+          }}
+        >
+          {/* Prize Image */}
           <Box
             sx={{
-              display: "flex",
-              flexDirection: { sm: "row" },
-              alignItems: { xs: "flex-start", sm: "center" },
-              justifyContent: "space-between",
-              mb: { xs: 0, sm: 2, md: 2 },
+              width: { xs: "50%", sm: "30%", md: "50%" },
+              // maxWidth: "150px",
+              height: "auto",
             }}
           >
-            <Box
+            <Typography
+              variant="h5"
               sx={{
-                display: "flex",
-                alignItems: "center",
-                mb: { xs: 2, sm: 0 },
+                fontWeight: "bold",
+                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "3rem" },
+                // color: "#0C3C6F",
+                color: "white",
+                width: 1,
+                // mt:2
               }}
             >
-              <IconButton
-                component={Link}
-                to="/SearchWinner"
-                sx={{
-                  mr: 1,
-                  backgroundColor: "#1678D1",
-                  color: "white",
-                  padding: { xs: "4px", sm: "8px", md: "12px" },
-                  "&:hover": {
-                    backgroundColor: "blue",
-                    color: "white",
-                  },
+              {getPrizeDisplay(prizeName.split(" (")[0])}
+            </Typography>
+            {prizeImageURL ? (
+              <img
+                src={prizeImageURL}
+                alt="Prize"
+                style={{
+                  width: "40%",
+                  height: "auto",
+                  // display: "block",
                 }}
-              >
-                <ArrowBackIosNewIcon
-                  sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }}
-                />
-              </IconButton>
-              <Typography
-                variant="h4"
-                sx={{
-                  ml: 2,
-                  fontWeight: "bold",
-                  fontSize: { xs: 20, sm: 30, md: 40 },
-                }}
-              >
-                สวัสดีคุณ {userData.firstname}
-              </Typography>
-            </Box>
-            {/* <Box>
-              <IconButton
-                sx={{
-                  mr: 1,
-                  backgroundColor: "#1678D1",
-                  color: "white",
-                  padding: { xs: "4px", sm: "8px", md: "12px" },
-                  "&:hover": {
-                    backgroundColor: "blue",
-                    color: "white",
-                  },
-                }}
-                onClick={handlePrint}
-              >
-                <PrintIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  backgroundColor: "#1678D1",
-                  color: "white",
-                  padding: { xs: "4px", sm: "8px", md: "12px" },
-                  "&:hover": {
-                    backgroundColor: "blue",
-                    color: "white",
-                  },
-                }}
-                onClick={handleShareClick}
-              >
-                <ShareIcon sx={{ fontSize: { xs: 20, sm: 22, md: 24 } }} />
-              </IconButton> */}
-              {/* <Menu
-                anchorEl={shareAnchorEl}
-                open={Boolean(shareAnchorEl)}
-                onClose={handleShareClose}
-              > */}
-                {/* <MenuItem onClick={handleFacebookShare}>
-                  <FacebookIcon sx={{ mr: 1 }} /> Facebook
-                </MenuItem> */}
-                {/* <MenuItem onClick={handleLineShare}>
-                  <img
-                    src="line-icon.png"
-                    alt="Line"
-                    style={{ width: 24, height: 24, marginRight: 8 }}
-                  />{" "}
-                  Line
-                </MenuItem> */}
-                {/* <MenuItem onClick={handleCopyLink}>
-                  <LinkIcon sx={{ mr: 1 }} /> Copy Link
-                </MenuItem>
-              </Menu> */}
-            {/* </Box> */}
+              />
+            ) : (
+              <Typography>No prize image available.</Typography>
+            )}
+
+            {/* Prize Name */}
+            {/* <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
+              // color: "#0C3C6F",
+              color: "white",
+              width: 1,
+              mt:1
+            }}
+          >
+            คุณได้รับ
+          </Typography> */}
           </Box>
 
-          <Box sx={{ textAlign: "center" }}>
-            <Typography
-              variant="h4"
-              sx={{
-                mb: 3,
-                ml: { xs: 0, sm: 0 },
-                fontWeight: "bold",
-                fontSize: { xs: 20, sm: 30, md: 40 },
-                color: "#0072CE",
-              }}
-            >
-              ขอแสดงความยินดี
-            </Typography>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
+              // color: "#0C3C6F",
+              color: "white",
+              width: 1,
+              mt: 8,
+            }}
+          >
+            คุณ {userData.firstname} {userData.lastname}
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
+              // color: "#0C3C6F",
+              color: "white",
+              width: 1,
+              mb: 5,
+            }}
+          >
+            {phoneNumber}
+          </Typography>
+
+          <Box
+            sx={{
+              width: "50%",
+              height: "auto",
+              alignItems: "center",
+              justifyItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {/* Ticket Number */}
             <Box
               sx={{
-                width: { xs: "60%", sm: "40%", md: "40%" },
+                width: { xs: "100%", sm: "60%", md: "60%" },
                 aspectRatio: "2 / 0.8",
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "center", // Center the content horizontally
+                justifyContent: "center",
                 alignItems: "center",
-                color: "white",
-                textAlign: "center",
                 backgroundImage: "url('TicBG2.png')",
                 backgroundSize: "100% 100%",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
-                margin: "0 auto", // Center the Box itself
+                // mt:6,
+                // mb:6
               }}
             >
               <Typography
                 variant="h3"
                 sx={{
                   fontWeight: "bold",
-                  textAlign: "center",
                   letterSpacing: "8px",
-                  fontSize: { xs: "2rem", sm: "2rem", md: "4rem" },
-                  mr: { xs: "1.5rem", sm: "2rem", md: "5rem" },
+                  fontSize: { xs: "2rem", sm: "2.5rem", md: "4rem" },
+                  color: "white",
                 }}
               >
                 {ticketNumber}
               </Typography>
-            </Box>
-
-            <Typography
-              variant="h4"
-              sx={{
-                mt: { xs: 4, sm: 5, md: 6 },
-                mb: 2,
-                fontWeight: "bold",
-                color: "#0072CE",
-                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-              }}
-            >
-              คุณได้รับรางวัล {getPrizeDisplay(prizeName.split(" (")[0])}
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                mt: { xs: 4, sm: 5, md: 6 },
-              }}
-            >
-              <Box
-                sx={{
-                  width: { xs: "80%", sm: "60%", md: "50%" },
-                  maxWidth: "300px",
-                  height: "auto",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {prizeImageURL ? (
-                  <img
-                    src={prizeImageURL}
-                    alt="Prize"
-                    style={{
-                      maxWidth: "100%",
-                      height: "auto",
-                      display: "block",
-                    }}
-                  />
-                ) : (
-                  <Typography>
-                    No prize image available for the specified prize.
-                  </Typography>
-                )}
-              </Box>
             </Box>
           </Box>
         </Box>
