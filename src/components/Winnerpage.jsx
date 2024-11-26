@@ -183,7 +183,7 @@ const Winnerpage = () => {
                 // color: "#0C3C6F",
                 color: "white",
                 width: 1,
-                mb: 2,
+                mb: -14,
               }}
             >
               {getPrizeDisplay(prizeName.split(" (")[0])}
@@ -228,7 +228,7 @@ const Winnerpage = () => {
                 mb: 5,
               }}
             >
-              {userData.Sale}
+              {userData.Sale?.toString().replace("B2B_", "")}
             </Typography>
 
             <Box
