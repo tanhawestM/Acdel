@@ -228,7 +228,7 @@ const Winnerpage = () => {
                 mb: 5,
               }}
             >
-              {userData.Sale?.toString().replace("B2B_", "")}
+              {userData.Sale?.toString().replaceAll("B2B_", "")}
             </Typography>
 
             <Box
