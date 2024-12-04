@@ -80,8 +80,8 @@ const Winnerpage = () => {
           to="/SearchWinner"
           sx={{
             position: "absolute",
-            top: 0,
-            left: 15,
+            top: 80,
+            left: 0,
             color: "white",
             "&:hover": {
               backgroundColor: "white",
@@ -99,9 +99,9 @@ const Winnerpage = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-end",
-            gap: 3,
+            gap: 0,
             pr: { xs: 4, sm: 6, md: 8 },
-            mt: 5,
+            mt: 30,
           }}
         >
           {/* Name and Sale container */}
@@ -119,12 +119,13 @@ const Winnerpage = () => {
               sx={{
                 fontFamily: "DBOzoneXBold",
                 fontWeight: "bold",
-                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "4rem" },
+                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "4.3rem" },
                 // color: "#0C3C6F",
                 color: "white",
+                textShadow: "#2F2F2F 1px 0 8px",
                 width: 1,
                 mb: 0,
-                mt:2
+                mt: 2,
               }}
             >
               รางวัล {getPrizeDisplay(prizeName.split(" (")[0])}
@@ -139,6 +140,7 @@ const Winnerpage = () => {
                 color: "white",
                 textAlign: "center",
                 width: "100%",
+                textShadow: "#2F2F2F 1px 0 8px",
                 mb: 0,
                 mt: 0,
               }}
@@ -154,8 +156,9 @@ const Winnerpage = () => {
                 color: "white",
                 textAlign: "center", // Center the sale text
                 width: "100%",
-                mb: 4,
-                mt:-2
+                textShadow: "#2F2F2F 1px 0 8px",
+                mb: 0,
+                mt: -4,
               }}
             >
               {userData.Sale?.toString().replaceAll("B2B_", "")}
@@ -163,21 +166,40 @@ const Winnerpage = () => {
           </Box>
 
           {/* Ticket Number */}
-          <Typography
-            variant="h3"
+
+          <Box
             sx={{
-              fontWeight: "bold",
-              fontFamily: "DBOzoneXBold",
-              letterSpacing: "8px",
-              fontSize: { xs: "2rem", sm: "2.5rem", md: "7rem" },
-              color: "white",
-              mt: 0,
-              ml: 65,
-              alignSelf: "center",
+              width: "60%",
+              aspectRatio: "2 / 1",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundImage: "url('Ticket.png')",
+              backgroundSize: "130% 130%",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
+              mt: -12,
+              pr: 20,
             }}
           >
-            {ticketNumber}
-          </Typography>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: "bold",
+                fontFamily: "DBOzoneXBold",
+                letterSpacing: "8px",
+                fontSize: { xs: "2rem", sm: "2.5rem", md: "7rem" },
+                color: "white",
+                mt: 0,
+                mb:1,
+                alignSelf: "center",
+              }}
+            >
+              {ticketNumber}
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>
