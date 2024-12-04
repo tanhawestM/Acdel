@@ -77,7 +77,12 @@ const Searchwinnerpage = () => {
     }
   };
 
-  const recordWinner = async (phoneNumber, selectedPrize, ticketNumber, Sale) => {
+  const recordWinner = async (
+    phoneNumber,
+    selectedPrize,
+    ticketNumber,
+    Sale
+  ) => {
     try {
       await axios.post(
         "https://api.airtable.com/v0/appNG2JNEI5eGxlnE/Winner",
@@ -230,7 +235,7 @@ const Searchwinnerpage = () => {
   };
 
   const isValidTicketNumber = (number) => {
-    return number.length === 5;
+    return number.length === 4;
   };
 
   const handleKeyPress = (event) => {
@@ -322,7 +327,7 @@ const Searchwinnerpage = () => {
                   <SearchIcon />
                 </InputAdornment>
               ),
-              placeholder: "กรอกหมายเลขตั๋ว 5 หลัก",
+              placeholder: "กรอกหมายเลขตั๋ว 4 หลัก",
               style: {
                 backgroundColor: "white",
                 borderColor: ticketNumberError ? "red" : "",
