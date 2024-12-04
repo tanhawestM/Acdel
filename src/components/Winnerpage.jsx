@@ -110,7 +110,7 @@ const Winnerpage = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              width: "55%", // This creates a box that's half the width
+              width: "58%", // This creates a box that's half the width
             }}
           >
             {/* Prize Name */}
@@ -119,7 +119,7 @@ const Winnerpage = () => {
               sx={{
                 fontFamily: "DBOzoneXBold",
                 fontWeight: "bold",
-                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "4.3rem" },
+                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "4.5rem" },
                 // color: "#0C3C6F",
                 color: "white",
                 textShadow: "#2F2F2F 1px 0 8px",
@@ -193,7 +193,7 @@ const Winnerpage = () => {
                 fontSize: { xs: "2rem", sm: "2.5rem", md: "7rem" },
                 color: "white",
                 mt: 0,
-                mb:1,
+                mb: 1,
                 alignSelf: "center",
               }}
             >
