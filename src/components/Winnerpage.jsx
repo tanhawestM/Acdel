@@ -22,6 +22,8 @@ const Winnerpage = () => {
   } = location.state;
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
+  const isMacbook = useMediaQuery('(min-width: 1280px) and (max-width: 1440px)');
+  const isDesktop = useMediaQuery('(min-width: 1441px)');
 
   const getPrizeDisplay = (prizeName) => {
     let displayName;
@@ -36,9 +38,9 @@ const Winnerpage = () => {
         displayName = "Toyota Vios";
         break;
       default:
-        displayName = prizeName; // fallback to original prize name if not matched
+        displayName = prizeName;
     }
-    return displayName.toUpperCase(); // Convert to uppercase
+    return displayName.toUpperCase();
   };
 
   if (!userData || !ticketNumber) {
@@ -67,20 +69,39 @@ const Winnerpage = () => {
         position: "relative",
         overflow: "hidden",
         backgroundImage: "url('BG_Luckdraw.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundSize: {
+          xs: "cover",
+          sm: "cover",
+          md: isMacbook ? "110% 100%" : "cover", // Adjust background size for MacBook
+        },
+        backgroundPosition: {
+          xs: "center",
+          sm: "center",
+          md: isMacbook ? "60% center" : "center", // Adjust position for MacBook
+        },
         backgroundRepeat: "no-repeat",
         height: "100vh",
       }}
     >
-      <Box sx={{ position: "relative", zIndex: 2, width: "100%" }}>
+      <Box 
+        sx={{ 
+          position: "relative", 
+          zIndex: 2, 
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          pt: isMacbook ? "5vh" : "0", // Add top padding for MacBook
+        }}
+      >
         {/* Back button */}
         <IconButton
           component={Link}
           to="/SearchWinner"
           sx={{
             position: "absolute",
-            top: 80,
+            top: { xs: 80, md: isMacbook ? 40 : 80 },
             left: 0,
             color: "white",
             "&:hover": {
@@ -101,7 +122,7 @@ const Winnerpage = () => {
             alignItems: "flex-end",
             gap: 0,
             pr: { xs: 4, sm: 6, md: 8 },
-            mt: 30,
+            mt: { xs: 30, md: isMacbook ? "15vh" : 30 }, // Adjust margin top for MacBook
           }}
         >
           {/* Name and Sale container */}
@@ -110,7 +131,7 @@ const Winnerpage = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              width: "58%", // This creates a box that's half the width
+              width: { xs: "58%", md: isMacbook ? "50%" : "58%" },
             }}
           >
             {/* Prize Name */}
@@ -119,8 +140,11 @@ const Winnerpage = () => {
               sx={{
                 fontFamily: "DBOzoneXBold",
                 fontWeight: "bold",
-                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "4.5rem" },
-                // color: "#0C3C6F",
+                fontSize: {
+                  xs: "1.2rem",
+                  sm: "1.5rem",
+                  md: isMacbook ? "3.5rem" : "4.5rem",
+                },
                 color: "white",
                 textShadow: "#2F2F2F 1px 0 8px",
                 width: 1,
@@ -136,7 +160,11 @@ const Winnerpage = () => {
               sx={{
                 fontWeight: "bold",
                 fontFamily: "DBOzoneXBold",
-                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "4rem" },
+                fontSize: {
+                  xs: "1.2rem",
+                  sm: "1.5rem",
+                  md: isMacbook ? "3rem" : "4rem",
+                },
                 color: "white",
                 textAlign: "center",
                 width: "100%",
@@ -147,18 +175,23 @@ const Winnerpage = () => {
             >
               คุณ {userData.firstname} {userData.lastname}
             </Typography>
-            {/* Sale (centered within the box) */}
+
+            {/* Sale */}
             <Typography
               sx={{
                 fontWeight: "bold",
                 fontFamily: "DBOzoneXBold",
-                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "4rem" },
+                fontSize: {
+                  xs: "1.2rem",
+                  sm: "1.5rem",
+                  md: isMacbook ? "3rem" : "4rem",
+                },
                 color: "white",
-                textAlign: "center", // Center the sale text
+                textAlign: "center",
                 width: "100%",
                 textShadow: "#2F2F2F 1px 0 8px",
                 mb: 0,
-                mt: -4,
+                mt: isMacbook ? -2 : -4,
               }}
             >
               {userData.Sale?.toString().replaceAll("B2B_", "")}
@@ -166,10 +199,9 @@ const Winnerpage = () => {
           </Box>
 
           {/* Ticket Number */}
-
           <Box
             sx={{
-              width: "60%",
+              width: { xs: "60%", md: isMacbook ? "50%" : "60%" },
               aspectRatio: "2 / 1",
               display: "flex",
               flexDirection: "row",
@@ -180,8 +212,8 @@ const Winnerpage = () => {
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
-              mt: -12,
-              pr: 20,
+              mt: isMacbook ? -8 : -12,
+              pr: { xs: 20, md: isMacbook ? 16 : 20 },
             }}
           >
             <Typography
@@ -190,7 +222,11 @@ const Winnerpage = () => {
                 fontWeight: "bold",
                 fontFamily: "DBOzoneXBold",
                 letterSpacing: "8px",
-                fontSize: { xs: "2rem", sm: "2.5rem", md: "7rem" },
+                fontSize: {
+                  xs: "2rem",
+                  sm: "2.5rem",
+                  md: isMacbook ? "5rem" : "7rem",
+                },
                 color: "white",
                 mt: 0,
                 mb: 1,
