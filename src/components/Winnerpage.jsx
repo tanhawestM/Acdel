@@ -67,7 +67,7 @@ const Winnerpage = () => {
         position: "relative",
         overflow: "hidden",
         backgroundImage: "url('BG_Luckdraw.png')",
-        backgroundSize: "100% 100%",
+        backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         height: "100vh",

@@ -382,7 +382,7 @@ const UserPage = () => {
                 >
                   {userData.formalPhoneNum}
                 </Typography>
-                <Typography
+                {/* <Typography
                   variant="h5"
                   sx={{
                     mb: 1,
@@ -405,7 +405,7 @@ const UserPage = () => {
                   }}
                 >
                   {userData.Sale}
-                </Typography>
+                </Typography> */}
               </Box>
             </Box>
 
