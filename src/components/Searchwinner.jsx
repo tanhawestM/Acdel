@@ -235,7 +235,7 @@ const Searchwinnerpage = () => {
   };
 
   const isValidTicketNumber = (number) => {
-    return number.length === 4;
+    return number.length === 5; //check for number of ticket
   };
 
   const handleKeyPress = (event) => {
@@ -327,7 +327,7 @@ const Searchwinnerpage = () => {
                   <SearchIcon />
                 </InputAdornment>
               ),
-              placeholder: "กรอกหมายเลขตั๋ว 4 หลัก",
+              placeholder: "กรอกหมายเลขตั๋ว 5 หลัก",
               style: {
                 backgroundColor: "white",
                 borderColor: ticketNumberError ? "red" : "",
