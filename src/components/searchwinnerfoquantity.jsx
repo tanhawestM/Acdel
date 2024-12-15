@@ -12,7 +12,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 
-const Searchwinnerpage = () => {
+const SearchwinnerforQpage = () => {
   const [ticketNumber, setTicketNumber] = useState("");
   const [prizeName, setPrizeName] = useState("");
   const [ticketNumberError, setTicketNumberError] = useState("");
@@ -20,25 +20,69 @@ const Searchwinnerpage = () => {
   const [availablePrizes, setAvailablePrizes] = useState([]);
   const navigate = useNavigate();
 
-  // Simplified prize structure without quantities
+  // Updated prize structure with quantities
   const defaultPrizes = [
-    { name: "Iphone 16 Pro max 256 GB*" },
-    { name: "Motorcycle HONDA Grom" },
-    { name: "ทองคำมูลค่า 1 บาท" },
-    { name: "I-Pad 64 Gb Wifi" },
-    { name: 'Smart TV 55"' },
-    { name: "JBL Speaker Party box 110" },
+    { name: "Iphone 16 Pro max 256 GB*", quantity: 3 },
+    { name: "Motorcycle HONDA Grom", quantity: 1 },
+    { name: "ทองคำมูลค่า 1 บาท", quantity: 3 },
+    { name: "I-Pad 64 Gb Wifi", quantity: 3 },
+    { name: 'Smart TV 55"', quantity: 2 },
+    { name: "JBL Speaker Party box 110", quantity: 2 },
   ];
 
   useEffect(() => {
-    // Simply set the default prizes without checking quantities
-    setAvailablePrizes(defaultPrizes.map(prize => ({
-      ...prize,
-      displayName: prize.name
-    })));
+    fetchAvailablePrizes();
   }, []);
 
-  const recordWinner = async (phoneNumber, selectedPrize, ticketNumber, Sale) => {
+  const fetchAvailablePrizes = async () => {
+    try {
+      const response = await axios.get(
+        "https://api.airtable.com/v0/appNG2JNEI5eGxlnE/Winner",
+        {
+          headers: {
+            Authorization: `Bearer pati3doCgwfAtQ6Xa.e7c8c2d2916b71dcbf7e6b8e72e477f046d14e4193acb1f152b370a49dc79d77`,
+          },
+        }
+      );
+
+      // Create a map to count claimed prizes
+      const claimedPrizeCounts = {};
+      response.data.records.forEach((record) => {
+        const prizeName = record.fields.PrizeName.split(" (")[0];
+        claimedPrizeCounts[prizeName] =
+          (claimedPrizeCounts[prizeName] || 0) + 1;
+      });
+
+      // Calculate remaining prizes
+      const remainingPrizes = defaultPrizes
+        .map((prize) => ({
+          ...prize,
+          quantity: prize.quantity - (claimedPrizeCounts[prize.name] || 0),
+        }))
+        .filter((prize) => prize.quantity > 0)
+        .map((prize) => ({
+          ...prize,
+          displayName: `${prize.name} (${prize.quantity} รางวัล)`,
+        }));
+
+      setAvailablePrizes(remainingPrizes);
+    } catch (error) {
+      console.error("Error fetching available prizes:", error);
+      setAvailablePrizes(
+        defaultPrizes.map((prize) => ({
+          ...prize,
+          displayName: `${prize.name} (${prize.quantity})`,
+        }))
+      );
+    }
+  };
+
+  const recordWinner = async (
+    phoneNumber,
+    selectedPrize,
+    ticketNumber,
+    Sale
+  ) => {
     try {
       await axios.post(
         "https://api.airtable.com/v0/appNG2JNEI5eGxlnE/Winner",
@@ -61,6 +105,25 @@ const Searchwinnerpage = () => {
           },
         }
       );
+
+      setAvailablePrizes((prev) =>
+        prev
+          .map((prize) => {
+            if (prize.displayName === selectedPrize) {
+              const newQuantity = prize.quantity - 1;
+              return newQuantity > 0
+                ? {
+                    ...prize,
+                    quantity: newQuantity,
+                    displayName: `${prize.name} (${newQuantity})`,
+                  }
+                : null;
+            }
+            return prize;
+          })
+          .filter(Boolean)
+      );
+
       return true;
     } catch (error) {
       console.error("Error recording winner:", error);
@@ -105,7 +168,7 @@ const Searchwinnerpage = () => {
           );
 
           if (success) {
-            const basePrizeName = prizeName;
+            const basePrizeName = prizeName.split(" (")[0];
             let prizeImageURL = "";
             switch (basePrizeName) {
               case "Iphone 16 Pro max 256 GB*":
@@ -172,7 +235,7 @@ const Searchwinnerpage = () => {
   };
 
   const isValidTicketNumber = (number) => {
-    return number.length === 5;
+    return number.length === 5; //check for number of ticket
   };
 
   const handleKeyPress = (event) => {
@@ -287,7 +350,7 @@ const Searchwinnerpage = () => {
             }}
           >
             {availablePrizes.map((prize) => (
-              <MenuItem key={prize.name} value={prize.name}>
+              <MenuItem key={prize.displayName} value={prize.displayName}>
                 {prize.displayName}
               </MenuItem>
             ))}
@@ -322,4 +385,4 @@ const Searchwinnerpage = () => {
   );
 };
 
-export default Searchwinnerpage;
+export default SearchwinnerforQpage;

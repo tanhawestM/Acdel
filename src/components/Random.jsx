@@ -38,6 +38,11 @@ const numberInputStyle = {
   },
 };
 
+// Function to pad numbers with leading zeros
+const padNumber = (num) => {
+  return num.toString().padStart(5, '0');
+};
+
 function Random() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
@@ -199,14 +204,17 @@ function Random() {
             }
           }
 
-          const generatedNumbers = Array.from(randomNumbers).sort(
-            (a, b) => a - b
-          );
+          // Convert numbers to 5-digit format and sort
+          const generatedNumbers = Array.from(randomNumbers)
+            .map(num => padNumber(num))
+            .sort((a, b) => parseInt(a) - parseInt(b));
+
           allResults.push({
             phoneNumber: entry.phoneNumber,
             numbers: generatedNumbers,
           });
 
+          // Save padded numbers to database
           await updateDatabase(entry.phoneNumber, generatedNumbers);
         }
       }
@@ -224,6 +232,7 @@ function Random() {
     }
   };
 
+  // Modified updateDatabase function to handle padded numbers
   const updateDatabase = async (phoneNumber, randomNumbers) => {
     try {
       const response = await axios.get(
